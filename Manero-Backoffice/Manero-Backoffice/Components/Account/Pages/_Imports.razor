@@ -1,2 +1,14 @@
-﻿@using Manero_Backoffice.Components.Account.Shared
-@layout AccountLayout
+﻿@layout AccountLayout
+
+@using Manero_Backoffice.Components.Account.Shared
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using Manero_Backoffice.Data
+@using Manero_Backoffice.Models
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ILogger<Login> Logger
+@inject NavigationManager NavigationManager
+@inject IdentityRedirectManager RedirectManager
