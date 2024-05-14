@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Components/Account/Pages/Login.razor.css",
+    "inputFile": "Components/Account/Pages/Login.razor.scss"
+  },
+  {
+    "outputFile": "wwwroot/app.css",
+    "inputFile": "wwwroot/app.scss"
+  }
+]
