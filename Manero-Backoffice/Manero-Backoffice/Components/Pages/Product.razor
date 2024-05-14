@@ -2,8 +2,48 @@
 
 <PageTitle>Products</PageTitle>
 
-<h3>Products</h3>
+<div class="content-container">
+    <div class="title-row row">
+        <p>Product Name</p>
+        <p>Product type</p>
+        <p>Genre</p>
+        <p>Price</p>
+    </div>
+    @foreach (var product in products)
+    {
+        <div class="product-row row">
+            <p><i class="fa-regular fa-book"></i> - @product.productName</p>
+            <p>@product.productType</p>
+            <p>@product.genre</p>
+            <p>@product.price SEK</p>
+            <button class="product-btn info"><i class="fa-regular fa-pen"></i></button>
+            <button class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
+        </div>
+    }
+</div>
 
 @code {
+
+    public class productModel
+    {
+        public string productName {get; set;} = null!;
+        public decimal price {get; set;}
+        public string productType {get; set;} = null!;
+        public string genre {get; set;} =null!;
+    }
+
+    List<productModel> products;
+
+    protected override void OnInitialized()
+    {
+        // Här hårdkodar du din lista med produkter
+        products = new List<productModel>
+        {
+            new productModel { productName = "Produkt 1", price = 10.99m, productType = "Typ 1", genre = "Genre 1" },
+            new productModel { productName = "Produkt 2", price = 20.99m, productType = "Typ 2", genre = "Genre 2" },
+            new productModel { productName = "Produkt 3", price = 30.99m, productType = "Typ 3", genre = "Genre 3" }
+            // Fortsätt med fler produkter om du vill
+        };
+    }
 
 }

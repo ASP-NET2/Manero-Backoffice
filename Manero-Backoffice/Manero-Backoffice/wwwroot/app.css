@@ -233,4 +233,46 @@ h1:focus {
 }
 .sidebar .navbar-div .flex-column .nav-item-group .nav-item .nav-link i {
   margin-right: 0.75rem;
+}
+
+.content-container {
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 15px -5px var(--color-text);
+}
+.content-container .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 0.4fr 0.2fr 0.2fr;
+  padding: 1.25rem 1rem;
+  border-bottom: solid 1px var(--color-theme-muted);
+  align-items: center;
+  font-size: large;
+}
+.content-container .row .product-btn {
+  font-size: large;
+  padding: 1rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 0.5rem;
+  border: none;
+  margin: auto 0.5rem;
+}
+.content-container .row .product-btn.info:hover {
+  background-color: var(--color-theme-muted);
+  background-color: rgb(238, 242, 165);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--color-secondary-text);
+}
+.content-container .row .product-btn.danger:hover {
+  background-color: var(--color-danger-bg);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--color-secondary-text);
+}
+.content-container .title-row {
+  font-size: larger;
+  padding: 1rem;
+  color: var(--color-text);
 }/*# sourceMappingURL=app.css.map */
