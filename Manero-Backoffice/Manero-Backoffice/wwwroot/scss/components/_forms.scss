@@ -1,0 +1,39 @@
+﻿form {
+
+    .input-group {
+        position: relative;
+
+        input {
+            overflow: hidden;
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: 1px solid gray;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            background: transparent;
+
+            &:-webkit-autofill,
+            &:-webkit-autofill:hover,
+            &:-webkit-autofill:focus,
+            &:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 30px #F1F3F4 inset !important;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+
+
+        label {
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            background-color: #F1F3F4;
+            padding: 0 5px;
+            font-size: 0.8rem;
+        }
+    }
+}
