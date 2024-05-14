@@ -28,6 +28,16 @@
             <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.FirstName" class="form-control" aria-required="true" placeholder="First name" />
+                <label>First name</label>
+                <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.LastName" class="form-control" aria-required="true" placeholder="Last name" />
+                <label>Last name</label>
+                <ValidationMessage For="() => Input.LastName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label for="email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
@@ -69,6 +79,8 @@
     {
         var user = CreateUser();
 
+        user.FirstName = Input.FirstName;
+        user.LastName = Input.LastName;
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -126,6 +138,16 @@
 
     private sealed class InputModel
     {
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; } = "";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; } = "";
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
