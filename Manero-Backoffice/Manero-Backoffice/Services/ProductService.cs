@@ -10,7 +10,8 @@ public class ProductService(HttpClient http)
         {
             try
             {
-                var result = await Http.GetFromJsonAsync<List<ProductModel>>("https://maneroproductsfunction.azurewebsites.net/api/GetAllProducts?code=006xKHFr-cdRL_Km-7dSq_giwxeV3xxeM8EA1MqjCcZzAzFuic6r3Q==");
+                var result = await Http.GetFromJsonAsync<List<ProductModel>>("https://maneroproductsfunction.azurewebsites.net/api/GetAllProducts");
+                //?code=006xKHFr-cdRL_Km-7dSq_giwxeV3xxeM8EA1MqjCcZzAzFuic6r3Q==
                 return result ?? new List<ProductModel>();
             }
             catch
