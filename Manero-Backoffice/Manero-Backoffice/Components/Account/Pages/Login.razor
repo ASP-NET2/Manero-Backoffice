@@ -26,27 +26,23 @@
                     <InputText type="password" @bind-Value="Input.Password" class="text-input" autocomplete="current-password" aria-required="true" placeholder="enter your password" />
                         <ValidationMessage For="() => Input.Password" class="text-danger" />
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <InputCheckbox @bind-Value="Input.RememberMe" class="remember-me" />
-                            Remember me
-                        </label>
+                    <div class="checkbox-link-section">
+                        <div class="checkbox">
+                            <label>
+                                <InputCheckbox @bind-Value="Input.RememberMe" class="remember-me" />
+                                Remember me
+                            </label>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="Account/ForgotPassword">Forgot password?</a>
+                        </div>
                     </div>
+                    
                
-                    <div>
-                        <button type="submit" class="w-100 btn-theme">Log in</button>
+                    <div class="btn-submit">
+                        <button type="submit" class="btn-theme">Log in</button>
                     </div>
-                    <div>
-                        <p>
-                            <a href="Account/ForgotPassword">Forgot your password?</a>
-                        </p>
-                        <p>
-                            <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                        </p>
-                        <p>
-                            <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                        </p>
-                    </div>
+                
                 </EditForm>
             </div>
     </div>
@@ -75,27 +71,22 @@
 
     public async Task LoginUser()
     {
-       
-        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-        if (result.Succeeded)
+        try
         {
-            Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+            var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                Logger.LogInformation("User logged in.");
+                RedirectManager.RedirectTo("/Account/Register");
+            }
+            else
+                errorMessage = "Incorrect email or password";
         }
-        else if (result.RequiresTwoFactor)
+
+        catch (Exception ex)
         {
-            RedirectManager.RedirectTo(
-                "Account/LoginWith2fa",
-                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
-        }
-        else if (result.IsLockedOut)
-        {
-            Logger.LogWarning("User account locked out.");
-            RedirectManager.RedirectTo("Account/Lockout");
-        }
-        else
-        {
-            errorMessage = "Error: Invalid login attempt.";
+            Logger.LogError($"ERROR : Login.LoginUser() :: {ex.Message}");
+            errorMessage = "Something went wrong";
         }
     }
 }
