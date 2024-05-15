@@ -1,0 +1,52 @@
+﻿@page "/addproduct"
+
+<h3>AddProduct</h3>
+
+    <div class="add-product-container">
+        <EditForm Model="Input" method="post" OnValidSubmit="RegisterProduct" FormName="addproduct">
+            <InputText @bind-Value="Input.Author" placeholder="Author"/>
+            <InputText @bind-Value="Input.Title" placeholder="Title"/>
+            <InputText @bind-Value="Input.Price" placeholder="Price"/>
+            <InputText @bind-Value="Input.ShortDescription" placeholder="ShortDescription"/>
+            <InputText @bind-Value="Input.Language" placeholder="Language"/>
+            <InputText @bind-Value="Input.Pages" placeholder="Pages"/>
+            <InputText @bind-Value="Input.PublishDate" placeholder="PublishDate"/>
+            <InputText @bind-Value="Input.ISBN" placeholder="ISBN"/>
+            <select @bind="Input.Category" name="categories" id="category-filter">
+                <option value="All">Category</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Category">@category.Category</option>
+                }
+            </select>
+        
+            <select @bind="Input.SubCategory" name="subcategories" id="subcategory-filter">
+                <option value="All">Subcategory</option>
+                @foreach (var subCategory in subCategories)
+                {
+                    <option value="@subCategory.SubCategory">@subCategory.SubCategory</option>
+                }
+            </select>
+            <button type="submit">Register</button>
+        </EditForm>
+    </div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    private ProductRegistrationForm Input {get; set;} = new();
+
+    List<CategoryModel> categories = new();
+    List<SubCategoryModel> subCategories = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await categoryService.GetCategories();
+        subCategories = await subCategoryService.GetSubCategories();
+    }
+
+    public async Task RegisterProduct(EditContext editContext)
+    {
+        var result = await productService.CreateProduct(Input);
+    }
+}

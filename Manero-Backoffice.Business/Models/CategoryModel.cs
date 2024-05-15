@@ -1,9 +1,10 @@
-namespace Manero_Backoffice.Models;
+namespace Manero_Backoffice.Business.Models;
 
 public class CategoryModel
 {
     public string Id { get; set; } = null!;
-    public string? Category { get; set; }
-    public List<SubCategoryModel> SubCategories { get; set; } = new List<SubCategoryModel>();
+    public string PartitionKey { get; set; } = null!;
+    public string Category { get; set; } = null!;
+    public string CategoryName { get; set; } = null!;
 }
 
