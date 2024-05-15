@@ -10,6 +10,7 @@
         margin-left: auto;
         margin-right: auto;
 
+
         .title-section {
             margin-bottom: 35px;
 
@@ -44,6 +45,7 @@
             .checkbox-link-section {
                 display: flex;
                 justify-content: space-between;
+
                 .checkbox {
                     label {
                         display: flex;
@@ -63,6 +65,7 @@
 
                 .forgot-password {
                     align-items: center;
+
                     a {
                         font-size: 0.9rem;
                         color: var(--color-text);

@@ -5,10 +5,16 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using Manero_Backoffice.Data
-@using Manero_Backoffice.Models
+@using Manero_Backoffice.Business.Models
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.WebUtilities
 
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IUserStore<ApplicationUser> UserStore
+@inject ILogger<Register> Logger

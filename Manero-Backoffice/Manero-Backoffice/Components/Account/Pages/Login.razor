@@ -71,27 +71,22 @@
 
     public async Task LoginUser()
     {
-       
-        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-        if (result.Succeeded)
+        try
         {
-            Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+            var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                Logger.LogInformation("User logged in.");
+                RedirectManager.RedirectTo("/Account/Register");
+            }
+            else
+                errorMessage = "Incorrect email or password";
         }
-        else if (result.RequiresTwoFactor)
+
+        catch (Exception ex)
         {
-            RedirectManager.RedirectTo(
-                "Account/LoginWith2fa",
-                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
-        }
-        else if (result.IsLockedOut)
-        {
-            Logger.LogWarning("User account locked out.");
-            RedirectManager.RedirectTo("Account/Lockout");
-        }
-        else
-        {
-            errorMessage = "Error: Invalid login attempt.";
+            Logger.LogError($"ERROR : Login.LoginUser() :: {ex.Message}");
+            errorMessage = "Something went wrong";
         }
     }
 }
