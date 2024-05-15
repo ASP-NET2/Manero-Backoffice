@@ -1,9 +1,28 @@
 ﻿@page "/product"
-@inject ProductService productService
 @rendermode InteractiveServer
 
 <PageTitle>Products</PageTitle>
 
+<div class="filter-container">
+    <div class="drop-down-filters">
+        <select name="categories" id="category-filter">
+                <option value="All">Category</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Category">@category.Category</option>
+            }
+        </select>
+        
+        <select name="subcategories" id="subcategory-filter">
+                <option value="All">Subcategory</option>
+            @foreach (var subCategory in subCategories)
+            {
+                <option value="@subCategory.SubCategory">@subCategory.SubCategory</option>
+            }
+        </select>
+    </div>
+    <NavLink class="btn-theme" href="addproduct"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</span></NavLink>
+</div>
 <div class="content-container">
     <div class="title-row row">
         <p>Title</p>
@@ -40,10 +59,14 @@
 @code {
 
     List<ProductModel> products = new();
+    List<CategoryModel> categories = new();
+    List<SubCategoryModel> subCategories = new();
 
     protected override async Task OnInitializedAsync()
     {
         products = await productService.GetProducts();
+        categories = await categoryService.GetCategories();
+        subCategories = await subCategoryService.GetSubCategories();
     }
 
 
