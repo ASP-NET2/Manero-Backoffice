@@ -11,7 +11,7 @@ public class ProductService(HttpClient http)
             try
             {
                 var result = await Http.GetFromJsonAsync<List<ProductModel>>("");
-                return result ?? new List<ProductModel>();
+                return result ?? []; 
             }
             catch
             {
