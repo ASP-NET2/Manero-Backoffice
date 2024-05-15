@@ -2,20 +2,23 @@
 
 namespace Manero_Backoffice.Services;
 
-public class ProductService(HttpClient http)
+public class ProductService(HttpClient http, IConfiguration configuration)
 {
     private readonly HttpClient Http = http;
+    private readonly IConfiguration _configuration = configuration;
 
     public async Task<List<ProductModel>> GetProducts()
         {
             try
             {
-                var result = await Http.GetFromJsonAsync<List<ProductModel>>("");
-                return result ?? []; 
+                var url = _configuration.GetValue<string>("ProductApis:GetAllProducts");
+                var result = await Http.GetFromJsonAsync<List<ProductModel>>(url);
+                return result ?? [];
             }
-            catch
+            catch (Exception ex)
             {
-                return new List<ProductModel>();
+                Console.WriteLine(ex.Message);
+                return [];
             }
         }
 }
