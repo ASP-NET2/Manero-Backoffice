@@ -1,4 +1,3 @@
-using Manero_Backoffice.Client.Pages;
 using Manero_Backoffice.Components;
 using Manero_Backoffice.Components.Account;
 using Manero_Backoffice.Data;
@@ -33,9 +32,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => 
+builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
     options.User.RequireUniqueEmail = true;
     options.Password.RequiredLength = 8;
 })
