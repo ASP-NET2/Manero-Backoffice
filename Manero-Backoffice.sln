@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manero-Backoffice", "Manero-Backoffice\Manero-Backoffice\Manero-Backoffice.csproj", "{BA792FCD-A2FC-417E-A264-133412601728}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manero-Backoffice", "Manero-Backoffice\Manero-Backoffice\Manero-Backoffice.csproj", "{BA792FCD-A2FC-417E-A264-133412601728}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manero-Backoffice.Client", "Manero-Backoffice\Manero-Backoffice.Client\Manero-Backoffice.Client.csproj", "{A1E851BF-9ADB-426D-ADF4-003B270C5AE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manero-Backoffice.Client", "Manero-Backoffice\Manero-Backoffice.Client\Manero-Backoffice.Client.csproj", "{A1E851BF-9ADB-426D-ADF4-003B270C5AE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manero-Backoffice.Business", "Manero-Backoffice.Business\Manero-Backoffice.Business.csproj", "{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A1E851BF-9ADB-426D-ADF4-003B270C5AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1E851BF-9ADB-426D-ADF4-003B270C5AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1E851BF-9ADB-426D-ADF4-003B270C5AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
