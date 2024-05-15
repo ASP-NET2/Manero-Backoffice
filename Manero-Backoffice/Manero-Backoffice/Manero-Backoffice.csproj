@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Components/SubComponents/" />
-    <Folder Include="Models/" />
   </ItemGroup>
 
 </Project>

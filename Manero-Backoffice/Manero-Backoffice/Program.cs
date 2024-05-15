@@ -2,6 +2,7 @@ using Manero_Backoffice.Client.Pages;
 using Manero_Backoffice.Components;
 using Manero_Backoffice.Components.Account;
 using Manero_Backoffice.Data;
+using Manero_Backoffice.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddHttpClient();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();

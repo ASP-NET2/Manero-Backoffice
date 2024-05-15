@@ -1,4 +1,4 @@
-﻿.login {
+.login {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,4 +32,4 @@
 .login .container .form-section .input-group label {
   text-align: left;
   color: var(--color-text);
-}
+}/*# sourceMappingURL=Login.razor.css.map */
