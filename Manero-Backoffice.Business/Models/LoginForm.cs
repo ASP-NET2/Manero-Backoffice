@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Manero_Backoffice.Models
+namespace Manero_Backoffice.Business.Models
 {
     public class LoginForm
     {
