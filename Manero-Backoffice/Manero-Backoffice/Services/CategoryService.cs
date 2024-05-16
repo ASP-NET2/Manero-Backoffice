@@ -11,7 +11,7 @@ public class CategoryService(HttpClient http, IConfiguration configuration)
     {
         try
         {
-            var url = _configuration.GetValue<string>("ProductApis:GetAllCategories");
+            var url = _configuration.GetValue<string>("ApiStrings:GetAllCategories");
             var result = await Http.GetFromJsonAsync<List<CategoryModel>>(url);
             return result ?? [];
         }

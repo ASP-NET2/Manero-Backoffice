@@ -40,13 +40,23 @@
     box-shadow: 0 0 15px -5px var(--color-text);
     max-width: 1500px;
     margin: 0 auto;
+    .product-row:hover {
+        cursor: pointer;
+        background-color: #F1F3F4;
+    }
     .row {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr .4fr .2fr .2fr;
+        grid-template-columns: .2fr 1fr .7fr .7fr .7fr .4fr .2fr .2fr;
         padding: .5rem 1rem;
         border-bottom: solid 1px var(--color-theme-muted);
         align-items: center;
         font-size: large;
+        .product-image {
+            max-width: 3rem;
+            height: auto;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+        }
         .product-btn {
             font-size: large;
             padding: .75rem;

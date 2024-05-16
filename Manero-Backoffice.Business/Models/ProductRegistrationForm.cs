@@ -18,12 +18,16 @@ public class ProductRegistrationForm
     public string? PublishDate { get; set; }
     public string? Publisher { get; set; }
     public string? ISBN { get; set; }
-    [Required]
     public string ImageUrl { get; set; } = null!;
+
     [Required]
     public string Category { get; set; } = null!;
     [Required]
     public string SubCategory { get; set; } = null!;
     public string Format { get; set; } = null!;
 
+}
+
+internal interface IFormFile
+{
 }
