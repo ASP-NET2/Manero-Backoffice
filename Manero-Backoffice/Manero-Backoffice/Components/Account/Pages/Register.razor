@@ -6,12 +6,12 @@
 
 <div class="row">
     <div class="col-md-4">
-       @*  <StatusMessage Message="@Message" /> *@
+       <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
             <h2>Create a new account.</h2>
             <hr />
-            @* <ValidationSummary class="text-danger" role="alert" /> *@
+           
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.FirstName" class="form-control" aria-required="true" placeholder="First name" />
                 <label>First name</label>
@@ -58,76 +58,26 @@
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
-    // private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
+    private string? Message { get; set; } = "";
 
     public async Task RegisterUser(EditContext editContext)
     {
-        // var user = CreateUser();
-        var user = new ApplicationUser
+        var createdResult = await UserService.CreateAsync(Input);
+        if (createdResult.Succeeded)
         {
-            FirstName = Input.FirstName,
-            LastName = Input.LastName,
-            UserName = Input.Email,
-            Email = Input.Email
-        };
-
-        // user.FirstName = Input.FirstName;
-        // user.LastName = Input.LastName;
-        // await UserStore.SetUserNameAsync(user, user.Email, CancellationToken.None);
-        // var emailStore = GetEmailStore();
-        // await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-        var result = await UserManager.CreateAsync(user, Input.Password);
-
-        // if (!result.Succeeded)
-        // {
-        //     identityErrors = result.Errors;
-        //     return;
-        // }
-        
-        Logger.LogInformation("User created a new account with password.");
-
-        // var userId = await UserManager.GetUserIdAsync(user);
-        // var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-        // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        // var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-        //     NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-        //     new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
-
-        // await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
-        // if (UserManager.Options.SignIn.RequireConfirmedAccount)
-        // {
-        //     RedirectManager.RedirectTo(
-        //         "Account/RegisterConfirmation",
-        //         new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
-        // }
-      
-
-        await SignInManager.SignInAsync(user, isPersistent: false);
-        RedirectManager.RedirectTo("/category");
+            var user = await UserService.FindByEmailAsync(Input.Email);
+            if(user != null)
+            {
+                var loginResult = await UserService.LoginAsync(user, isPersistent: false);
+                if (loginResult.Succeeded)
+                    RedirectManager.RedirectTo("/product");
+                else
+                    Message = loginResult.ErrorMessage;
+            }
+            else 
+                Message = "Something went wrong";
+        }
+        else
+            Message = createdResult.ErrorMessage;
     }
-
-    // private ApplicationUser CreateUser()
-    // {
-    //     try
-    //     {
-    //         return Activator.CreateInstance<ApplicationUser>();
-    //     }
-    //     catch
-    //     {
-    //         throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
-    //             $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
-    //     }
-    // }
-
-    // private IUserEmailStore<ApplicationUser> GetEmailStore()
-    // {
-    //     if (!UserManager.SupportsUserEmail)
-    //     {
-    //         throw new NotSupportedException("The default UI requires a user store with email support.");
-    //     }
-    //     return (IUserEmailStore<ApplicationUser>)UserStore;
-    // }
-
-   
 }
