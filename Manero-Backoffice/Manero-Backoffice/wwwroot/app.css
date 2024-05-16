@@ -1,4 +1,4 @@
-.btn-theme {
+﻿.btn-theme {
   border: none;
   font-size: 16px;
   font-weight: 600;
@@ -329,9 +329,7 @@ h1:focus {
 .content-container .row .product-btn {
   font-size: large;
   padding: 0.75rem;
-  height: -moz-fit-content;
   height: fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   border-radius: 0.5rem;
   border: none;
@@ -419,39 +417,4 @@ h1:focus {
   width: 100%;
   border-radius: 25px;
   padding: 10px 0;
-}
-
-.add-product-container .addproduct-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  -moz-column-gap: 2rem;
-       column-gap: 2rem;
-}
-.add-product-container .addproduct-form .input-select-group {
-  display: flex;
-  width: 100%;
-}
-.add-product-container .addproduct-form .input-group {
-  margin-top: 1rem;
-  width: 100%;
-}
-.add-product-container .addproduct-form .input-group .form-input,
-.add-product-container .addproduct-form .input-group .file-input {
-  background-color: var(--color-white);
-  border: 2px solid var(--color-theme-muted);
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  margin-bottom: 0.5rem;
-  font-size: medium;
-}
-.add-product-container .addproduct-form .input-group .select-input {
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  border: 2px solid var(--color-theme-muted);
-  font-size: medium;
-  color: var(--color-text);
-  width: 100%;
-}
-.add-product-container .addproduct-form .input-group label {
-  background-color: transparent;
 }/*# sourceMappingURL=app.css.map */

@@ -38,6 +38,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
     options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
     options.Password.RequiredLength = 8;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -45,6 +46,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 
