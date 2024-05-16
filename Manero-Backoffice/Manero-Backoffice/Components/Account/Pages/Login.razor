@@ -1,5 +1,6 @@
 ﻿@page "/Account/Login"
 
+
 <PageTitle>Log in</PageTitle>
   
 <section class="login">
@@ -71,22 +72,11 @@
 
     public async Task LoginUser()
     {
-        try
-        {
-            var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                Logger.LogInformation("User logged in.");
-                RedirectManager.RedirectTo("/Account/Register");
-            }
-            else
-                errorMessage = "Incorrect email or password";
-        }
+        var result = await UserService.LoginAsync(Input);
 
-        catch (Exception ex)
-        {
-            Logger.LogError($"ERROR : Login.LoginUser() :: {ex.Message}");
-            errorMessage = "Something went wrong";
-        }
+        if (result.Succeeded)
+            RedirectManager.RedirectTo("/product");
+        else
+            errorMessage = result.ErrorMessage;
     }
 }
