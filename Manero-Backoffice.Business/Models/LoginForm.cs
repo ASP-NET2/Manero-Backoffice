@@ -14,5 +14,7 @@ namespace Manero_Backoffice.Business.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public bool LockoutOnFailure { get; set; }
     }
 }
