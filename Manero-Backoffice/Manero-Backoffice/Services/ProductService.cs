@@ -12,7 +12,7 @@ public class ProductService(HttpClient http, IConfiguration configuration)
     {
         try
         {
-            var url = _configuration.GetValue<string>("ProductApis:GetAllProducts");
+            var url = _configuration.GetValue<string>("ApiStrings:GetAllProducts");
             var result = await Http.GetFromJsonAsync<List<ProductModel>>(url);
             return result ?? [];
         }
@@ -27,12 +27,28 @@ public class ProductService(HttpClient http, IConfiguration configuration)
     {
         try
         {
-            var url = _configuration.GetValue<string>("ProductApis:CreateProduct");
+            var url = _configuration.GetValue<string>("ApiStrings:CreateProduct");
             var respons = await Http.PostAsJsonAsync(url, product);
             if (respons.IsSuccessStatusCode)
                 return true;
         }
         catch (System.Exception) { }
         return false!;
+    }
+
+    public async Task<bool> DeleteProduct(string Id)
+    {
+        try
+        {
+            var baseUrl = _configuration.GetValue<string>("ApiStrings:DeleteProductBase");
+            var code = _configuration.GetValue<string>("ApiStrings:DeleteProductCode");
+            var apiUrl = $"{baseUrl}/{Id}?code={code}";
+            
+            var respons = await Http.DeleteAsync(apiUrl);
+            if (respons.IsSuccessStatusCode)
+                return true;
+        }
+        catch (System.Exception) { }
+        return false;
     }
 }

@@ -25,6 +25,7 @@
 </div>
 <div class="content-container">
     <div class="title-row row">
+        <p></p>
         <p>Title</p>
         <p>Category</p>
         <p>SubCatgory</p>
@@ -44,13 +45,21 @@
         @foreach (var product in products)
         {
             <div class="product-row row">
-                <p><i class="fa-regular fa-book"></i> - @product.Title</p>
+                @if (@product.ImageUrl != null)
+                {
+                <img class="product-image" src="@product.ImageUrl" alt="@product.Title image">
+                }
+                else 
+                {
+                <img class="product-image" src="https://productsblob.blob.core.windows.net/images/JEMA%20GER%201639-10.jpg" alt="book default image">
+                }
+                <p>@product.Title</p>
                 <p>@product.Category</p>
                 <p>@product.SubCategory</p>
                 <p>@product.Format</p>
                 <p>@product.Price SEK</p>
                 <button class="product-btn info"><i class="fa-regular fa-pen"></i></button>
-                <button class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
+                <button id="@product.Id" @onclick="@(async () => await DeleteProduct(product.Id))" class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
             </div>
         }
     }
@@ -64,9 +73,22 @@
 
     protected override async Task OnInitializedAsync()
     {
-        products = await productService.GetProducts();
         categories = await categoryService.GetCategories();
         subCategories = await subCategoryService.GetSubCategories();
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        products = await productService.GetProducts();
+        StateHasChanged();
+    }
+
+
+    private async Task DeleteProduct(string id)
+    {
+        await productService.DeleteProduct(id);
+        await LoadProducts();
     }
 
 

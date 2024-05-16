@@ -11,7 +11,7 @@ public class SubCategoryService(HttpClient http, IConfiguration configuration)
     {
         try
         {
-            var url = _configuration.GetValue<string>("ProductApis:GetAllSubCategories");
+            var url = _configuration.GetValue<string>("ApiStrings:GetAllSubCategories");
             var result = await Http.GetFromJsonAsync<List<SubCategoryModel>>(url);
             return result ?? [];
         }
