@@ -1,9 +1,50 @@
 ﻿@page "/product"
+@inject ProductService productService
+@rendermode InteractiveServer
 
 <PageTitle>Products</PageTitle>
 
-<h3>Products</h3>
+<div class="content-container">
+    <div class="title-row row">
+        <p>Title</p>
+        <p>Category</p>
+        <p>SubCatgory</p>
+        <p>Format</p>
+        <p>Price</p>
+    </div>
+    @if (products == null)
+    {
+        <p>Loading...</p>
+    }
+    else if (!products.Any())
+    {
+        <p>No products available.</p>
+    }
+    else
+    {
+        @foreach (var product in products)
+        {
+            <div class="product-row row">
+                <p><i class="fa-regular fa-book"></i> - @product.Title</p>
+                <p>@product.Category</p>
+                <p>@product.SubCategory</p>
+                <p>@product.Format</p>
+                <p>@product.Price SEK</p>
+                <button class="product-btn info"><i class="fa-regular fa-pen"></i></button>
+                <button class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
+            </div>
+        }
+    }
+</div>
 
 @code {
+
+    List<ProductModel> products = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await productService.GetProducts();
+    }
+
 
 }
