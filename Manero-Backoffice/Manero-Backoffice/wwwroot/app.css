@@ -1,4 +1,4 @@
-.btn-theme {
+﻿.btn-theme {
   border: none;
   font-size: 16px;
   font-weight: 600;
@@ -329,9 +329,7 @@ h1:focus {
 .content-container .row .product-btn {
   font-size: large;
   padding: 0.75rem;
-  height: -moz-fit-content;
   height: fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   border-radius: 0.5rem;
   border: none;
@@ -424,8 +422,7 @@ h1:focus {
 .add-product-container .addproduct-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  -moz-column-gap: 2rem;
-       column-gap: 2rem;
+  column-gap: 2rem;
 }
 .add-product-container .addproduct-form .input-select-group {
   display: flex;
@@ -454,4 +451,4 @@ h1:focus {
 }
 .add-product-container .addproduct-form .input-group label {
   background-color: transparent;
-}/*# sourceMappingURL=app.css.map */
+}
