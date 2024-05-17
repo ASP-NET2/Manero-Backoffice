@@ -1,0 +1,147 @@
+﻿@page "/addproduct"
+@rendermode InteractiveServer
+
+<h3>AddProduct</h3>
+
+    <div class="add-product-container">
+        <EditForm Model="Input" enctype="multipart/form-data" method="post" OnValidSubmit="RegisterProduct" FormName="addproduct" class="addproduct-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.Author" placeholder="Author"/>
+                <label for="author">Author</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.Title" placeholder="Title"/>
+                <label for="title">Title</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.Price" placeholder="Price"/>
+                <label for="price">Price</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.ShortDescription" placeholder="ShortDescription"/>
+                <label for="shortDescription">Short Description</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputTextArea class="form-input" @bind-Value="Input.LongDescription" placeholder="LongDescription"/>
+                <label for="longDescription">Long Description</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.Format" placeholder="Format"/>
+                <label for="format">Format</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.Language" placeholder="Language"/>
+                <label for="language">Language</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.Pages" placeholder="Pages"/>
+                <label for="pages">Pages</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.PublishDate" placeholder="PublishDate"/>
+                <label for="publishDate">Publish Date</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-group">
+                <InputText class="form-input" @bind-Value="Input.ISBN" placeholder="ISBN"/>
+                <label for="isbn">ISBN Number</label>
+                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+            </div>
+            <div class="input-select-group">
+                <div class="input-group">
+                    <InputSelect class="select-input" @bind-Value="Input.Category" name="category" id="category-filter">
+                    <option value="">All</option>
+                    @foreach (var category in categories)
+                    {
+                        <option value="@category.CategoryName">@category.CategoryName</option>
+                    }
+                </InputSelect>
+                    <label for="category">Category</label>
+                    @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                </div>
+                <div class="input-group">
+                    <InputSelect class="select-input" @bind-Value="Input.SubCategory" name="subcategory" id="subcategory-filter">
+                    <option value="">All</option>
+                    @foreach (var subCategory in subCategories)
+                    {
+                        <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
+                    }
+                </InputSelect>
+                    <label for="subCategory">Subcategory</label>
+                    @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                </div>
+            </div>
+
+            <div class="input-group">
+                <InputFile class="file-input" OnChange="HandleFileUpload" />
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+        
+            
+            <button type="submit">Register</button>
+        </EditForm>
+    </div>
+    <div class="form-results">
+        <p>@Input.Author</p>
+        <p>@Input.Title</p>
+        <p>@Input.Price</p>
+        <p>@Input.ShortDescription</p>
+        <p>@Input.Language</p>
+        <p>@Input.Pages</p>
+        <p>@Input.PublishDate</p>
+        <p>@Input.ISBN</p>
+        <p>@Input.Category</p>
+        <p>@Input.SubCategory</p>
+    </div>
+
+@code {
+
+    @* [SupplyParameterFromForm] *@
+    private ProductRegistrationForm Input = new();
+
+    List<CategoryModel> categories = new();
+    List<SubCategoryModel> subCategories = new();
+    private IBrowserFile uploadedFile;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await categoryService.GetCategories();
+        subCategories = await subCategoryService.GetSubCategories();
+    }
+
+    public async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        uploadedFile = e.File;
+    }
+
+    public async Task RegisterProduct(EditContext editContext)
+    {
+        if (uploadedFile != null)
+        {
+            var imageUrl = await imageService.UploadImageAsync(uploadedFile);
+
+            Input.ImageUrl = imageUrl;
+        }
+
+        var result = await productService.CreateProduct(Input);
+    }
+}

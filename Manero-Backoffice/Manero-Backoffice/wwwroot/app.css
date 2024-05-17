@@ -1,4 +1,4 @@
-﻿.btn-theme {
+.btn-theme {
   border: none;
   font-size: 16px;
   font-weight: 600;
@@ -149,6 +149,7 @@ h1:focus {
   --color-white: #FFFFFF;
   --color-theme: #7B57E0;
   --color-theme-muted: #F3F2FC;
+  --color-theme-secondary: #FF7752;
   --color-main: #000000;
   --color-accent: #F4303C;
   --color-text: #626262;
@@ -264,6 +265,41 @@ h1:focus {
   margin-right: 0.75rem;
 }
 
+.filter-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-container .drop-down-filters {
+  display: flex;
+  gap: 1rem;
+}
+.filter-container .drop-down-filters select {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-theme-muted);
+  font-size: medium;
+  color: var(--color-text);
+}
+.filter-container .btn-theme {
+  background-color: var(--color-theme);
+  border: none;
+  padding: 0.75rem 1.25rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: small;
+}
+.filter-container .btn-theme i {
+  margin-right: 0.25rem;
+}
+.filter-container .btn-theme:hover {
+  background-color: var(--color-theme-secondary);
+  background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
+  cursor: pointer;
+  box-shadow: 0 0 20px -5px var(--color-primary);
+}
+
 .content-container {
   background-color: var(--color-white);
   padding: 2rem;
@@ -272,18 +308,30 @@ h1:focus {
   max-width: 1500px;
   margin: 0 auto;
 }
+.content-container .product-row:hover {
+  cursor: pointer;
+  background-color: #F1F3F4;
+}
 .content-container .row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr 0.2fr 0.2fr;
+  grid-template-columns: 0.2fr 1fr 0.7fr 0.7fr 0.7fr 0.4fr 0.2fr 0.2fr;
   padding: 0.5rem 1rem;
   border-bottom: solid 1px var(--color-theme-muted);
   align-items: center;
   font-size: large;
 }
+.content-container .row .product-image {
+  max-width: 3rem;
+  height: auto;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
 .content-container .row .product-btn {
   font-size: large;
   padding: 0.75rem;
+  height: -moz-fit-content;
   height: fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   border-radius: 0.5rem;
   border: none;
@@ -372,3 +420,38 @@ h1:focus {
   border-radius: 25px;
   padding: 10px 0;
 }
+
+.add-product-container .addproduct-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+}
+.add-product-container .addproduct-form .input-select-group {
+  display: flex;
+  width: 100%;
+}
+.add-product-container .addproduct-form .input-group {
+  margin-top: 1rem;
+  width: 100%;
+}
+.add-product-container .addproduct-form .input-group .form-input,
+.add-product-container .addproduct-form .input-group .file-input {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-theme-muted);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: medium;
+}
+.add-product-container .addproduct-form .input-group .select-input {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-theme-muted);
+  font-size: medium;
+  color: var(--color-text);
+  width: 100%;
+}
+.add-product-container .addproduct-form .input-group label {
+  background-color: transparent;
+}/*# sourceMappingURL=app.css.map */
