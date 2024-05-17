@@ -1,11 +1,31 @@
 ﻿@page "/product"
-@inject ProductService productService
 @rendermode InteractiveServer
 
 <PageTitle>Products</PageTitle>
 
+<div class="filter-container">
+    <div class="drop-down-filters">
+        <select name="categories" id="category-filter">
+                <option value="All">Category</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Category">@category.Category</option>
+            }
+        </select>
+        
+        <select name="subcategories" id="subcategory-filter">
+                <option value="All">Subcategory</option>
+            @foreach (var subCategory in subCategories)
+            {
+                <option value="@subCategory.SubCategory">@subCategory.SubCategory</option>
+            }
+        </select>
+    </div>
+    <NavLink class="btn-theme" href="addproduct"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</span></NavLink>
+</div>
 <div class="content-container">
     <div class="title-row row">
+        <p></p>
         <p>Title</p>
         <p>Category</p>
         <p>SubCatgory</p>
@@ -25,13 +45,21 @@
         @foreach (var product in products)
         {
             <div class="product-row row">
-                <p><i class="fa-regular fa-book"></i> - @product.Title</p>
+                @if (@product.ImageUrl != null)
+                {
+                <img class="product-image" src="@product.ImageUrl" alt="@product.Title image">
+                }
+                else 
+                {
+                <img class="product-image" src="https://productsblob.blob.core.windows.net/images/JEMA%20GER%201639-10.jpg" alt="book default image">
+                }
+                <p>@product.Title</p>
                 <p>@product.Category</p>
                 <p>@product.SubCategory</p>
                 <p>@product.Format</p>
                 <p>@product.Price SEK</p>
                 <button class="product-btn info"><i class="fa-regular fa-pen"></i></button>
-                <button class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
+                <button id="@product.Id" @onclick="@(async () => await DeleteProduct(product.Id))" class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
             </div>
         }
     }
@@ -40,10 +68,27 @@
 @code {
 
     List<ProductModel> products = new();
+    List<CategoryModel> categories = new();
+    List<SubCategoryModel> subCategories = new();
 
     protected override async Task OnInitializedAsync()
     {
+        categories = await categoryService.GetCategories();
+        subCategories = await subCategoryService.GetSubCategories();
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
         products = await productService.GetProducts();
+        StateHasChanged();
+    }
+
+
+    private async Task DeleteProduct(string id)
+    {
+        await productService.DeleteProduct(id);
+        await LoadProducts();
     }
 
 
