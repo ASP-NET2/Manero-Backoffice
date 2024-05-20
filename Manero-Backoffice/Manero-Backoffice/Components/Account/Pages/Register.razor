@@ -1,53 +1,75 @@
 ﻿@page "/Account/Register"
 
+
+@attribute [Authorize(Roles = "Super Admin")]
+
 <PageTitle>Register</PageTitle>
 
-<h1>Register</h1>
 
-<div class="row">
-    <div class="col-md-4">
-       <StatusMessage Message="@Message" />
+
+<section class="register">
+    <div class="container">
+
+        <div class="title-section">
+            <h1>Register Account</h1>
+            <p>Create a new Admin account.</p>
+        </div>
+
+        <div class="form-section">
+            <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
-            <h2>Create a new account.</h2>
-            <hr />
+                <div class="group-input">
+                <div class="input-group">
+                    <InputText @bind-Value="Input.FirstName" aria-required="true" placeholder="First name" />
+                    <label>First name</label>
+                    <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+                </div>
+                <div class="input-group">
+                    <InputText @bind-Value="Input.LastName" aria-required="true" placeholder="Last name" />
+                    <label>Last name</label>
+                    <ValidationMessage For="() => Input.LastName" class="text-danger" />
+                </div>
+            </div>
            
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.FirstName" class="form-control" aria-required="true" placeholder="First name" />
-                <label>First name</label>
-                <ValidationMessage For="() => Input.FirstName" class="text-danger" />
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.LastName" class="form-control" aria-required="true" placeholder="Last name" />
-                <label>Last name</label>
-                <ValidationMessage For="() => Input.LastName" class="text-danger" />
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+            <div class="input-group">
+                <InputText @bind-Value="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label for="email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
             </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label for="password">Password</label>
-                <ValidationMessage For="() => Input.Password" class="text-danger" />
+
+            <div class="group-input">
+                <div class="input-group">
+                    <InputText type="password" @bind-Value="Input.Password" autocomplete="new-password" aria-required="true" placeholder="enter your password" />
+                    <label for="password">Password</label>
+                    <ValidationMessage For="() => Input.Password" class="text-danger" />
+                </div>
+                <div class="input-group">
+                    <InputText type="password" @bind-Value="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="confirm password" />
+                    <label for="confirm-password">Confirm Password</label>
+                    <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label for="confirm-password">Confirm Password</label>
-                <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+
+                <div class="form-floating mb-3">
+                    <InputSelect @bind-Value="Input.UserRole" class="form-control">
+                        <option value="">Select a role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Super Admin">Super Admin</option>
+                    </InputSelect>
+                    <label for="userRole">User Role</label>
+                    <ValidationMessage For="() => Input.UserRole" class="text-danger" />
+                </div>
+           
+            <div class="btn-submit">
+                <button type="submit" class="btn-theme">Register</button>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
+        </div>
+       
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
-    </div>
-</div>
+    
+</section>
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;
@@ -63,21 +85,30 @@
     public async Task RegisterUser(EditContext editContext)
     {
         var createdResult = await UserService.CreateAsync(Input);
-        if (createdResult.Succeeded)
+        if (!createdResult.Succeeded)
         {
-            var user = await UserService.FindByEmailAsync(Input.Email);
-            if(user != null)
-            {
-                var loginResult = await UserService.LoginAsync(user, isPersistent: false);
-                if (loginResult.Succeeded)
-                    RedirectManager.RedirectTo("/product");
-                else
-                    Message = loginResult.ErrorMessage;
-            }
-            else 
-                Message = "Something went wrong";
-        }
-        else
             Message = createdResult.ErrorMessage;
+            return;
+        }
+
+        var user = await UserService.FindByEmailAsync(Input.Email);
+        if (user == null)
+        {
+            Message = "Something went wrong";
+            return;
+        }
+
+        var roleResult = await UserService.AddToRoleAsync(user, Input.UserRole);
+        if (!roleResult.Succeeded)
+        {
+            Message = roleResult.ErrorMessage;
+            return;
+        }
+
+        var loginResult = await UserService.LoginAsync(user, isPersistent: false);
+        if (loginResult.Succeeded)
+            RedirectManager.RedirectTo("/product");
+        else
+            Message = loginResult.ErrorMessage;
     }
 }
