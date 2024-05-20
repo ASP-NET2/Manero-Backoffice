@@ -1,4 +1,4 @@
-﻿.login {
+﻿.register {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     min-height: 80vh;
 
     .container {
-        max-width: 350px;
+        max-width: 480px;
         margin-left: auto;
         margin-right: auto;
 
@@ -28,7 +28,6 @@
         .form-section {
             display: flex;
             flex-direction: column;
-            
 
             .input-group {
                 display: flex;
@@ -41,37 +40,10 @@
                 }
             }
 
-            .checkbox-link-section {
+            .group-input {
                 display: flex;
                 justify-content: space-between;
-
-                .checkbox {
-                    label {
-                        display: flex;
-                        gap: 5px;
-                        font-size: 0.9rem;
-                        align-items: center;
-                        color: var(--color-text);
-
-
-                        input[type="checkbox"] {
-                            height: 14px;
-                            width: 14px;
-                            border: 1px solid var(--color-secondary-text);
-                        }
-                    }
-                }
-
-                .forgot-password {
-                    align-items: center;
-
-                    a {
-                        font-size: 0.9rem;
-                        color: var(--color-text);
-                    }
-                }
             }
-
 
 
             .btn-submit {
