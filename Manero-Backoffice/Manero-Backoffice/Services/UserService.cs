@@ -117,4 +117,28 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
             return null!;
         }
     }
+
+    public async Task<UserResult> AddToRoleAsync(ApplicationUser user, string role)
+    {
+        try
+        {
+            var result = await _userManager.AddToRoleAsync(user, role);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation($"User added to role {role}.");
+                return new UserResult { Succeeded = true };
+            }
+            else
+            {
+                _logger.LogWarning($"Failed to add user to role {role}.");
+                return new UserResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"ERROR : UserService.AddToRoleAsync() :: {ex.Message}");
+            return new UserResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
+        }
+    }
 }
