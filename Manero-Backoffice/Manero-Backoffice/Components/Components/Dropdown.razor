@@ -1,0 +1,42 @@
+﻿@rendermode InteractiveServer
+
+<div class="dropdown">
+    <button type="button" @onclick="ToggleDropdown">@(CurrentValue ?? Title)<i class="fa-solid fa-caret-down"></i> <span>@Title</span> </button>
+
+    <ul class="dropdown-menu" style="display: @(isOpen ? "block" : "none")">
+        @foreach (var option in Options)
+        {
+            <li @onclick="() => SelectOption(option)">@option</li>
+        }
+    </ul>
+</div>
+
+
+@code {
+    [Parameter] public IEnumerable<string> Options { get; set; } = null!;
+    [Parameter] public string? CurrentValue { get; set; }
+    [Parameter] public EventCallback<string> OnValueChanged { get; set; }
+    [Parameter] public string Title { get; set; } = null!;
+
+    private bool isOpen;
+
+    private void ToggleDropdown()
+    {
+        isOpen = !isOpen;
+    }
+
+    private async Task SelectOption(string option)
+    {
+        CurrentValue = option;
+        isOpen = false;
+
+        await OnValueChanged.InvokeAsync(option);
+
+    }
+
+
+}
+
+
+
+
