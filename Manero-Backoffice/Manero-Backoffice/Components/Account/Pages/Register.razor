@@ -4,8 +4,6 @@
 
 <PageTitle>Register</PageTitle>
 
-
-
 <section class="register">
     <div class="container">
 
@@ -72,9 +70,6 @@
 
 @code {
 
- 
-
-
     private IEnumerable<IdentityError>? identityErrors;
 
     [SupplyParameterFromForm]
@@ -104,16 +99,12 @@
         }
 
         var roleResult = await UserService.AddToRoleAsync(user, Input.UserRole);
-        if (!roleResult.Succeeded)
+        if (roleResult.Succeeded)
         {
-            Message = roleResult.ErrorMessage;
-            return;
+            await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest(Input.Email, Input.Password, Input.FirstName, Input.UserRole));
+            RedirectManager.RedirectTo(ReturnUrl);
         }
-
-        var loginResult = await UserService.LoginAsync(user, isPersistent: false);
-        if (loginResult.Succeeded)
-            RedirectManager.RedirectTo("/home");
         else
-            Message = loginResult.ErrorMessage;
+            Message = roleResult.ErrorMessage;
     }
 }
