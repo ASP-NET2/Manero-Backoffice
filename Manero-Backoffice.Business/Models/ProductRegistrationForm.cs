@@ -15,7 +15,7 @@ public class ProductRegistrationForm
     public string? LongDescription { get; set; }
     public string? Language { get; set; }
     public string? Pages { get; set; }
-    public string? PublishDate { get; set; }
+    public DateTime PublishDate { get; set; } = DateTime.Now;
     public string? Publisher { get; set; }
     public string? ISBN { get; set; }
     public string ImageUrl { get; set; } = null!;

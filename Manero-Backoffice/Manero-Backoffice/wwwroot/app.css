@@ -422,21 +422,30 @@ h1:focus {
 }
 
 .add-product-container .addproduct-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  -moz-column-gap: 2rem;
-       column-gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
-.add-product-container .addproduct-form .input-select-group {
+.add-product-container .addproduct-form .inputs-container {
   display: flex;
   width: 100%;
 }
-.add-product-container .addproduct-form .input-group {
+.add-product-container .addproduct-form .inputs-container .form-div-column {
+  width: 100%;
+}
+.add-product-container .addproduct-form .inputs-container .input-select-group {
+  display: flex;
+  width: 100%;
+}
+.add-product-container .addproduct-form .inputs-container .long-description {
+  resize: none;
+  width: 100%;
+}
+.add-product-container .addproduct-form .inputs-container .input-group {
   margin-top: 1rem;
   width: 100%;
 }
-.add-product-container .addproduct-form .input-group .form-input,
-.add-product-container .addproduct-form .input-group .file-input {
+.add-product-container .addproduct-form .inputs-container .input-group .form-input,
+.add-product-container .addproduct-form .inputs-container .input-group .file-input {
   background-color: var(--color-white);
   border: 2px solid var(--color-theme-muted);
   padding: 0.75rem;
@@ -444,7 +453,7 @@ h1:focus {
   margin-bottom: 0.5rem;
   font-size: medium;
 }
-.add-product-container .addproduct-form .input-group .select-input {
+.add-product-container .addproduct-form .inputs-container .input-group .select-input {
   padding: 0.75rem;
   border-radius: 0.75rem;
   border: 2px solid var(--color-theme-muted);
@@ -452,6 +461,6 @@ h1:focus {
   color: var(--color-text);
   width: 100%;
 }
-.add-product-container .addproduct-form .input-group label {
+.add-product-container .addproduct-form .inputs-container .input-group label {
   background-color: transparent;
 }/*# sourceMappingURL=app.css.map */

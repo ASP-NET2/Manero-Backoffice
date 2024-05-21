@@ -26,10 +26,10 @@ public class ImageService(HttpClient http, IConfiguration configuration)
             var responseContent = await response.Content.ReadAsStringAsync();
             return responseContent.Trim('"');
         }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Exception: {ex.Message}");
-    }
-    return null!;
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+        return null!;
     }
 }
