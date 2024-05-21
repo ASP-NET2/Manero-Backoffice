@@ -75,7 +75,7 @@
         var result = await UserService.LoginAsync(Input);
 
         if (result.Succeeded)
-            RedirectManager.RedirectTo("/product");
+            RedirectManager.RedirectTo(ReturnUrl);
         else
             errorMessage = result.ErrorMessage;
     }
