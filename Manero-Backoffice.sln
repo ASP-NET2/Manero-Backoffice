@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manero-Backoffice", "Manero
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manero-Backoffice.Client", "Manero-Backoffice\Manero-Backoffice.Client\Manero-Backoffice.Client.csproj", "{A1E851BF-9ADB-426D-ADF4-003B270C5AE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manero-Backoffice.Business", "Manero-Backoffice.Business\Manero-Backoffice.Business.csproj", "{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manero-Backoffice.Business", "Manero-Backoffice.Business\Manero-Backoffice.Business.csproj", "{1C6A7FCA-2FCE-4791-96D2-B7BF8DF95441}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

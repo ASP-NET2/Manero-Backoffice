@@ -31,6 +31,6 @@ public class RegistrationForm
     [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
     public string ConfirmPassword { get; set; } = "";
 
-    [Required]
+    [Required(ErrorMessage = "You must select a role")]
     public string UserRole { get; set; } = null!;
 }
