@@ -10,6 +10,7 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.AspNetCore.Authorization
+@using Manero_Backoffice.Factories
 
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -20,3 +21,5 @@
 @inject IUserStore<ApplicationUser> UserStore
 @inject ILogger<Register> Logger
 @inject UserService UserService
+@inject HttpClient http
+@inject EmailService EmailService

@@ -1,10 +1,8 @@
-﻿@page "/Account/Register"
-
+@page "/Account/Register"
 
 @attribute [Authorize(Roles = "Super Admin")]
 
 <PageTitle>Register</PageTitle>
-
 
 
 <section class="register">
@@ -17,61 +15,63 @@
 
         <div class="form-section">
             <StatusMessage Message="@Message" />
-        <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
-            <DataAnnotationsValidator />
+            <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
+                <DataAnnotationsValidator />
+                    <div class="group-input">
+                    <div class="input-group">
+                        <InputText @bind-Value="Input.FirstName" aria-required="true" placeholder="First name" />
+                        <label>First name</label>
+                        <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+                    </div>
+                    <div class="input-group">
+                        <InputText @bind-Value="Input.LastName" aria-required="true" placeholder="Last name" />
+                        <label>Last name</label>
+                        <ValidationMessage For="() => Input.LastName" class="text-danger" />
+                    </div>
+                </div>
+           
+                <div class="input-group">
+                    <InputText @bind-Value="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label for="email">Email</label>
+                    <ValidationMessage For="() => Input.Email" class="text-danger" />
+                </div>
+
                 <div class="group-input">
-                <div class="input-group">
-                    <InputText @bind-Value="Input.FirstName" aria-required="true" placeholder="First name" />
-                    <label>First name</label>
-                    <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+                    <div class="input-group">
+                        <InputText type="password" @bind-Value="Input.Password" autocomplete="new-password" aria-required="true" placeholder="enter your password" />
+                        <label for="password">Password</label>
+                        <ValidationMessage For="() => Input.Password" class="text-danger" />
+                    </div>
+                    <div class="input-group">
+                        <InputText type="password" @bind-Value="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="confirm password" />
+                        <label for="confirm-password">Confirm Password</label>
+                        <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+                    </div>
                 </div>
-                <div class="input-group">
-                    <InputText @bind-Value="Input.LastName" aria-required="true" placeholder="Last name" />
-                    <label>Last name</label>
-                    <ValidationMessage For="() => Input.LastName" class="text-danger" />
+                
+                <div class="dropdown">
+                    <InputText id="selected" @bind-Value="Input.UserRole" style="display:none;" />
+                    <button id="btn-dropdown" type="button">Select a role<i class="fa-solid fa-caret-down"></i> <span>Select a role</span> </button>
+                    <ul id="dropdown-menu" class="dropdown-menu" style="display: none">
+                        <li class="dropdown-item">Admin</li>
+                        <li class="dropdown-item">Super Admin</li>
+                    </ul>
                 </div>
-            </div>
-           
-            <div class="input-group">
-                <InputText @bind-Value="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label for="email">Email</label>
-                <ValidationMessage For="() => Input.Email" class="text-danger" />
-            </div>
+                <ValidationMessage For="() => Input.UserRole" class="text-danger" />
 
-            <div class="group-input">
-                <div class="input-group">
-                    <InputText type="password" @bind-Value="Input.Password" autocomplete="new-password" aria-required="true" placeholder="enter your password" />
-                    <label for="password">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
+                <div class="btn-submit">
+                    <button type="submit" class="btn-theme">Register</button>
                 </div>
-                <div class="input-group">
-                    <InputText type="password" @bind-Value="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="confirm password" />
-                    <label for="confirm-password">Confirm Password</label>
-                    <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
-                </div>
-            </div>
-
-                <div class="form-floating mb-3">
-                    <InputSelect @bind-Value="Input.UserRole" class="form-control">
-                        <option value="">Select a role</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Super Admin">Super Admin</option>
-                    </InputSelect>
-                    <label for="userRole">User Role</label>
-                    <ValidationMessage For="() => Input.UserRole" class="text-danger" />
-                </div>
-           
-            <div class="btn-submit">
-                <button type="submit" class="btn-theme">Register</button>
-            </div>
-        </EditForm>
+            </EditForm>
         </div>
-       
     </div>
-    
 </section>
 
+<script src="js/dropdown.js"></script>
+
 @code {
+
+
     private IEnumerable<IdentityError>? identityErrors;
 
     [SupplyParameterFromForm]
@@ -82,8 +82,10 @@
 
     private string? Message { get; set; } = "";
 
+
     public async Task RegisterUser(EditContext editContext)
     {
+        var role = Input.UserRole;
         var createdResult = await UserService.CreateAsync(Input);
         if (!createdResult.Succeeded)
         {
@@ -99,16 +101,14 @@
         }
 
         var roleResult = await UserService.AddToRoleAsync(user, Input.UserRole);
-        if (!roleResult.Succeeded)
-        {
-            Message = roleResult.ErrorMessage;
-            return;
-        }
 
-        var loginResult = await UserService.LoginAsync(user, isPersistent: false);
-        if (loginResult.Succeeded)
-            RedirectManager.RedirectTo("/product");
+        if (roleResult.Succeeded)
+        {
+            await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest(Input.Email, Input.Password, Input.FirstName, Input.UserRole));
+            RedirectManager.RedirectTo(ReturnUrl);
+        }
         else
-            Message = loginResult.ErrorMessage;
+            Message = roleResult.ErrorMessage;
+
     }
 }

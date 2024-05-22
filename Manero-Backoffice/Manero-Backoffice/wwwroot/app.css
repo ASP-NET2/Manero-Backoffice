@@ -55,6 +55,72 @@ form .input-group label {
   text-transform: uppercase;
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.dropdown button {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background-color: #F1F3F4;
+  color: var(--color-text);
+  padding: 10px 21px;
+  border: 1px solid gray;
+  cursor: pointer;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+.dropdown button span {
+  position: absolute;
+  top: -6px;
+  left: 16px;
+  background-color: #F1F3F4;
+  padding: 0 5px;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+}
+.dropdown button:focus {
+  border-radius: 0;
+  border-start-end-radius: 20px;
+  border-start-start-radius: 20px;
+  border-bottom: 0;
+}
+.dropdown button i {
+  margin-left: 10px;
+}
+.dropdown ul {
+  display: none;
+  position: absolute;
+  list-style-type: none;
+  padding: 0;
+  background-color: #f1f1f1;
+  width: 100%;
+  border: 1px solid gray;
+  border-top: 0;
+  z-index: 1;
+  border-end-end-radius: 20px;
+  border-end-start-radius: 20px;
+}
+.dropdown ul li {
+  position: relative;
+  color: var(--color-text);
+  padding: 10px 0;
+  text-decoration: none;
+  display: block;
+  font-size: 0.8rem;
+}
+.dropdown ul li:last-child {
+  border-end-end-radius: 20px;
+  border-end-start-radius: 20px;
+}
+.dropdown ul li:hover {
+  background-color: #E5E4E2;
+  cursor: pointer;
+}
+
 * {
   margin: 0;
   padding: 0;

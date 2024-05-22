@@ -47,6 +47,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddTransient<EmailService>();
 
 var app = builder.Build();
 
