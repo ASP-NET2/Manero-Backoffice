@@ -16,7 +16,7 @@ namespace Manero_Backoffice.Services
 
         public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
         {
-            serviceBusConnectionString = configuration["ServiceBus:ConnectionString"]!;
+            serviceBusConnectionString = configuration.GetConnectionString("ServiceBus")!;
             queueName = configuration["ServiceBus:QueueName"]!;
             _logger = logger;
         }
