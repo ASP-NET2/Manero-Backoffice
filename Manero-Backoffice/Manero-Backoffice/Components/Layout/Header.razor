@@ -1,13 +1,65 @@
-﻿<div class="header-menu top-row">
-    <div class="image-box">
-        <img class="profile-picture" src="/images/default-profile.jpg" alt="">
-    </div>
-    <div class="profile-info">
-        <p>Sherlock Holmes</p>
-        <p class="profile-email">Sherlock@secret.com</p>
-    </div>
-</div>
+﻿@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="Admin, Super Admin">
+    <Authorized>
+        <div class="header-menu top-row">
+            <div class="image-box">
+                <img class="profile-picture" src="/images/default-profile.jpg" alt="">
+            </div>
+            <div class="profile-info">
+                <p>@Name</p>
+                <p class="profile-email">@Email</p>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
 
 @code {
+    private string? Name { get; set; }
+    private string? Email { get; set; }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Name = await JSRuntime.InvokeAsync<string>("localStorageFunctions.getItem", "Name");
+            Email = await JSRuntime.InvokeAsync<string>("localStorageFunctions.getItem", "Email");
+
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Email))
+            {
+                var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                var user = authState.User;
+
+                if (user != null && user.Identity!.IsAuthenticated)
+                {
+                    var applicationUser = await UserManager.GetUserAsync(user);
+                    if (applicationUser != null)
+                    {
+                        Name = $"{applicationUser.FirstName} {applicationUser.LastName}";
+                        Email = applicationUser.Email!;
+
+                        await JSRuntime.InvokeVoidAsync("localStorageFunctions.setItem", "Name", Name);
+                        await JSRuntime.InvokeVoidAsync("localStorageFunctions.setItem", "Email", Email);
+                    }
+                }
+            }
+
+            StateHasChanged();
+        }
+    }
 }
+
+
+
+
+<script>
+    window.localStorageFunctions = {
+        setItem: function (key, data) {
+            localStorage.setItem(key, data);
+        },
+        getItem: function (key) {
+            return localStorage.getItem(key);
+        }
+    };
+</script>
