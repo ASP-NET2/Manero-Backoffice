@@ -15,8 +15,12 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
+
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
     <ProjectReference Include="..\..\Manero-Backoffice.Business\Manero-Backoffice.Business.csproj" />
     <ProjectReference Include="..\Manero-Backoffice.Client\Manero-Backoffice.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4" />

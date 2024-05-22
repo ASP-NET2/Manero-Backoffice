@@ -1,9 +1,8 @@
-﻿@page "/Account/Register"
+@page "/Account/Register"
 
 @attribute [Authorize(Roles = "Super Admin")]
 
 <PageTitle>Register</PageTitle>
-
 
 
 <section class="register">
@@ -72,8 +71,6 @@
 
 @code {
 
- 
-
 
     private IEnumerable<IdentityError>? identityErrors;
 
@@ -104,16 +101,14 @@
         }
 
         var roleResult = await UserService.AddToRoleAsync(user, Input.UserRole);
-        if (!roleResult.Succeeded)
-        {
-            Message = roleResult.ErrorMessage;
-            return;
-        }
 
-        var loginResult = await UserService.LoginAsync(user, isPersistent: false);
-        if (loginResult.Succeeded)
-            RedirectManager.RedirectTo("/home");
+        if (roleResult.Succeeded)
+        {
+            await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest(Input.Email, Input.Password, Input.FirstName, Input.UserRole));
+            RedirectManager.RedirectTo(ReturnUrl);
+        }
         else
-            Message = loginResult.ErrorMessage;
+            Message = roleResult.ErrorMessage;
+
     }
 }
