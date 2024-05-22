@@ -70,7 +70,6 @@
 
     public async Task LoginUser()
     {
-        var isSent = await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest("kristoffer.strom@hotmail.se", "Hej123!", "Kristoffer", "Admin"));
         var result = await UserService.LoginAsync(Input);
 
         if (result.Succeeded)
