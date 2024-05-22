@@ -34,7 +34,7 @@
                             </label>
                         </div>
                         <div class="forgot-password">
-                            <a href="Account/ForgotPassword">Forgot password?</a>
+                            <a href="#">Forgot password?</a>
                         </div>
                     </div>
                     
@@ -71,7 +71,6 @@
 
     public async Task LoginUser()
     {
-        await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest("kristoffer.strom@hotmail.se", "Bytmig123!", "Kristoffer", "Super Admin"));
         var result = await UserService.LoginAsync(Input);
 
         if (result.Succeeded)

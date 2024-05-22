@@ -12,8 +12,15 @@
 @using Manero_Backoffice.Components
 @using Manero_Backoffice.Business.Models
 @using Manero_Backoffice.Services
+@using Manero_Backoffice.Data
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+
 @inject HttpClient Http
 @inject ProductService productService
 @inject CategoryService categoryService
 @inject SubCategoryService subCategoryService
 @inject ImageService imageService
+@inject UserManager<ApplicationUser> UserManager
+@inject AuthenticationStateProvider AuthenticationStateProvider

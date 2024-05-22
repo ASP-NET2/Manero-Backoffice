@@ -480,6 +480,9 @@ h1:focus {
 .login .container .form-section .btn-submit {
   margin-top: 20px;
 }
+.login .container .form-section .btn-submit button:hover {
+  cursor: pointer;
+}
 .login .container .form-section .btn-submit .btn-theme {
   width: 100%;
   border-radius: 25px;

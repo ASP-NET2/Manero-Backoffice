@@ -10,13 +10,18 @@ public class DataInitializer
 
         string[] roles = ["Admin", "Super Admin"];
 
-        foreach (var role in roles)
+        try
         {
-            if (!await roleManager.RoleExistsAsync(role))
+            foreach (var role in roles)
             {
-                var identityRole = new IdentityRole(role);
-                await roleManager.CreateAsync(identityRole);
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    var identityRole = new IdentityRole(role);
+                    await roleManager.CreateAsync(identityRole);
+                }
             }
         }
+
+        catch { }
     }
 }
