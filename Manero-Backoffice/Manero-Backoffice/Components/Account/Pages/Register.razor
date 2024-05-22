@@ -1,8 +1,9 @@
-﻿@page "/Account/Register"
+@page "/Account/Register"
 
 @attribute [Authorize(Roles = "Super Admin")]
 
 <PageTitle>Register</PageTitle>
+
 
 <section class="register">
     <div class="container">
@@ -70,6 +71,7 @@
 
 @code {
 
+
     private IEnumerable<IdentityError>? identityErrors;
 
     [SupplyParameterFromForm]
@@ -99,6 +101,7 @@
         }
 
         var roleResult = await UserService.AddToRoleAsync(user, Input.UserRole);
+
         if (roleResult.Succeeded)
         {
             await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest(Input.Email, Input.Password, Input.FirstName, Input.UserRole));
@@ -106,5 +109,6 @@
         }
         else
             Message = roleResult.ErrorMessage;
+
     }
 }
