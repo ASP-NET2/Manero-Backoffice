@@ -2,9 +2,8 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    
-    button {
-        font-family: 'Poppins', Helvetica, Arial, sans-serif;
+
+    div {
         position: relative;
         display: flex;
         width: 100%;
@@ -31,8 +30,7 @@
             text-transform: uppercase;
         }
 
-
-        &:focus {
+        &.focus {
             border-radius: 0;
             border-start-end-radius: 20px;
             border-start-start-radius: 20px;
@@ -56,17 +54,16 @@
         z-index: 1;
         border-end-end-radius: 20px;
         border-end-start-radius: 20px;
+        text-align: center;
 
         li {
             position: relative;
             color: var(--color-text);
             padding: 10px 0;
             text-decoration: none;
-            display: flex;
-            font-size: 1rem;
-            padding-left: 10px;
-            height: 50px;
-            align-items: center;
+            display: block;
+            font-size: 0.8rem;
+            text-align: center;
 
             &:last-child {
                 border-end-end-radius: 20px;
@@ -80,4 +77,3 @@
         }
     }
 }
-

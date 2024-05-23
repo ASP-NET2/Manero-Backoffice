@@ -28,7 +28,7 @@
         .form-section {
             display: flex;
             flex-direction: column;
-            
+
 
             .input-group {
                 display: flex;
@@ -76,6 +76,12 @@
 
             .btn-submit {
                 margin-top: 20px;
+
+                button {
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
 
                 .btn-theme {
                     width: 100%;
