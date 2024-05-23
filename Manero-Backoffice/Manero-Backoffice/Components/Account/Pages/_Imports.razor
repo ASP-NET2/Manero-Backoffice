@@ -11,6 +11,7 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.AspNetCore.Authorization
 @using Manero_Backoffice.Factories
+@using Manero_Backoffice.Components.Components
 
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -23,3 +24,4 @@
 @inject UserService UserService
 @inject HttpClient http
 @inject EmailService EmailService
+@inject RoleService RoleService
