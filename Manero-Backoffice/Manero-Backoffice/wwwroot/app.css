@@ -60,7 +60,7 @@ form .input-group label {
   display: inline-block;
   width: 100%;
 }
-.dropdown button {
+.dropdown div {
   position: relative;
   display: flex;
   width: 100%;
@@ -73,7 +73,7 @@ form .input-group label {
   border-radius: 20px;
   font-size: 0.8rem;
 }
-.dropdown button span {
+.dropdown div span {
   position: absolute;
   top: -6px;
   left: 16px;
@@ -82,13 +82,13 @@ form .input-group label {
   font-size: 0.6rem;
   text-transform: uppercase;
 }
-.dropdown button:focus {
+.dropdown div.focus {
   border-radius: 0;
   border-start-end-radius: 20px;
   border-start-start-radius: 20px;
   border-bottom: 0;
 }
-.dropdown button i {
+.dropdown div i {
   margin-left: 10px;
 }
 .dropdown ul {
@@ -103,6 +103,7 @@ form .input-group label {
   z-index: 1;
   border-end-end-radius: 20px;
   border-end-start-radius: 20px;
+  text-align: center;
 }
 .dropdown ul li {
   position: relative;
@@ -111,6 +112,7 @@ form .input-group label {
   text-decoration: none;
   display: block;
   font-size: 0.8rem;
+  text-align: center;
 }
 .dropdown ul li:last-child {
   border-end-end-radius: 20px;

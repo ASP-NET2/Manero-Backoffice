@@ -1,9 +1,12 @@
 @page "/Account/Register"
+@using Microsoft.EntityFrameworkCore
+
 
 @attribute [Authorize(Roles = "Super Admin")]
 
-<PageTitle>Register</PageTitle>
+@rendermode InteractiveServer
 
+<PageTitle>Register</PageTitle>
 
 <section class="register">
     <div class="container">
@@ -14,7 +17,6 @@
         </div>
 
         <div class="form-section">
-            <StatusMessage Message="@Message" />
             <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
                 <DataAnnotationsValidator />
                     <div class="group-input">
@@ -49,14 +51,8 @@
                     </div>
                 </div>
                 
-                <div class="dropdown">
-                    <InputText id="selected" @bind-Value="Input.UserRole" style="display:none;" />
-                    <button id="btn-dropdown" type="button">Select a role<i class="fa-solid fa-caret-down"></i> <span>Select a role</span> </button>
-                    <ul id="dropdown-menu" class="dropdown-menu" style="display: none">
-                        <li class="dropdown-item">Admin</li>
-                        <li class="dropdown-item">Super Admin</li>
-                    </ul>
-                </div>
+                
+                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" />
                 <ValidationMessage For="() => Input.UserRole" class="text-danger" />
 
                 <div class="btn-submit">
@@ -67,12 +63,9 @@
     </div>
 </section>
 
-<script src="js/dropdown.js"></script>
 
 @code {
 
-
-    private IEnumerable<IdentityError>? identityErrors;
 
     [SupplyParameterFromForm]
     private RegistrationForm Input { get; set; } = new();
@@ -82,10 +75,21 @@
 
     private string? Message { get; set; } = "";
 
+    private List<string>? roles { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await RoleService.GetRoleNamesAsync();
+    }
+
+ 
+    private void HandleSelectedRole(string selectedRole)
+    {
+        Input.UserRole = selectedRole;
+    }
 
     public async Task RegisterUser(EditContext editContext)
     {
-        var role = Input.UserRole;
         var createdResult = await UserService.CreateAsync(Input);
         if (!createdResult.Succeeded)
         {

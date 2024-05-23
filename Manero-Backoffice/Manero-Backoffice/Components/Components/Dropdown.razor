@@ -1,19 +1,25 @@
-﻿@rendermode InteractiveServer
+﻿
+<div class="dropdown" @onblur="CloseDropdown" tabindex="0">
+    <div @onclick="ToggleDropdown" class='@(isOpen ? "focus" : "")'>@(CurrentValue ?? Title)<i class="fa-solid fa-caret-down"></i> <span>@(CurrentValue == null ? Title : $"You selected {CurrentValue}")</span> </div>
 
-<div class="dropdown">
-    <button type="button" @onclick="ToggleDropdown">@(CurrentValue ?? Title)<i class="fa-solid fa-caret-down"></i> <span>@Title</span> </button>
-
-    <ul class="dropdown-menu" style="display: @(isOpen ? "block" : "none")">
-        @foreach (var option in Options)
+    <ul class="dropdown-menu" style="display:@(isOpen ? "block" : "none")">
+        @if (Options == null || !Options.Any())
         {
-            <li @onclick="() => SelectOption(option)">@option</li>
+            <li>No options available</li>
+        }
+        else
+        {
+            <li @onclick="() => SelectOption(null!)">@Title</li>
+            @foreach (var option in Options)
+            {
+                <li @onclick="() => SelectOption(option)">@option</li>
+            }
         }
     </ul>
 </div>
 
-
 @code {
-    [Parameter] public IEnumerable<string> Options { get; set; } = null!;
+    [Parameter] public IEnumerable<string>? Options { get; set; }
     [Parameter] public string? CurrentValue { get; set; }
     [Parameter] public EventCallback<string> OnValueChanged { get; set; }
     [Parameter] public string Title { get; set; } = null!;
@@ -25,18 +31,17 @@
         isOpen = !isOpen;
     }
 
+    private void CloseDropdown()
+    {
+        isOpen = false;
+    }
+
     private async Task SelectOption(string option)
     {
         CurrentValue = option;
         isOpen = false;
 
         await OnValueChanged.InvokeAsync(option);
-
     }
-
-
 }
-
-
-
 

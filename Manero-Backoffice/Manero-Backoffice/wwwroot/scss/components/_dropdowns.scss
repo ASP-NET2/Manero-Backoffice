@@ -3,8 +3,7 @@
     display: inline-block;
     width: 100%;
 
-
-    button {
+    div {
         position: relative;
         display: flex;
         width: 100%;
@@ -27,8 +26,7 @@
             text-transform: uppercase;
         }
 
-
-        &:focus {
+        &.focus {
             border-radius: 0;
             border-start-end-radius: 20px;
             border-start-start-radius: 20px;
@@ -52,6 +50,7 @@
         z-index: 1;
         border-end-end-radius: 20px;
         border-end-start-radius: 20px;
+        text-align: center;
 
         li {
             position: relative;
@@ -60,6 +59,7 @@
             text-decoration: none;
             display: block;
             font-size: 0.8rem;
+            text-align: center;
 
             &:last-child {
                 border-end-end-radius: 20px;
@@ -73,4 +73,3 @@
         }
     }
 }
-
