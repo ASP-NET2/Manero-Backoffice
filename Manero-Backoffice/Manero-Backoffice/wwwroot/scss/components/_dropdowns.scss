@@ -2,26 +2,30 @@
     position: relative;
     display: inline-block;
     width: 100%;
-
-
+    
     button {
+        font-family: 'Poppins', Helvetica, Arial, sans-serif;
         position: relative;
         display: flex;
         width: 100%;
+        min-width: 200px;
         justify-content: space-between;
-        background-color: #F1F3F4;
+        background-color: var(--color-white);
         color: var(--color-text);
         padding: 10px 21px;
-        border: 1px solid gray;
+        border: 2px solid var(--color-theme-muted);
         cursor: pointer;
         border-radius: 20px;
-        font-size: 0.8rem;
+        font-size: 1rem;
+        height: 50px;
+        align-items: center;
 
         span {
             position: absolute;
             top: -6px;
             left: 16px;
             background-color: #F1F3F4;
+            background-color: var(--color-white);
             padding: 0 5px;
             font-size: 0.6rem;
             text-transform: uppercase;
@@ -36,7 +40,7 @@
         }
 
         i {
-            margin-left: 10px;
+            padding-left: 10px;
         }
     }
 
@@ -45,9 +49,9 @@
         position: absolute;
         list-style-type: none;
         padding: 0;
-        background-color: #f1f1f1;
+        background-color: var(--color-white);
         width: 100%;
-        border: 1px solid gray;
+        border: 2px solid var(--color-theme-muted);
         border-top: 0;
         z-index: 1;
         border-end-end-radius: 20px;
@@ -58,8 +62,11 @@
             color: var(--color-text);
             padding: 10px 0;
             text-decoration: none;
-            display: block;
-            font-size: 0.8rem;
+            display: flex;
+            font-size: 1rem;
+            padding-left: 10px;
+            height: 50px;
+            align-items: center;
 
             &:last-child {
                 border-end-end-radius: 20px;

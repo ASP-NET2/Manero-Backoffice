@@ -19,15 +19,14 @@ public class ProductRegistrationForm
     public string? Publisher { get; set; }
     public string? ISBN { get; set; }
     public string ImageUrl { get; set; } = null!;
-
+    public bool OnSale { get; set; }
+    public bool BestSeller { get; set; }
+    public bool IsFavorite { get; set; }
+    public bool FeaturedProduct { get; set; }
     [Required]
-    public string Category { get; set; } = null!;
+    public string CategoryName { get; set; } = null!; 
     [Required]
-    public string SubCategory { get; set; } = null!;
-    public string Format { get; set; } = null!;
-
-}
-
-internal interface IFormFile
-{
+    public string SubCategoryName { get; set; } = null!; 
+    [Required]
+    public string FormatName { get; set; } = null!; 
 }

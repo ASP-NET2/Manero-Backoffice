@@ -1,4 +1,10 @@
 .add-product-container {
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px -5px var(--color-text);
+    width: fit-content;
+    margin: 0 auto;
     .addproduct-form {
         max-width: 1000px;
         margin: 0 auto;
@@ -14,13 +20,10 @@
             // column-gap: 1rem;
             .form-div-column {
                 width: 100%;
+                margin: 1rem;
             }
             .input-select-group {
                 display: flex;
-                width: 100%;
-            }
-            .long-description {
-                resize: none;
                 width: 100%;
             }
             .input-group {
@@ -30,22 +33,69 @@
                 .file-input {
                     background-color: var(--color-white);
                     border: 2px solid var(--color-theme-muted);
-                    padding: .75rem;
+                    padding: 10px 21px;
                     border-radius: .75rem;
                     margin-bottom: .5rem;
                     font-size: medium;
+                    border-radius: 20px;
+                    font-size: 1rem;
+                    min-height: 50px;
                 }
                 .select-input {
                     padding: .75rem;
                     border-radius: .75rem;
+                    border-radius: 20px;
                     border: 2px solid var(--color-theme-muted);
                     font-size: medium;
                     color: var(--color-text);
                     width: 100%;
                 }
                 label {
-                    background-color: transparent;
+                    background-color: var(--color-white);
                 }
+            }
+            .input-checkbox-group {
+                padding: 1rem;
+                .checkbox-group {
+                    margin-bottom: .25rem;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    .checkbox-input {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                    label {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                        margin-left: .5rem;
+                        color: var(--color-text);
+                    }
+                }
+            }
+            .long-description {
+                resize: none;
+                width: 100%;
+            }
+        }
+        .add-product-btn {
+            background-color: var(--color-theme);
+            border: none;
+            padding: 1rem 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            font-size: medium;
+            i {
+                margin-right: .25rem;
+            }
+            &:hover {
+                background-color: var(--color-theme-secondary);
+                background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
+                cursor: pointer;
+                box-shadow: 0 0 20px -5px var(--color-primary);
             }
         }
     }

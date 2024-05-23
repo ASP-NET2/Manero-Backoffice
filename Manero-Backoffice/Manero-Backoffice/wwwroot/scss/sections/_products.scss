@@ -3,6 +3,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px -5px var(--color-text);
     .drop-down-filters {
         display: flex;
         gap: 1rem;
