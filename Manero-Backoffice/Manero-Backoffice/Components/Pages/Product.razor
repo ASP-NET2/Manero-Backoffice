@@ -1,5 +1,6 @@
 ﻿@page "/product"
 @rendermode InteractiveServer
+@attribute [StreamRendering]
 
 <PageTitle>Products</PageTitle>
 
@@ -9,7 +10,7 @@
                 <option value="All">Category</option>
             @foreach (var category in categories)
             {
-                <option value="@category.Category">@category.Category</option>
+                <option value="@category.CategoryName">@category.CategoryName</option>
             }
         </select>
         
@@ -17,9 +18,18 @@
                 <option value="All">Subcategory</option>
             @foreach (var subCategory in subCategories)
             {
-                <option value="@subCategory.SubCategory">@subCategory.SubCategory</option>
+                <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
             }
         </select>
+
+        <select name="formats" id="format-filter">
+                <option value="All">Format</option>
+            @foreach (var format in formats)
+            {
+                <option value="@format.FormatName">@format.FormatName</option>
+            }
+        </select>
+        <Dropdown Title="Kategori" Options="@categoryNames" />
     </div>
     <NavLink class="btn-theme" href="addproduct"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</span></NavLink>
 </div>
@@ -54,9 +64,9 @@
                 <img class="product-image" src="https://productsblob.blob.core.windows.net/images/JEMA%20GER%201639-10.jpg" alt="book default image">
                 }
                 <p>@product.Title</p>
-                <p>@product.Category</p>
-                <p>@product.SubCategory</p>
-                <p>@product.Format</p>
+                <p>@product.CategoryName</p>
+                <p>@product.SubCategoryName</p>
+                <p>@product.FormatName</p>
                 <p>@product.Price SEK</p>
                 <button class="product-btn info"><i class="fa-regular fa-pen"></i></button>
                 <button id="@product.Id" @onclick="@(async () => await DeleteProduct(product.Id))" class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
@@ -70,11 +80,20 @@
     List<ProductModel> products = new();
     List<CategoryModel> categories = new();
     List<SubCategoryModel> subCategories = new();
+    List<string> categoryNames = new();
+    List<FormatModel> formats = new();
 
     protected override async Task OnInitializedAsync()
     {
         categories = await categoryService.GetCategories();
         subCategories = await subCategoryService.GetSubCategories();
+        formats = await formatService.GetFormats();
+    
+        foreach (var category in categories)
+        {
+            categoryNames.Add(category.CategoryName);
+        }
+
         await LoadProducts();
     }
 
@@ -84,12 +103,12 @@
         StateHasChanged();
     }
 
-
     private async Task DeleteProduct(string id)
     {
         await productService.DeleteProduct(id);
         await LoadProducts();
     }
+
 
 
 }

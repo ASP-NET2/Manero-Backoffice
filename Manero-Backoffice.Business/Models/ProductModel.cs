@@ -18,8 +18,12 @@ public class ProductModel
         public string Publisher { get; set; } = null!;
         public string ISBN { get; set; } = null!;
         public string ImageUrl { get; set; } = null!; 
-        public string Category { get; set; } = null!; 
-        public string SubCategory { get; set; } = null!; 
-        public string Format { get; set; } = null!; 
+        public bool OnSale { get; set; }
+        public bool BestSeller { get; set; }
+        public bool IsFavorite { get; set; }
+        public bool FeaturedProduct { get; set; }
+        public string CategoryName { get; set; } = null!; 
+        public string SubCategoryName { get; set; } = null!; 
+        public string FormatName { get; set; } = null!; 
     }
     
