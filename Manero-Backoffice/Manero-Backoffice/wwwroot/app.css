@@ -123,6 +123,113 @@ form .input-group label {
   cursor: pointer;
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinner-xs {
+  border: 1.75px solid lightgray;
+  border-radius: 50%;
+  border-top: 1.75px solid gray;
+  width: 10px;
+  height: 10px;
+  animation: spin 0.5s linear infinite;
+}
+
+.spinner-s {
+  border: 3.5px solid lightgray;
+  border-radius: 50%;
+  border-top: 3.5px solid gray;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.5s linear infinite;
+}
+
+.spinner-m {
+  border: 7px solid lightgray;
+  border-radius: 50%;
+  border-top: 7px solid gray;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.5s linear infinite;
+}
+
+.spinner-l {
+  border: 12.25px solid lightgray;
+  border-radius: 50%;
+  border-top: 12.25px solid gray;
+  width: 70px;
+  height: 70px;
+  animation: spin 0.5s linear infinite;
+}
+
+.spinner-xl {
+  border: 17.5px solid lightgray;
+  border-radius: 50%;
+  border-top: 17.5px solid gray;
+  width: 100px;
+  height: 100px;
+  animation: spin 0.5s linear infinite;
+}
+
+.table {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Add box-shadow */
+  border-radius: 15px;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+.table .table-head {
+  border-bottom: 3px solid gray;
+}
+.table .table-head tr th {
+  padding: 11px 25px; /* More padding */
+  text-align: left;
+  border-bottom: 2px solid #ddd; /* Thicker border */
+  font-weight: bold; /* Bold text */
+  text-transform: uppercase; /* Uppercase text */
+}
+.table .table-body .table-row:hover {
+  background-color: #f0f0f0;
+}
+.table .table-body .table-row:last-child .row-col, .table .table-body .table-row:last-child .btn-container {
+  border-bottom: none;
+}
+.table .table-body .table-row .row-col {
+  padding: 11px 25px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.table .table-body .table-row .btn-container {
+  padding: 10px;
+  text-align: right;
+  border-bottom: 1px solid #ddd;
+}
+.table .table-body .table-row .btn-container button {
+  padding: 10px;
+  margin-left: 8px;
+  background-color: gray;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+.table .table-body .table-row .btn-container button:hover {
+  background-color: #bbb;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -561,12 +668,15 @@ h1:focus {
   text-align: left;
   color: var(--color-text);
 }
+.register .container .form-section .dropdown {
+  margin-bottom: 20px;
+}
 .register .container .form-section .group-input {
   display: flex;
   justify-content: space-between;
 }
 .register .container .form-section .btn-submit {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .register .container .form-section .btn-submit .btn-theme {
   width: 100%;
