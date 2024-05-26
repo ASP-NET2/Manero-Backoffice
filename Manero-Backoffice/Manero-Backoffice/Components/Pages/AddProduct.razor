@@ -1,102 +1,146 @@
 ﻿@page "/addproduct"
 @rendermode InteractiveServer
 
-<h3>AddProduct</h3>
 
     <div class="add-product-container">
         <EditForm Model="Input" enctype="multipart/form-data" method="post" OnValidSubmit="RegisterProduct" FormName="addproduct" class="addproduct-form">
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.Author" placeholder="Author"/>
-                <label for="author">Author</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.Title" placeholder="Title"/>
-                <label for="title">Title</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.Price" placeholder="Price"/>
-                <label for="price">Price</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.ShortDescription" placeholder="ShortDescription"/>
-                <label for="shortDescription">Short Description</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputTextArea class="form-input" @bind-Value="Input.LongDescription" placeholder="LongDescription"/>
-                <label for="longDescription">Long Description</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.Format" placeholder="Format"/>
-                <label for="format">Format</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.Language" placeholder="Language"/>
-                <label for="language">Language</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.Pages" placeholder="Pages"/>
-                <label for="pages">Pages</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.PublishDate" placeholder="PublishDate"/>
-                <label for="publishDate">Publish Date</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-group">
-                <InputText class="form-input" @bind-Value="Input.ISBN" placeholder="ISBN"/>
-                <label for="isbn">ISBN Number</label>
-                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-            </div>
-            <div class="input-select-group">
-                <div class="input-group">
-                    <InputSelect class="select-input" @bind-Value="Input.Category" name="category" id="category-filter">
-                    <option value="">All</option>
-                    @foreach (var category in categories)
-                    {
-                        <option value="@category.CategoryName">@category.CategoryName</option>
-                    }
-                </InputSelect>
-                    <label for="category">Category</label>
-                    @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+<h3>Add new product</h3>
+            <div class="inputs-container">
+                <div class="form-div-column">
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.Author"/>
+                        <label for="author">Author</label>
+                        @* <ValidationMessage For="() => Input.Author" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.Title"/>
+                        <label for="title">Title</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.Price"/>
+                        <label for="price">Price</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.DiscountPrice" />
+                        <label for="discountPrice">Discount Price</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.Language" />
+                        <label for="language">Language</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.Pages" />
+                        <label for="pages">Pages</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputDate class="form-input" @bind-Value="Input.PublishDate"  />
+                        <label for="publishDate">Publish Date</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.Publisher" />
+                        <label for="publisher">Publisher</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.ISBN" />
+                        <label for="isbn">ISBN Number</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
                 </div>
-                <div class="input-group">
-                    <InputSelect class="select-input" @bind-Value="Input.SubCategory" name="subcategory" id="subcategory-filter">
-                    <option value="">All</option>
-                    @foreach (var subCategory in subCategories)
-                    {
-                        <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
-                    }
-                </InputSelect>
-                    <label for="subCategory">Subcategory</label>
-                    @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                <div class="form-div-column">
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.ShortDescription" />
+                        <label for="shortDescription">Short Description</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                    <div class="input-group">
+                        <InputTextArea class="form-input long-description" @bind-Value="Input.LongDescription" rows="10" cols="30"/>
+                        <label for="longDescription">Long Description</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                        <div class="input-group">
+                            <InputSelect class="select-input" @bind-Value="Input.CategoryName" name="category" id="category-filter">
+                            <option value="">Category</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryName">@category.CategoryName</option>
+                            }
+                        </InputSelect>
+                            <label for="category">Category</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                        <div class="input-group">
+                            <InputSelect class="select-input" @bind-Value="Input.SubCategoryName" name="subcategory" id="subcategory-filter">
+                            <option value="">Subcategory</option>
+                            @foreach (var subCategory in subCategories)
+                            {
+                                <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
+                            }
+                        </InputSelect>
+                            <label for="subCategory">Subcategory</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                        <div class="input-group">
+                            <InputSelect class="select-input" @bind-Value="Input.FormatName" name="format" id="format-filter">
+                            <option value="">Choose format</option>
+                            @foreach (var format in formats)
+                            {
+                                <option value="@format.FormatName">@format.FormatName</option>
+                            }
+                        </InputSelect>
+                            <label for="format">Format</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                        @* <Dropdown Title="Kategori" Options="@categoryNames" />
+                        <Dropdown Title="Underkategori" Options="@subCategoryNames" />
+                        <Dropdown Title="Format" Options="@formatNames" /> *@
+                    <div class="input-group">
+                        <InputFile class="file-input" OnChange="HandleFileUpload" />
+                    </div>
+                    <div class="input-checkbox-group">
+                        <div class="checkbox-group">
+                            <InputCheckbox class="checkbox-input" @bind-Value="Input.OnSale" name="onsale" id="onsale">
+                                <option value="">On Sale</option>
+                            </InputCheckbox>
+                            <label for="onsale">On sale</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                        <div class="checkbox-group">
+                            <InputCheckbox class="checkbox-input" @bind-Value="Input.BestSeller" name="bestseller" id="bestseller">
+                                <option value="">Best Seller</option>
+                            </InputCheckbox>
+                            <label for="bestseller">Bestseller</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                        <div class="checkbox-group">
+                            <InputCheckbox class="checkbox-input" @bind-Value="Input.IsFavorite" name="isfavorite" id="isfavorite">
+                                <option value="">Is Favorite</option>
+                            </InputCheckbox>
+                            <label for="isfavorite">Is Favorite</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                        <div class="checkbox-group">
+                            <InputCheckbox class="checkbox-input" @bind-Value="Input.FeaturedProduct" name="featuredproduct" id="featuredproduct">
+                                <option value="">FeaturedProduct</option>
+                            </InputCheckbox>
+                            <label for="featuredproduct">Featured Product</label>
+                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        </div>
+                    </div> 
                 </div>
             </div>
+            
+            <button class="add-product-btn btn-theme" type="submit">Register</button>
 
-            <div class="input-group">
-                <InputFile class="file-input" OnChange="HandleFileUpload" />
-            </div>
-            
-            
-            
-            
-            
-            
-            
-            
-        
-            
-            <button type="submit">Register</button>
         </EditForm>
     </div>
     <div class="form-results">
@@ -108,8 +152,13 @@
         <p>@Input.Pages</p>
         <p>@Input.PublishDate</p>
         <p>@Input.ISBN</p>
-        <p>@Input.Category</p>
-        <p>@Input.SubCategory</p>
+        <p>@Input.OnSale</p>
+        <p>@Input.BestSeller</p>
+        <p>@Input.IsFavorite</p>
+        <p>@Input.FeaturedProduct</p>
+        <p>@Input.CategoryName</p>
+        <p>@Input.SubCategoryName</p>
+        <p>@Input.FormatName</p>
     </div>
 
 @code {
@@ -118,7 +167,11 @@
     private ProductRegistrationForm Input = new();
 
     List<CategoryModel> categories = new();
+    List<string> categoryNames = new();
     List<SubCategoryModel> subCategories = new();
+    List<string> subCategoryNames = new();
+    List<FormatModel> formats = new();
+    List<string> formatNames = new();
     private IBrowserFile uploadedFile;
 
 
@@ -126,7 +179,23 @@
     {
         categories = await categoryService.GetCategories();
         subCategories = await subCategoryService.GetSubCategories();
+        formats = await formatService.GetFormats();
+
+        foreach (var category in categories)
+        {
+            categoryNames.Add(category.CategoryName);
+        }
+        foreach (var subCategory in subCategories)
+        {
+            subCategoryNames.Add(subCategory.SubCategoryName);
+        }
+        foreach (var format in formats)
+        {
+            formatNames.Add(format.FormatName);
+        }
+
     }
+
 
     public async Task HandleFileUpload(InputFileChangeEventArgs e)
     {
