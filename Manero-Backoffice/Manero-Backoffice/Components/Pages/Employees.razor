@@ -9,14 +9,20 @@
     <div class="container">
         @if (isLoading)
         {
-            <div class="spinner-m"></div>
+            <div class="spinner spinner-m"></div>
         }
         else
         {
-            <div class="filter-section">
+            <div class="filter-section card">
                 <Dropdown Title="Titles" Options="tableModel.Items!.Select(emp => emp.EmployeeType)" OnValueChanged="HandleFilterByTitle" />
             </div>
-            <Table Model="tableModel" DeleteAction="DeleteEmployee" EditAction="EditEmployee" />
+
+
+            <div class="table-section card">
+                <Table Model="tableModel" DeleteAction="DeleteEmployee" EditAction="EditEmployee" />
+            </div>
+    
+            
         }
     </div>
 </div>
@@ -32,7 +38,7 @@
         {
             var employees = await EmployeeService.GetEmployeesAsync();
 
-            tableModel.Items = employees;
+        
             tableModel.Columns = new Dictionary<string, string>
             {
                 { "FirstName", "Firstname" },

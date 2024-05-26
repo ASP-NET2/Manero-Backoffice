@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody class="table-body">
-        @if (Model.Items != null)
+        @if (Model.Items != null && Model.Items.Any())
         {
             foreach (var item in Model.Items)
             {
@@ -39,6 +39,12 @@
                     }
                 </tr>
             }
+        }
+        else
+        {
+            <tr>
+                <td colspan="@(Model.Columns.Count + (EditAction != null || DeleteAction != null ? 1 : 0))" class="no-items">No items to display</td>
+            </tr>
         }
     </tbody>
 </table>

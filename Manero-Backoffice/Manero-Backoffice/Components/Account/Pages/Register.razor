@@ -53,10 +53,10 @@
                 </div>
                 
                 
-                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" />
+                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" Color="#F1F3F4" />
                 <ValidationMessage For="() => Input.UserRole" class="text-danger" />
 
-                <Dropdown Title="Select Job title" Options="@(employeeTypes?.Select(x => x.Type).ToList())" OnValueChanged="HandleSelectedEmployeeType" />
+                <Dropdown Title="Select Job title" Options="@(employeeTypes?.Select(x => x.Type).ToList())" Color="#F1F3F4" OnValueChanged="HandleSelectedEmployeeType" />
 
                 <div class="btn-submit">
                     <button type="submit" class="btn-theme">Register</button>

@@ -1,4 +1,4 @@
-.btn-theme {
+﻿.btn-theme {
   border: none;
   font-size: 16px;
   font-weight: 600;
@@ -32,9 +32,9 @@ form .input-group {
 form .input-group input {
   overflow: hidden;
   width: 100%;
-  padding: 10px 21px;
-  border-radius: 20px;
-  border: 1px solid gray;
+  padding: 15px 21px;
+  border-radius: 25px;
+  border: 2px solid lightgray;
   margin-bottom: 1rem;
   color: var(--color-text);
   background: transparent;
@@ -69,9 +69,9 @@ form .input-group label {
   background-color: var(--color-white);
   color: var(--color-text);
   padding: 10px 21px;
-  border: 2px solid var(--color-theme-muted);
+  border: 2px solid lightgray;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 25px;
   font-size: 1rem;
   height: 50px;
   align-items: center;
@@ -80,7 +80,6 @@ form .input-group label {
   position: absolute;
   top: -6px;
   left: 16px;
-  background-color: #F1F3F4;
   background-color: var(--color-white);
   padding: 0 5px;
   font-size: 0.6rem;
@@ -88,12 +87,12 @@ form .input-group label {
 }
 .dropdown div.focus {
   border-radius: 0;
-  border-start-end-radius: 20px;
-  border-start-start-radius: 20px;
+  border-start-end-radius: 25px;
+  border-start-start-radius: 25px;
   border-bottom: 0;
 }
 .dropdown div i {
-  margin-left: 10px;
+  padding-left: 10px;
 }
 .dropdown ul {
   display: none;
@@ -102,11 +101,11 @@ form .input-group label {
   padding: 0;
   background-color: var(--color-white);
   width: 100%;
-  border: 2px solid var(--color-theme-muted);
+  border: 2px solid lightgray;
   border-top: 0;
   z-index: 1;
-  border-end-end-radius: 20px;
-  border-end-start-radius: 20px;
+  border-end-end-radius: 25px;
+  border-end-start-radius: 25px;
   text-align: center;
 }
 .dropdown ul li {
@@ -183,9 +182,6 @@ form .input-group label {
 .table {
   width: 100%;
   background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Add box-shadow */
-  border-radius: 15px;
-  margin-bottom: 20px;
   border-collapse: collapse;
   overflow: hidden;
 }
@@ -232,6 +228,19 @@ form .input-group label {
 }
 .table .table-body .table-row .btn-container button:hover {
   background-color: #bbb;
+}
+.table .no-items {
+  text-align: center;
+  padding: 20px 0;
+  color: gray;
+  font-style: italic;
+}
+
+.card {
+  border: 15px solid white; /* Adjust color as needed */
+  border-radius: 1rem;
+  box-shadow: 0 0 15px -5px var(--color-text);
+  background-clip: padding-box; /* This clips the background to the border */
 }
 
 * {
@@ -512,9 +521,7 @@ h1:focus {
 .content-container .row .product-btn {
   font-size: large;
   padding: 0.75rem;
-  height: -moz-fit-content;
   height: fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   border-radius: 0.5rem;
   border: none;
@@ -613,7 +620,6 @@ h1:focus {
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 15px -5px var(--color-text);
-  width: -moz-fit-content;
   width: fit-content;
   margin: 0 auto;
 }
@@ -753,4 +759,13 @@ h1:focus {
   width: 100%;
   border-radius: 25px;
   padding: 10px 0;
-}/*# sourceMappingURL=app.css.map */
+}
+
+.employees .container .filter-section {
+  background-color: var(--color-white);
+  padding: 17px;
+  margin-bottom: 12px;
+}
+.employees .container .filter-section .dropdown {
+  width: 30%;
+}
