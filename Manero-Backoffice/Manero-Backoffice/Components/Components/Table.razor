@@ -31,11 +31,11 @@
                             <AuthorizeView Roles="@ModifyPermissionRoles">
                                 @if (EditAction != null)
                                 {
-                                    <button @onclick="() => EditAction(item)" title="Edit"><i class="fa-regular fa-pen"></i></button>
+                                    <button class="info" @onclick="() => EditAction(item)" title="Edit"><i class="fa-regular fa-pen"></i></button>
                                 }
                                 @if (DeleteAction != null)
                                 {
-                                    <button @onclick="() => DeleteAction(item)" title="Delete"><i class="fa-regular fa-trash"></i></button>
+                                    <button class="danger" @onclick="() => DeleteAction(item)" title="Delete"><i class="fa-regular fa-trash"></i></button>
                                 }
                             </AuthorizeView>
                         </td>

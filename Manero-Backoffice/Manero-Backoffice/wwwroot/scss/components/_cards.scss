@@ -1,6 +1,8 @@
 ﻿.card {
-    border: 15px solid white; /* Adjust color as needed */
+    // border: 15px solid white; /* Adjust color as needed */
+    padding: 1.5rem;
     border-radius: 1rem;
     box-shadow: 0 0 15px -5px var(--color-text);
     background-clip: padding-box; /* This clips the background to the border */
+    background-color: white;
 }

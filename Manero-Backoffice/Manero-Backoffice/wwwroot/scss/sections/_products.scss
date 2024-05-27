@@ -25,6 +25,9 @@
                     white-space: nowrap;
                     margin-left: .75rem;
                     color: var(--color-text);
+                    &:hover {
+                        cursor: pointer;
+                    }
                 }
             }
         }
