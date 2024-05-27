@@ -10,7 +10,6 @@ else
 {
     <div class="update-header">
         <NavLink href="product" class="go-back"><i class="fa-regular fa-arrow-left"></i>Go back</NavLink>
-        <button type="submit" class="btn btn-primary update-product-btn">Update</button>
     </div>
     <EditForm Model="@product" OnValidSubmit="UpdateProductAsync" FormName="updateproduct" class="updateproduct-form">
         <DataAnnotationsValidator />
@@ -163,12 +162,12 @@ else
             </div>
         </div>
 
-        <!-- Lägg till fler inputfält här -->
+        <button type="submit" class="btn btn-primary update-product-btn">Update</button>
 
     </EditForm>
 }
 </div>
-    <div class="form-results">
+    @* <div class="form-results">
         <p>@product.Author</p>
         <p>@product.Title</p>
         <p>@product.Price</p>
@@ -184,7 +183,7 @@ else
         <p>@product.CategoryName</p>
         <p>@product.SubCategoryName</p>
         <p>@product.FormatName</p>
-    </div>
+    </div> *@
 
 @code {
     [Parameter]

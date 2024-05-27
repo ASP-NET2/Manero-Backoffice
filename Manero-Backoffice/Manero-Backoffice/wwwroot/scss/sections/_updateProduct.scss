@@ -13,31 +13,12 @@
         .go-back {
             text-transform: uppercase;
             color: var(--color-theme);
-            :hover {
+            &:hover {
                 cursor: pointer;
                 color: var(--color-theme-secondary);
             }
             i {
                 margin-right: .5rem;
-            }
-        }
-        .update-product-btn {
-            background-color: var(--color-theme);
-            border: none;
-            padding: 1rem 1.25rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-            font-size: medium;
-            border-radius: .5rem;
-            i {
-                margin-right: .25rem;
-            }
-            &:hover {
-                background-color: var(--color-theme-secondary);
-                background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
-                cursor: pointer;
-                box-shadow: 0 0 20px -5px var(--color-primary);
             }
         }
     }
@@ -65,7 +46,7 @@
                 display: grid;
                 grid-template-columns: .3fr 1fr;
                 gap: 3rem;
-                margin: 2rem;
+                margin: 1rem 2rem;
                 .image-box {
                     width: 100%;
                     margin-top: 1rem;
@@ -137,6 +118,25 @@
             letter-spacing: 1px;
             font-weight: 500;
             font-size: medium;
+            i {
+                margin-right: .25rem;
+            }
+            &:hover {
+                background-color: var(--color-theme-secondary);
+                background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
+                cursor: pointer;
+                box-shadow: 0 0 20px -5px var(--color-primary);
+            }
+        }
+        .update-product-btn {
+            background-color: var(--color-theme);
+            border: none;
+            padding: 1rem 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            font-size: medium;
+            border-radius: .5rem;
             i {
                 margin-right: .25rem;
             }
