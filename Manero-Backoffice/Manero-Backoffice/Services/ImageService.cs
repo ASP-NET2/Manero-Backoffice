@@ -12,7 +12,8 @@ public class ImageService(HttpClient http, IConfiguration configuration)
     {
         try
         {
-            var url = _configuration.GetValue<string>("ApiStrings:BlobApi");
+            // var url = _configuration.GetValue<string>("ApiStrings:BlobApi");
+            var url = "https://blobmanero.azurewebsites.net/api/Upload";
 
             using var content = new MultipartFormDataContent();
             using var stream = file.OpenReadStream(maxAllowedSize: 104857600);
@@ -21,10 +22,20 @@ public class ImageService(HttpClient http, IConfiguration configuration)
             content.Add(streamContent, "file", file.Name);
 
             var response = await Http.PostAsync(url, content);
+
+            // Log response for debugging purposes
+            var responseString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Response: {responseString}");
+
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
             return responseContent.Trim('"');
+        }
+        catch (HttpRequestException httpEx)
+        {
+            // Specific HttpRequestException for more details on HTTP errors
+            Console.WriteLine($"HttpRequestException: {httpEx.Message}");
         }
         catch (Exception ex)
         {

@@ -6,8 +6,13 @@
         <EditForm Model="Input" enctype="multipart/form-data" method="post" OnValidSubmit="RegisterProduct" FormName="addproduct" class="addproduct-form">
             <DataAnnotationsValidator />
             <ValidationSummary />
-
-<h3>Add new product</h3>
+    <div class="add-product-header">
+        <NavLink href="product" class="go-back"><i class="fa-regular fa-arrow-left"></i>Go back</NavLink>
+    </div>
+    @if (successMessageVisible)
+    {
+        <p class="success-message">Product has been added successfully!</p>
+    }
             <div class="inputs-container">
                 <div class="form-div-column">
                     <div class="input-group">
@@ -67,83 +72,84 @@
                         <label for="longDescription">Long Description</label>
                         @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
-                        <div class="input-group">
-                            <InputSelect class="select-input" @bind-Value="Input.CategoryName" name="category" id="category-filter">
-                            <option value="">Category</option>
-                            @foreach (var category in categories)
-                            {
-                                <option value="@category.CategoryName">@category.CategoryName</option>
-                            }
-                        </InputSelect>
-                            <label for="category">Category</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-                        </div>
-                        <div class="input-group">
-                            <InputSelect class="select-input" @bind-Value="Input.SubCategoryName" name="subcategory" id="subcategory-filter">
-                            <option value="">Subcategory</option>
-                            @foreach (var subCategory in subCategories)
-                            {
-                                <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
-                            }
-                        </InputSelect>
-                            <label for="subCategory">Subcategory</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-                        </div>
-                        <div class="input-group">
-                            <InputSelect class="select-input" @bind-Value="Input.FormatName" name="format" id="format-filter">
-                            <option value="">Choose format</option>
-                            @foreach (var format in formats)
-                            {
-                                <option value="@format.FormatName">@format.FormatName</option>
-                            }
-                        </InputSelect>
-                            <label for="format">Format</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-                        </div>
-                        @* <Dropdown Title="Kategori" Options="@categoryNames" />
-                        <Dropdown Title="Underkategori" Options="@subCategoryNames" />
-                        <Dropdown Title="Format" Options="@formatNames" /> *@
+                    @* <div class="input-group">
+                        <InputSelect class="select-input" @bind-Value="Input.CategoryName" name="category" id="category-filter">
+                        <option value="">Category</option>
+                        @foreach (var category in categories)
+                        {
+                            <option value="@category.CategoryName">@category.CategoryName</option>
+                        }
+                    </InputSelect>
+                        <label for="category">Category</label>
+                    </div>
+                    <div class="input-group">
+                        <InputSelect class="select-input" @bind-Value="Input.SubCategoryName" name="subcategory" id="subcategory-filter">
+                        <option value="">Subcategory</option>
+                        @foreach (var subCategory in subCategories)
+                        {
+                            <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
+                        }
+                    </InputSelect>
+                        <label for="subCategory">Subcategory</label>
+                    </div>
+                    <div class="input-group">
+                        <InputSelect class="select-input" @bind-Value="Input.FormatName" name="format" id="format-filter">
+                        <option value="">Choose format</option>
+                        @foreach (var format in formats)
+                        {
+                            <option value="@format.FormatName">@format.FormatName</option>
+                        }
+                    </InputSelect>
+                        <label for="format">Format</label>
+                    </div> *@
+                    <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
+                    <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
+                    <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" />
                     <div class="input-group">
                         <InputFile class="file-input" OnChange="HandleFileUpload" />
                     </div>
                     <div class="input-checkbox-group">
-                        <div class="checkbox-group">
-                            <InputCheckbox class="checkbox-input" @bind-Value="Input.OnSale" name="onsale" id="onsale">
-                                <option value="">On Sale</option>
-                            </InputCheckbox>
-                            <label for="onsale">On sale</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        <div class="checkbox-div">
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.OnSale" name="onsale" id="onsale">
+                                    <option value="">On Sale</option>
+                                </InputCheckbox>
+                                <label for="onsale">On sale</label>
+                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                            </div>
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.BestSeller" name="bestseller" id="bestseller">
+                                    <option value="">Best Seller</option>
+                                </InputCheckbox>
+                                <label for="bestseller">Bestseller</label>
+                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                            </div>
                         </div>
-                        <div class="checkbox-group">
-                            <InputCheckbox class="checkbox-input" @bind-Value="Input.BestSeller" name="bestseller" id="bestseller">
-                                <option value="">Best Seller</option>
-                            </InputCheckbox>
-                            <label for="bestseller">Bestseller</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-                        </div>
-                        <div class="checkbox-group">
-                            <InputCheckbox class="checkbox-input" @bind-Value="Input.IsFavorite" name="isfavorite" id="isfavorite">
-                                <option value="">Is Favorite</option>
-                            </InputCheckbox>
-                            <label for="isfavorite">Is Favorite</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-                        </div>
-                        <div class="checkbox-group">
-                            <InputCheckbox class="checkbox-input" @bind-Value="Input.FeaturedProduct" name="featuredproduct" id="featuredproduct">
-                                <option value="">FeaturedProduct</option>
-                            </InputCheckbox>
-                            <label for="featuredproduct">Featured Product</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                        <div class="checkbox-div">
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.IsFavorite" name="isfavorite" id="isfavorite">
+                                    <option value="">Is Favorite</option>
+                                </InputCheckbox>
+                                <label for="isfavorite">Is Favorite</label>
+                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                            </div>
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.FeaturedProduct" name="featuredproduct" id="featuredproduct">
+                                    <option value="">FeaturedProduct</option>
+                                </InputCheckbox>
+                                <label for="featuredproduct">Featured Product</label>
+                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                            </div>
                         </div>
                     </div> 
                 </div>
             </div>
             
-            <button class="add-product-btn btn-theme" type="submit">Register</button>
+            <button class="add-product-btn btn-theme" type="submit">Add Product</button>
 
         </EditForm>
     </div>
-    <div class="form-results">
+    @* <div class="form-results">
         <p>@Input.Author</p>
         <p>@Input.Title</p>
         <p>@Input.Price</p>
@@ -159,7 +165,7 @@
         <p>@Input.CategoryName</p>
         <p>@Input.SubCategoryName</p>
         <p>@Input.FormatName</p>
-    </div>
+    </div> *@
 
 @code {
 
@@ -173,6 +179,7 @@
     List<FormatModel> formats = new();
     List<string> formatNames = new();
     private IBrowserFile uploadedFile;
+    private bool successMessageVisible = false;
 
 
     protected override async Task OnInitializedAsync()
@@ -211,6 +218,34 @@
             Input.ImageUrl = imageUrl;
         }
 
-        var result = await productService.CreateProduct(Input);
+        var result = await productService.CreateProductAsync(Input);
+        if (result)
+        {
+            successMessageVisible = true;
+            Input = new ProductRegistrationForm(); 
+            StateHasChanged();
+            await Task.Delay(3000);
+            successMessageVisible = false;
+            StateHasChanged();
+        }
+        else
+        {
+            // Hantera misslyckande om nödvändigt
+        }
+
     }
+
+    private void HandleSelectedCategory(string selectedCategory)
+    {
+        Input.CategoryName = selectedCategory;
+    }
+    private void HandleSelectedSubCategory(string selectedSubCategory)
+    {
+        Input.SubCategoryName = selectedSubCategory;
+    }
+    private void HandleSelectedFormat(string selectedFormat)
+    {
+        Input.FormatName = selectedFormat;
+    }
+
 }

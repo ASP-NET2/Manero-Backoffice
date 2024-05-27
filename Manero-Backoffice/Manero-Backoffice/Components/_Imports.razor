@@ -10,12 +10,14 @@
 @using Manero_Backoffice
 @using Manero_Backoffice.Client
 @using Manero_Backoffice.Components
+@using Manero_Backoffice.Components.Components
 @using Manero_Backoffice.Business.Models
 @using Manero_Backoffice.Services
 @using Manero_Backoffice.Data
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Authorization
+@using Manero_Backoffice.Generics
 
 @inject HttpClient Http
 @inject ProductService productService
@@ -26,3 +28,4 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject EmployeeService EmployeeService
+@inject NavigationManager NavigationManager
