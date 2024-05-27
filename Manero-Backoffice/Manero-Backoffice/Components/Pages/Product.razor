@@ -6,7 +6,7 @@
 
 <div class="filter-container">
     <div class="drop-down-filters">
-        <select name="categories" id="category-filter" @onchange="OnCategoryChanged">
+        @* <select name="categories" id="category-filter" @onchange="OnCategoryChanged">
                 <option value="">Category</option>
             @foreach (var category in categories)
             {
@@ -28,7 +28,10 @@
             {
                 <option value="@format.FormatName">@format.FormatName</option>
             }
-        </select>
+        </select> *@
+        <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
+        <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
+        <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" />
         <div class="input-group">
             <div class="input-checkbox-group">
                 <input @onchange="OnSaleChanged" type="checkbox" id="onsale" name="onsale">
@@ -100,8 +103,10 @@
     List<ProductModel> products = new();
     List<CategoryModel> categories = new();
     List<SubCategoryModel> subCategories = new();
-    List<string> categoryNames = new();
     List<FormatModel> formats = new();
+    List<string> categoryNames = new();
+    List<string> subCategoryNames = new();
+    List<string> formatNames = new();
 
     private string selectedCategory = "";
     private string selectedSubCategory = "";
@@ -120,6 +125,14 @@
         foreach (var category in categories)
         {
             categoryNames.Add(category.CategoryName);
+        }
+        foreach (var subCategory in subCategories)
+        {
+            subCategoryNames.Add(subCategory.SubCategoryName);
+        }
+        foreach (var format in formats)
+        {
+            formatNames.Add(format.FormatName);
         }
 
         await LoadProducts();
@@ -182,6 +195,22 @@
     private void NavigateToUpdateProduct(string productId)
     {
         NavigationManager.NavigateTo($"/updateproduct/{productId}");
+    }
+
+    private async Task HandleSelectedCategory(string Category)
+    {
+        selectedCategory = Category;
+        await OnFilterChanged();
+    }
+    private async Task HandleSelectedSubCategory(string SubCategory)
+    {
+        selectedSubCategory = SubCategory;
+        await OnFilterChanged();
+    }
+    private async Task HandleSelectedFormat(string Format)
+    {
+        selectedFormat = Format;
+        await OnFilterChanged();
     }
 
 

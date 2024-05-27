@@ -22,6 +22,7 @@
             .input-checkbox-group {
                 display: flex;
                 label {
+                    white-space: nowrap;
                     margin-left: .75rem;
                     color: var(--color-text);
                 }

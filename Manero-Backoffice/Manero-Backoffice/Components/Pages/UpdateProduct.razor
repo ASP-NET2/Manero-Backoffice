@@ -1,9 +1,6 @@
 ﻿@page "/updateproduct/{productId}"
 @rendermode InteractiveServer
 
-<p>@product.Author</p>
-<p>@product.Title</p>
-
 <div class="update-product-container">
 @if (isLoading)
 {
@@ -11,11 +8,13 @@
 }
 else
 {
+    <div class="update-header">
+        <NavLink href="product" class="go-back"><i class="fa-regular fa-arrow-left"></i>Go back</NavLink>
+        <button type="submit" class="btn btn-primary update-product-btn">Update</button>
+    </div>
     <EditForm Model="@product" OnValidSubmit="UpdateProductAsync" FormName="updateproduct" class="updateproduct-form">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        
-        <h3>UpdateProduct</h3>
 
         <div class="inputs-container">
             <div class="container-div-top">
@@ -75,6 +74,13 @@ else
                         @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
+                        <InputText class="form-input" @bind-Value="product.ISBN" />
+                        <label for="isbn">ISBN Number</label>
+                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
+                    </div>
+                </div>
+                <div class="form-div-column">
+                    <div class="input-group">
                         <InputDate class="form-input" @bind-Value="product.PublishDate"  />
                         <label for="publishDate">Publish Date</label>
                         @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
@@ -84,13 +90,6 @@ else
                         <label for="publisher">Publisher</label>
                         @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
-                    <div class="input-group">
-                        <InputText class="form-input" @bind-Value="product.ISBN" />
-                        <label for="isbn">ISBN Number</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
-                    </div>
-                </div>
-                <div class="form-div-column">
                     @* <div class="input-group">
                         <InputSelect class="select-input" @bind-Value="product.CategoryName" name="category" id="category-filter">
                             <option value="">Category</option>
@@ -103,6 +102,7 @@ else
                     </div>
                     <div class="input-group">
                         <InputSelect class="select-input" @bind-Value="product.SubCategoryName" name="subcategory" id="subcategory-filter">
+    using Microsoft.Azure.Amqp.Framing;
                             <option value="">Subcategory</option>
                             @foreach (var subCategory in subCategories)
                             {
@@ -121,6 +121,9 @@ else
                         </InputSelect>
                         <label for="format">Format</label>
                     </div> *@
+                        <Dropdown Title="Kategori" Options="@categoryNames" CurrentValue="@product.CategoryName" OnValueChanged="HandleSelectedCategory"/>
+                        <Dropdown Title="Underkategori" Options="@subCategoryNames" CurrentValue="@product.SubCategoryName" OnValueChanged="HandleSelectedSubCategory"/>
+                        <Dropdown Title="Format" Options="@formatNames" CurrentValue="@product.FormatName" OnValueChanged="HandleSelectedFormat"/>
                     <div class="input-checkbox-group">
                         <div class="checkbox-div">
                             <div class="checkbox-group">
@@ -155,18 +158,16 @@ else
                             </div>
                         </div>
                     </div>
-                        <Dropdown Title="Kategori" Options="@categoryNames" CurrentValue="@product.CategoryName" OnValueChanged="HandleSelectedCategory"/>
-                        <Dropdown Title="Underkategori" Options="@subCategoryNames" CurrentValue="@product.SubCategoryName" OnValueChanged="HandleSelectedSubCategory"/>
-                        <Dropdown Title="Format" Options="@formatNames" CurrentValue="@product.FormatName" OnValueChanged="HandleSelectedFormat"/>
+
                 </div>
             </div>
         </div>
 
         <!-- Lägg till fler inputfält här -->
 
-        <button type="submit" class="btn btn-primary">Update</button>
     </EditForm>
 }
+</div>
     <div class="form-results">
         <p>@product.Author</p>
         <p>@product.Title</p>
@@ -184,7 +185,6 @@ else
         <p>@product.SubCategoryName</p>
         <p>@product.FormatName</p>
     </div>
-</div>
 
 @code {
     [Parameter]

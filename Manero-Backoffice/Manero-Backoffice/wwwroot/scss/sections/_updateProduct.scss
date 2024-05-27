@@ -5,11 +5,49 @@
     box-shadow: 0 0 15px -5px var(--color-text);
     width: fit-content;
     margin: 0 auto;
+    .update-header {
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem;
+        align-items: center;
+        .go-back {
+            text-transform: uppercase;
+            color: var(--color-theme);
+            :hover {
+                cursor: pointer;
+                color: var(--color-theme-secondary);
+            }
+            i {
+                margin-right: .5rem;
+            }
+        }
+        .update-product-btn {
+            background-color: var(--color-theme);
+            border: none;
+            padding: 1rem 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            font-size: medium;
+            border-radius: .5rem;
+            i {
+                margin-right: .25rem;
+            }
+            &:hover {
+                background-color: var(--color-theme-secondary);
+                background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
+                cursor: pointer;
+                box-shadow: 0 0 20px -5px var(--color-primary);
+            }
+        }
+    }
     .updateproduct-form {
         max-width: 1000px;
         margin: 0 auto;
         h3 {
-            margin-bottom: 1rem;
+            margin: 1rem;
+            text-transform: uppercase;
+            font-weight: 500;
         }
         .success-message {
             color: var(--color-success);
@@ -52,10 +90,14 @@
                         display: flex;
                         width: 100%;
                     }
+                    .dropdown {
+                        margin-top: 1rem;
+                    }
                     
                     .input-checkbox-group {
-                        padding: 1rem;
+                        padding: 1rem 1rem 0;
                         display: flex;
+                        gap: 2rem;
                         .checkbox-div {
                             display: flex;
                             flex-direction: column;
@@ -79,6 +121,7 @@
                             }
                         }
                     }
+                    
                 }
             }
             .long-description {
@@ -133,4 +176,5 @@
             background-color: var(--color-white);
         }
     }
+    
 }
