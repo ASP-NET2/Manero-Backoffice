@@ -51,13 +51,17 @@
             }
 
 
-      
+
 
 
 
 
             .btn-submit {
                 margin-top: 10px;
+
+                button {
+                    cursor: pointer;
+                }
 
                 .btn-theme {
                     width: 100%;
@@ -68,6 +72,3 @@
         }
     }
 }
-
-
-
