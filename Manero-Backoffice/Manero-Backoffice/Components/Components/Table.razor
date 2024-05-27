@@ -1,0 +1,61 @@
+﻿@using Manero_Backoffice.Generics
+@typeparam TItem
+
+<table class="table">
+    <thead class="table-head">
+        <tr>
+            @foreach (var column in Model.Columns)
+            {
+                <th>@column.Value</th>
+            }
+            @if (EditAction != null || DeleteAction != null)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody class="table-body">
+        @if (Model.Items != null && Model.Items.Any())
+        {
+            foreach (var item in Model.Items)
+            {
+                <tr class="table-row">
+                    @foreach (var column in Model.Columns)
+                    {
+                        <td class="row-col">@item!.GetType().GetProperty(column.Key)!.GetValue(item)</td>
+                    }
+                    @if (EditAction != null || DeleteAction != null)
+                    {
+                        <td class="btn-container">
+                            @if (EditAction != null)
+                            {
+                                <button @onclick="() => EditAction(item)" title="Edit"><i class="fa-regular fa-pen"></i></button>
+                            }
+                            @if (DeleteAction != null)
+                            {
+                                <button @onclick="() => DeleteAction(item)" title="Delete"><i class="fa-regular fa-trash"></i></button>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="@(Model.Columns.Count + (EditAction != null || DeleteAction != null ? 1 : 0))" class="no-items">No items to display</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public TableModel<TItem> Model { get; set; } = null!;
+
+    [Parameter]
+    public Func<TItem, Task>? EditAction { get; set; }
+
+    [Parameter]
+    public Func<TItem, Task>? DeleteAction { get; set; }
+}

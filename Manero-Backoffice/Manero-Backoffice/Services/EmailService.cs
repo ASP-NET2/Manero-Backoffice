@@ -1,10 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Azure.Messaging.ServiceBus.Administration;
 using Manero_Backoffice.Business.Models;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Manero_Backoffice.Services
 {

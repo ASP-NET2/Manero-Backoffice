@@ -1,8 +1,8 @@
 ﻿
 <div class="dropdown" @onblur="CloseDropdown" tabindex="0">
-    <div @onclick="ToggleDropdown" class='@(isOpen ? "focus" : "")'>@(CurrentValue ?? Title)<i class="fa-solid fa-caret-down"></i> <span>@(CurrentValue == null ? Title : $"You selected {CurrentValue}")</span> </div>
+    <div @onclick="ToggleDropdown" class='@(isOpen ? "focus" : "")' style="background-color: @Color;">@(CurrentValue ?? Title)<i class="fa-solid fa-caret-down"></i> <span style="background-color: @Color;">@(CurrentValue == null ? Title : $"You selected {CurrentValue}")</span> </div>
 
-    <ul class="dropdown-menu" style="display:@(isOpen ? "block" : "none")">
+    <ul class="dropdown-menu" style="display:@(isOpen ? "block" : "none"); background-color: @Color;">
         @if (Options == null || !Options.Any())
         {
             <li>No options available</li>
@@ -23,6 +23,9 @@
     [Parameter] public string? CurrentValue { get; set; }
     [Parameter] public EventCallback<string> OnValueChanged { get; set; }
     [Parameter] public string Title { get; set; } = null!;
+    [Parameter] public string Color { get; set; } = "white"; // Default to white
+
+
 
     private bool isOpen;
 

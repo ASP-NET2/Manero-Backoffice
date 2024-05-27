@@ -12,6 +12,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Manero_Backoffice.Factories
 @using Manero_Backoffice.Components.Components
+@using Microsoft.EntityFrameworkCore
 
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -25,3 +26,5 @@
 @inject HttpClient http
 @inject EmailService EmailService
 @inject RoleService RoleService
+@inject EmployeeTypeService EmployeeTypeService
+@inject EmployeeService EmployeeService

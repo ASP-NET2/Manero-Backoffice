@@ -1,0 +1,39 @@
+﻿@mixin spinner($spinner-size) {
+    $border-width: $spinner-size * 0.175; // Borderstorlek är 17.5% av spinnerstorleken
+    border: $border-width solid lightgray;
+    border-radius: 50%;
+    border-top: $border-width solid gray;
+    width: $spinner-size;
+    height: $spinner-size;
+    animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-xs {
+    @include spinner(10px);
+}
+
+.spinner-s {
+    @include spinner(20px);
+}
+
+.spinner-m {
+    @include spinner(40px);
+}
+
+.spinner-l {
+    @include spinner(70px);
+}
+
+.spinner-xl {
+    @include spinner(100px);
+}

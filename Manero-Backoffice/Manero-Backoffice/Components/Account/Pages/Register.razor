@@ -1,6 +1,6 @@
 @page "/Account/Register"
-@using Microsoft.EntityFrameworkCore
 
+@inject NavigationManager NavigationManager
 
 @attribute [Authorize(Roles = "Super Admin")]
 
@@ -17,6 +17,7 @@
         </div>
 
         <div class="form-section">
+            <div>@Message</div>
             <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
                 <DataAnnotationsValidator />
                     <div class="group-input">
@@ -52,8 +53,10 @@
                 </div>
                 
                 
-                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" />
+                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" Color="#F1F3F4" />
                 <ValidationMessage For="() => Input.UserRole" class="text-danger" />
+
+                <Dropdown Title="Select Job title" Options="@(employeeTypes?.Select(x => x.Type).ToList())" Color="#F1F3F4" OnValueChanged="HandleSelectedEmployeeType" />
 
                 <div class="btn-submit">
                     <button type="submit" class="btn-theme">Register</button>
@@ -76,10 +79,18 @@
     private string? Message { get; set; } = "";
 
     private List<string>? roles { get; set; }
+    private List<EmployeeTypeModel>? employeeTypes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         roles = await RoleService.GetRoleNamesAsync();
+        employeeTypes = await EmployeeTypeService.GetEmployeeTypesAsync();
+        var employeeTypeNames = employeeTypes.Select(x => x.Type).ToList();
+    }
+
+    public void HandleSelectedEmployeeType(string selectedType)
+    {
+        Input.EmployeeTypeId = employeeTypes!.FirstOrDefault(x => x.Type == selectedType)!.Id;
     }
 
  
@@ -90,12 +101,14 @@
 
     public async Task RegisterUser(EditContext editContext)
     {
-        var createdResult = await UserService.CreateAsync(Input);
-        if (!createdResult.Succeeded)
+        var createdUserResult = await UserService.CreateAsync(Input);
+        if (!createdUserResult.Succeeded)
         {
-            Message = createdResult.ErrorMessage;
+            Message = createdUserResult.ErrorMessage;
             return;
         }
+
+        
 
         var user = await UserService.FindByEmailAsync(Input.Email);
         if (user == null)
@@ -104,12 +117,21 @@
             return;
         }
 
+        var createdEmployeeResult = await EmployeeService.CreateEmployeeAsync(EmployeeFactory.Create(user.Id, Input.FirstName, Input.LastName, Input.EmployeeTypeId));
+        if (!createdEmployeeResult.Succeeded)
+        {
+            Message = createdEmployeeResult.ErrorMessage;
+            return;
+        }
+
+
+
         var roleResult = await UserService.AddToRoleAsync(user, Input.UserRole);
 
         if (roleResult.Succeeded)
         {
             await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest(Input.Email, Input.Password, Input.FirstName, Input.UserRole));
-            RedirectManager.RedirectTo(ReturnUrl);
+            NavigationManager.NavigateTo(ReturnUrl = "/");
         }
         else
             Message = roleResult.ErrorMessage;
