@@ -1,0 +1,44 @@
+﻿@rendermode InteractiveServer
+
+@if (IsVisible)
+{
+    <div class="confirm-dialog">
+        <div class="dialog-content">
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <h2>Error</h2>
+                <p>@ErrorMessage</p>
+                <button @onclick="Cancel">OK</button>
+            }
+            else
+            {
+                <h2>Confirm</h2>
+                <p>@Message</p>
+                <button @onclick="Confirm">Yes</button>
+                <button @onclick="Cancel">No</button>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public EventCallback OnConfirm { get; set; }
+    [Parameter] public string Message { get; set; }
+    [Parameter] public string ErrorMessage { get; set; }
+
+    private async Task Confirm()
+    {
+        await OnConfirm.InvokeAsync();
+        if (string.IsNullOrEmpty(ErrorMessage))
+        {
+            await IsVisibleChanged.InvokeAsync(false);
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await IsVisibleChanged.InvokeAsync(false);
+    }
+}

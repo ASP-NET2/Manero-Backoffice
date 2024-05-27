@@ -243,6 +243,41 @@ form .input-group label {
   background-clip: padding-box; /* This clips the background to the border */
 }
 
+.confirm-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirm-dialog .dialog-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+}
+.confirm-dialog .dialog-content button {
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 5px;
+  margin-top: 30px;
+  cursor: pointer;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
+.confirm-dialog .dialog-content button:hover {
+  background-color: lightgray;
+  color: black;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -755,17 +790,67 @@ h1:focus {
 .register .container .form-section .btn-submit {
   margin-top: 10px;
 }
+.register .container .form-section .btn-submit button {
+  cursor: pointer;
+}
 .register .container .form-section .btn-submit .btn-theme {
   width: 100%;
   border-radius: 25px;
   padding: 10px 0;
 }
 
+.employees .container {
+  position: relative;
+  height: 100vh;
+  position: relative;
+  height: 100vh;
+}
+.employees .container .page-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.employees .container .filter-section,
+.employees .container .table-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.employees .container .filter-section .section-spinner,
+.employees .container .table-section .section-spinner {
+  background-color: white;
+  margin: 20px 0;
+}
 .employees .container .filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Optional: Align items vertically */
   background-color: var(--color-white);
-  padding: 17px;
+  padding: 14px;
   margin-bottom: 12px;
 }
 .employees .container .filter-section .dropdown {
   width: 30%;
+}
+.employees .container .filter-section a {
+  padding: 11px 14px;
+  background-color: gray;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+.employees .container .filter-section a i {
+  margin-right: 10px;
+}
+.employees .container .filter-section a:hover {
+  background-color: #bbb;
 }

@@ -2,7 +2,7 @@
 
 public class TableModel<TItem>
 {
-    public IEnumerable<TItem>? Items { get; set; } = [];
+    public List<TItem>? Items { get; set; } = new List<TItem>();
     public Dictionary<string, string> Columns { get; set; } = new Dictionary<string, string>();
-
 }
+

@@ -94,4 +94,29 @@ public class EmployeeService(HttpClient http, ILogger<EmployeeService> logger)
         _logger.LogWarning("Failed to get employees.");
         return null!;
     }
+
+    public async Task<RequestResult> DeleteEmployeeAsync(string id)
+    {
+        try
+        {
+            var response = await _http.DeleteAsync($"{_baseUrl}/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Employee deleted.");
+                return new RequestResult { Succeeded = true };
+            }
+            else
+            {
+                _logger.LogWarning("Employee deletion failed.");
+                return new RequestResult { Succeeded = false, ErrorMessage = "Failed to delete employee. Please try again." };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"ERROR : EmployeeService.DeleteEmployeeAsync() :: {ex.Message}");
+            return new RequestResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later" };
+        }
+    }
+
 }
