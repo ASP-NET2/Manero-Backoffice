@@ -1,5 +1,6 @@
 ﻿@using Manero_Backoffice.Generics
 @typeparam TItem
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
 
 <table class="table">
     <thead class="table-head">
@@ -27,14 +28,16 @@
                     @if (EditAction != null || DeleteAction != null)
                     {
                         <td class="btn-container">
-                            @if (EditAction != null)
-                            {
-                                <button @onclick="() => EditAction(item)" title="Edit"><i class="fa-regular fa-pen"></i></button>
-                            }
-                            @if (DeleteAction != null)
-                            {
-                                <button @onclick="() => DeleteAction(item)" title="Delete"><i class="fa-regular fa-trash"></i></button>
-                            }
+                            <AuthorizeView Roles="@ModifyPermissionRoles">
+                                @if (EditAction != null)
+                                {
+                                    <button @onclick="() => EditAction(item)" title="Edit"><i class="fa-regular fa-pen"></i></button>
+                                }
+                                @if (DeleteAction != null)
+                                {
+                                    <button @onclick="() => DeleteAction(item)" title="Delete"><i class="fa-regular fa-trash"></i></button>
+                                }
+                            </AuthorizeView>
                         </td>
                     }
                 </tr>
@@ -58,4 +61,7 @@
 
     [Parameter]
     public Func<TItem, Task>? DeleteAction { get; set; }
+
+    [Parameter]
+    public string ModifyPermissionRoles { get; set; } = "Admin, Super Admin";
 }

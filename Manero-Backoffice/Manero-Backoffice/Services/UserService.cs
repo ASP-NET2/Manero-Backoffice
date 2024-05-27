@@ -141,4 +141,36 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
             return new RequestResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
         }
     }
+
+    public async Task<RequestResult> DeleteUserAsync(string id)
+    {
+        try
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                _logger.LogWarning("User not found.");
+                return new RequestResult { Succeeded = false, ErrorMessage = "User not found." };
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User deleted.");
+                return new RequestResult { Succeeded = true };
+            }
+            else
+            {
+                _logger.LogWarning("User deletion failed.");
+                return new RequestResult { Succeeded = false, ErrorMessage = "Failed to delete user." };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"ERROR : UserService.DeleteUserAsync() :: {ex.Message}");
+            return new RequestResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later" };
+        }
+    }
+
 }

@@ -38,20 +38,16 @@
                     <label for="email">Email</label>
                     <ValidationMessage For="() => Input.Email" class="text-danger" />
                 </div>
-
-                <div class="group-input">
-                    <div class="input-group">
-                        <InputText type="password" @bind-Value="Input.Password" autocomplete="new-password" aria-required="true" placeholder="enter your password" />
-                        <label for="password">Password</label>
-                        <ValidationMessage For="() => Input.Password" class="text-danger" />
-                    </div>
-                    <div class="input-group">
-                        <InputText type="password" @bind-Value="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="confirm password" />
-                        <label for="confirm-password">Confirm Password</label>
-                        <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
-                    </div>
+                <div class="input-group">
+                    <InputText type="password" @bind-Value="Input.Password" autocomplete="new-password" aria-required="true" placeholder="enter your password" />
+                    <label for="password">Password</label>
+                    <ValidationMessage For="() => Input.Password" class="text-danger" />
                 </div>
-                
+                <div class="input-group">
+                    <InputText type="password" @bind-Value="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="confirm password" />
+                    <label for="confirm-password">Confirm Password</label>
+                    <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+                </div>
                 
                 <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" Color="#F1F3F4" />
                 <ValidationMessage For="() => Input.UserRole" class="text-danger" />
@@ -131,7 +127,7 @@
         if (roleResult.Succeeded)
         {
             await EmailService.SendMessageAsync(EmailFactory.CreateEmailRequest(Input.Email, Input.Password, Input.FirstName, Input.UserRole));
-            NavigationManager.NavigateTo(ReturnUrl = "/");
+            NavigationManager.NavigateTo("/employees");
         }
         else
             Message = roleResult.ErrorMessage;

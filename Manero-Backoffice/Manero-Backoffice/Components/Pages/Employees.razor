@@ -1,53 +1,101 @@
 ﻿@page "/employees"
-@using Manero_Backoffice.Components.Components
+
 @using Manero_Backoffice.Generics
+@using Manero_Backoffice.Components.Components
+@inject UserService UserService
+@inject EmployeeTypeService EmployeeTypesService
 
 @attribute [Authorize(Roles = "Admin, Super Admin")]
 
 @rendermode InteractiveServer
 <div class="employees">
     <div class="container">
-        @if (isLoading)
+
+        @if (isLoadingFilterSection && isLoadingTable)
         {
-            <div class="spinner spinner-m"></div>
+            <div class="page-spinner spinner-xl"></div>
         }
         else
         {
             <div class="filter-section card">
-                <Dropdown Title="Titles" Options="tableModel.Items!.Select(emp => emp.EmployeeType)" OnValueChanged="HandleFilterByTitle" />
+                @if (isLoadingFilterSection)
+                {
+                    <div class="section-spinner spinner-m"></div>
+                }
+                else
+                {
+                    <Dropdown Title="Titles" Options="@employeeTypeNames" OnValueChanged="HandleFilterByTitle" />
+                    <NavLink href="/Account/Register"><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</NavLink>
+                }
             </div>
-
 
             <div class="table-section card">
-                <Table Model="tableModel" DeleteAction="DeleteEmployee" EditAction="EditEmployee" />
+                @if (isLoadingTable)
+                {
+                    <div class="section-spinner spinner-m"></div>
+                }
+                else
+                {
+                    <Table Model="tableModel" DeleteAction="DeleteEmployee" EditAction="EditEmployee" ModifyPermissionRoles="Admin, Super Admin" />
+                }
             </div>
-    
-            
         }
-    </div>
-</div>
 
+     
+        
+    </div>
+
+    <ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+
+</div>
 
 @code {
     private TableModel<EmployeeModel> tableModel = new();
-    private bool isLoading = true;
+
+    private bool isLoadingTable = true;
+    private bool isLoadingFilterSection = true;
+
+    private List<string>? employeeTypeNames;
+
+    private EmployeeModel employeeToDelete = null!;
+    private string confirmMessage = null!;
+    private string? errorMessage;
+    private bool showConfirmDialog = false;
+
+    private async Task DeleteEmployee(EmployeeModel employee)
+    {
+        employeeToDelete = employee;
+        confirmMessage = $"Are you sure you want to delete {employee.FirstName} {employee.LastName}?";
+        showConfirmDialog = true;
+        StateHasChanged();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var employees = await EmployeeService.GetEmployeesAsync();
-
-        
-            tableModel.Columns = new Dictionary<string, string>
+            var employeeTypes = await EmployeeTypesService.GetEmployeeTypesAsync();
+            if(employeeTypes != null)
             {
-                { "FirstName", "Firstname" },
-                { "LastName", "Lastname" },
-                { "EmployeeType", "Title" },
-                { "PhoneNumber", "Phone Number" }
-            }; 
-            isLoading = false;
-            StateHasChanged();
+                employeeTypeNames = employeeTypes.Select(et => et.Type).ToList();
+                isLoadingFilterSection = false;
+                StateHasChanged();
+            }
+
+            var employees = await EmployeeService.GetEmployeesAsync();
+            if (employees != null)
+            {
+                tableModel.Items = employees;
+                tableModel.Columns = new Dictionary<string, string>
+                {
+                    { "FirstName", "Firstname" },
+                    { "LastName", "Lastname" },
+                    { "EmployeeType", "Title" },
+                    { "PhoneNumber", "Phone number" }
+                };
+                isLoadingTable = false;
+                StateHasChanged();
+            }
         }
     }
 
@@ -58,15 +106,34 @@
 
     private async Task EditEmployee(EmployeeModel employee)
     {
-        // Implement your edit logic here
-        // For now, we'll just print the employee to the console
         Console.WriteLine($"Editing employee: {employee.FirstName} {employee.LastName}");
     }
 
-    private async Task DeleteEmployee(EmployeeModel employee)
+    private async Task HandleChangeVisibility(bool resetMessage)
     {
-        // Implement your delete logic here
-        // For now, we'll just print the employee to the console
-        Console.WriteLine($"Deleting employee: {employee.FirstName} {employee.LastName}");
+        if (resetMessage)
+            errorMessage = null!;
+
+        if(errorMessage == null)
+            showConfirmDialog = false;
+    }
+
+    private async Task ConfirmDelete()
+    {
+        var deleteEmployeeResult = await EmployeeService.DeleteEmployeeAsync(employeeToDelete.Id);
+        if (!deleteEmployeeResult.Succeeded)
+        {
+            errorMessage = deleteEmployeeResult.ErrorMessage!;
+            return;
+        }
+
+        var deleteUserResult = await UserService.DeleteUserAsync(employeeToDelete.Id);
+        if (!deleteUserResult.Succeeded)
+        {
+            errorMessage = deleteUserResult.ErrorMessage!;
+            return;
+        }
+
+        tableModel.Items!.Remove(employeeToDelete);
     }
 }
