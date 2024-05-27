@@ -186,14 +186,13 @@ form .input-group label {
   overflow: hidden;
 }
 .table .table-head {
-  border-bottom: 3px solid gray;
+  border-bottom: 2px solid #ddd;
 }
 .table .table-head tr th {
-  padding: 11px 25px; /* More padding */
+  padding: 11px 25px;
   text-align: left;
-  border-bottom: 2px solid #ddd; /* Thicker border */
-  font-weight: bold; /* Bold text */
-  text-transform: uppercase; /* Uppercase text */
+  color: var(--color-text);
+  font-weight: 600;
 }
 .table .table-body .table-row:hover {
   background-color: #f0f0f0;
@@ -486,6 +485,15 @@ h1:focus {
 }
 .sidebar .navbar-div .flex-column .nav-item-group .nav-item .nav-link i {
   margin-right: 0.75rem;
+}
+.sidebar .nav-item form.nav-link button.nav-link-button {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1rem;
 }
 
 .filter-container {

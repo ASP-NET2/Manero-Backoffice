@@ -28,17 +28,15 @@
     [Parameter] public string Message { get; set; }
     [Parameter] public string ErrorMessage { get; set; }
 
+
     private async Task Confirm()
     {
         await OnConfirm.InvokeAsync();
-        if (string.IsNullOrEmpty(ErrorMessage))
-        {
-            await IsVisibleChanged.InvokeAsync(false);
-        }
+        await IsVisibleChanged.InvokeAsync(false);
     }
 
     private async Task Cancel()
     {
-        await IsVisibleChanged.InvokeAsync(false);
+        await IsVisibleChanged.InvokeAsync(true);
     }
 }

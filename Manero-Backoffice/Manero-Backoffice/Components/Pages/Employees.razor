@@ -54,12 +54,13 @@
 
     private bool isLoadingTable = true;
     private bool isLoadingFilterSection = true;
-    private bool showConfirmDialog = false;
+
+    private List<string>? employeeTypeNames;
 
     private EmployeeModel employeeToDelete = null!;
     private string confirmMessage = null!;
-    private List<string>? employeeTypeNames;
-    private string errorMessage = null!;
+    private string? errorMessage;
+    private bool showConfirmDialog = false;
 
     private async Task DeleteEmployee(EmployeeModel employee)
     {
@@ -90,7 +91,7 @@
                     { "FirstName", "Firstname" },
                     { "LastName", "Lastname" },
                     { "EmployeeType", "Title" },
-                    { "PhoneNumber", "Phonenumber" }
+                    { "PhoneNumber", "Phone number" }
                 };
                 isLoadingTable = false;
                 StateHasChanged();
@@ -105,18 +106,17 @@
 
     private async Task EditEmployee(EmployeeModel employee)
     {
-        // Implement your edit logic here
-        // For now, we'll just print the employee to the console
         Console.WriteLine($"Editing employee: {employee.FirstName} {employee.LastName}");
     }
 
-    private async Task HandleChangeVisibility(bool visibility)
+    private async Task HandleChangeVisibility(bool resetMessage)
     {
-        errorMessage = null!;
-        showConfirmDialog = visibility;
+        if (resetMessage)
+            errorMessage = null!;
+
+        if(errorMessage == null)
+            showConfirmDialog = false;
     }
-
-
 
     private async Task ConfirmDelete()
     {
@@ -135,7 +135,5 @@
         }
 
         tableModel.Items!.Remove(employeeToDelete);
-
-           
     }
 }

@@ -6,15 +6,14 @@
 
 
     .table-head {
-        border-bottom: 3px solid gray;
+        border-bottom: 2px solid #ddd;
 
         tr {
             th {
-                padding: 11px 25px; /* More padding */
+                padding: 11px 25px;
                 text-align: left;
-                border-bottom: 2px solid #ddd; /* Thicker border */
-                font-weight: bold; /* Bold text */
-                text-transform: uppercase; /* Uppercase text */
+                color: var(--color-text);
+                font-weight: 600;
             }
         }
     }

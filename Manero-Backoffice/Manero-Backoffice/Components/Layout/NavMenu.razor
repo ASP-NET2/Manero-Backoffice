@@ -1,128 +1,121 @@
 ﻿@implements IDisposable
-@using Microsoft.AspNetCore.Components.Authorization
-@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
 
-<CascadingAuthenticationState>
-    <AuthorizeView Roles="Admin, Super Admin">
-        <Authorized Context="authContext">
-            <div class="sidebar">
-                <div class="logo-div">
-                    <a href="">
-                        <img class="navbar-logo" src="/images/MANERO-LOGO.svg" alt="">
-                    </a>
-                </div>
-                <div class="navbar-div">
-                    <nav class="flex-column">
-                        <div class="nav-item-group">
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-grid-horizontal"></i>
-                                        Dashboard
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="product">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-box"></i>
-                                        Products
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="/category">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-folder-open"></i>
-                                        Categories
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="order">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-bag-shopping"></i>
-                                        Orders
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="customer">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-user-group"></i>
-                                        Customers
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="employees">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-user-group"></i>
-                                        Employees
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="coupon">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-tag"></i>
-                                        Coupons
-                                    </span>
-                                </NavLink>
-                            </div>
-                        </div>
-                        <div class="nav-item-group">
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="settings">
-                                    <span aria-hidden="true">
-                                        <i class="fa-regular fa-gear"></i>
-                                        Settings
-                                    </span>
-                                </NavLink>
-                            </div>
-                            <div class="nav-item">
-                                <NavLink class="nav-link" href="Account/Manage">
-                                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> My Account
-                                </NavLink>
-                            </div>
-                            @*  <div class="nav-item">
-                            <NavLink class="nav-link" href="logout">
-                            <span aria-hidden="true">
-                            <i class="fa-regular fa-left-from-bracket"></i>
-                            Logout
-                            </span>
-                            </NavLink>
-                            </div> *@
-                            
-
-                            @if (authContext.User.IsInRole("Super Admin"))
-                            {
-                                <div class="nav-item">
-                                    <NavLink class="nav-link" href="Account/Register">
-                                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
-                                    </NavLink>
-                                </div>
-                            }
-
-                            <div>
-                                <form action="Account/Logout" method="post">
-                                    <AntiforgeryToken />
-                                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                              
-                                    <button type="submit">
-                                        <i class="fa-regular fa-left-from-bracket"></i> Logout
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
+<AuthorizeView Roles="Admin, Super Admin">
+    <Authorized>
+        <div class="sidebar">
+            <div class="logo-div">
+                <a href="">
+                    <img class="navbar-logo" src="/images/MANERO-LOGO.svg" alt="">
+                </a>
             </div>
+            <div class="navbar-div">
+                <nav class="flex-column">
+                    <div class="nav-item-group">
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-grid-horizontal"></i>
+                                    Dashboard
+                                </span>
+                            </NavLink>
+                        </div>
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="product">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-box"></i>
+                                    Products
+                                </span>
+                            </NavLink>
+                        </div>
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="/category">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-folder-open"></i>
+                                    Categories
+                                </span>
+                            </NavLink>
+                        </div>
+                        @* <div class="nav-item">
+                            <NavLink class="nav-link" href="order">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-bag-shopping"></i>
+                                    Orders
+                                </span>
+                            </NavLink>
+                        </div> *@
+                        @*  <div class="nav-item">
+                            <NavLink class="nav-link" href="customer">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-user-group"></i>
+                                    Customers
+                                </span>
+                            </NavLink>
+                        </div> *@
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="employees">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-user-group"></i>
+                                    Employees
+                                </span>
+                            </NavLink>
+                        </div>
+                        @* <div class="nav-item">
+                            <NavLink class="nav-link" href="coupon">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-tag"></i>
+                                    Coupons
+                                </span>
+                            </NavLink>
+                        </div> *@
+                    </div>
+                    <div class="nav-item-group">
+                        @* <div class="nav-item">
+                            <NavLink class="nav-link" href="settings">
+                                <span aria-hidden="true">
+                                    <i class="fa-regular fa-gear"></i>
+                                    Settings
+                                </span>
+                            </NavLink>
+                        </div>
+                        <div class="nav-item">
+                            <NavLink class="nav-link" href="Account/Manage">
+                                <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> My Account
+                            </NavLink>
+                        </div> *@
+                        @*  <div class="nav-item">
+                        <NavLink class="nav-link" href="logout">
+                        <span aria-hidden="true">
+                        <i class="fa-regular fa-left-from-bracket"></i>
+                        Logout
+                        </span>
+                        </NavLink>
+                        </div> *@
+                        <div class="nav-item">
+                            <form action="Account/Logout" method="post" class="nav-link">
+                                <AntiforgeryToken />
+                                <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                                <button type="submit" class="nav-link-button" @onclick="ClearLocalStorage">
+                                    <span aria-hidden="true">
+                                        <i class="fa-regular fa-left-from-bracket"></i>
+                                        Logout
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
 
-        </Authorized>
-    </AuthorizeView>
-</CascadingAuthenticationState>
+
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
 
 
 
@@ -140,6 +133,12 @@
     {
         currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
         StateHasChanged();
+    }
+
+    private async Task ClearLocalStorage()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "Name");
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "Email");
     }
 
   
