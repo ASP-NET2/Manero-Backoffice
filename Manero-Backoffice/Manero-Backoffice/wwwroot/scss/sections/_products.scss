@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: var(--color-white);
-    padding: 2rem;
+    padding: 1rem 2rem;
     border-radius: 1rem;
     box-shadow: 0 0 15px -5px var(--color-text);
     .drop-down-filters {
@@ -16,6 +16,16 @@
             border: 2px solid var(--color-theme-muted);
             font-size: medium;
             color: var(--color-text);
+        }
+        .input-group {
+            margin-right: 1rem;
+            .input-checkbox-group {
+                display: flex;
+                label {
+                    margin-left: .75rem;
+                    color: var(--color-text);
+                }
+            }
         }
     }
     .btn-theme {
@@ -50,7 +60,7 @@
     }
     .row {
         display: grid;
-        grid-template-columns: .2fr 1fr .7fr .7fr .7fr .4fr .2fr .2fr;
+        grid-template-columns: .2fr 1fr .6fr .6fr .6fr .4fr .2fr .2fr;
         padding: .5rem 1rem;
         border-bottom: solid 1px var(--color-theme-muted);
         align-items: center;

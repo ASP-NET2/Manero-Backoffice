@@ -6,30 +6,50 @@
 
 <div class="filter-container">
     <div class="drop-down-filters">
-        <select name="categories" id="category-filter">
-                <option value="All">Category</option>
+        <select name="categories" id="category-filter" @onchange="OnCategoryChanged">
+                <option value="">Category</option>
             @foreach (var category in categories)
             {
                 <option value="@category.CategoryName">@category.CategoryName</option>
             }
         </select>
         
-        <select name="subcategories" id="subcategory-filter">
-                <option value="All">Subcategory</option>
+        <select name="subcategories" id="subcategory-filter" @onchange="OnSubCategoryChanged">
+                <option value="">Subcategory</option>
             @foreach (var subCategory in subCategories)
             {
                 <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
             }
         </select>
 
-        <select name="formats" id="format-filter">
-                <option value="All">Format</option>
+        <select name="formats" id="format-filter" @onchange="OnFormatChanged">
+                <option value="">Format</option>
             @foreach (var format in formats)
             {
                 <option value="@format.FormatName">@format.FormatName</option>
             }
         </select>
-        <Dropdown Title="Kategori" Options="@categoryNames" />
+        <div class="input-group">
+            <div class="input-checkbox-group">
+                <input @onchange="OnSaleChanged" type="checkbox" id="onsale" name="onsale">
+                <label for="onsale">On Sale</label>
+            </div>
+            <div class="input-checkbox-group">
+                <input @onchange="OnFavoriteChanged" type="checkbox" id="isfavorite" name="isfavorite">
+                <label for="isfavorite">Is Favorite</label>
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="input-checkbox-group">
+                <input @onchange="OnBestsellerChanged" type="checkbox" id="isbestseller" name="isbestseller">
+                <label for="isbestseller">Is Bestseller</label>
+            </div>
+            <div class="input-checkbox-group">
+                <input @onchange="OnFeaturedProductChanged" type="checkbox" id="featuredproduct" name="featuredproduct">
+                <label for="featuredproduct">Featured Product</label>
+            </div>
+        </div>
+        @* <Dropdown Title="Kategori" Options="@categoryNames" /> *@
     </div>
     <NavLink class="btn-theme" href="addproduct"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</span></NavLink>
 </div>
@@ -68,7 +88,7 @@
                 <p>@product.SubCategoryName</p>
                 <p>@product.FormatName</p>
                 <p>@product.Price SEK</p>
-                <button class="product-btn info"><i class="fa-regular fa-pen"></i></button>
+                <button class="product-btn info" @onclick="() => NavigateToUpdateProduct(product.Id)" ><i class="fa-regular fa-pen"></i></button>
                 <button id="@product.Id" @onclick="@(async () => await DeleteProduct(product.Id))" class="product-btn danger"><i class="fa-regular fa-trash"></i></button>
             </div>
         }
@@ -82,6 +102,14 @@
     List<SubCategoryModel> subCategories = new();
     List<string> categoryNames = new();
     List<FormatModel> formats = new();
+
+    private string selectedCategory = "";
+    private string selectedSubCategory = "";
+    private string selectedFormat = "";
+    private bool onSale = false;
+    private bool isFavorite = false;
+    private bool isBestseller = false;
+    private bool featuredProduct = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -99,14 +127,61 @@
 
     private async Task LoadProducts()
     {
-        products = await productService.GetProducts();
+        @* products = await productService.GetProducts(); *@
+        products = await productService.GetProductsByFilter(selectedCategory, selectedSubCategory, selectedFormat, onSale, isFavorite, isBestseller, featuredProduct);
         StateHasChanged();
+    }
+
+    private async Task OnFilterChanged()
+    {
+        await LoadProducts();
+    }
+
+    private async Task OnCategoryChanged(ChangeEventArgs e)
+    {
+        selectedCategory = e.Value.ToString();
+        await OnFilterChanged();
+    }
+    private async Task OnSubCategoryChanged(ChangeEventArgs e)
+    {
+        selectedSubCategory = e.Value.ToString();
+        await OnFilterChanged();
+    }
+    private async Task OnFormatChanged(ChangeEventArgs e)
+    {
+        selectedFormat = e.Value.ToString();
+        await OnFilterChanged();
+    }
+    private async Task OnSaleChanged(ChangeEventArgs e)
+    {
+        onSale = (bool)e.Value;
+        await OnFilterChanged();
+    }
+    private async Task OnFavoriteChanged(ChangeEventArgs e)
+    {
+        isFavorite = (bool)e.Value;
+        await OnFilterChanged();
+    }
+    private async Task OnBestsellerChanged(ChangeEventArgs e)
+    {
+        isBestseller = (bool)e.Value;
+        await OnFilterChanged();
+    }
+    private async Task OnFeaturedProductChanged(ChangeEventArgs e)
+    {
+        featuredProduct = (bool)e.Value;
+        await OnFilterChanged();
     }
 
     private async Task DeleteProduct(string id)
     {
         await productService.DeleteProduct(id);
         await LoadProducts();
+    }
+
+    private void NavigateToUpdateProduct(string productId)
+    {
+        NavigationManager.NavigateTo($"/updateproduct/{productId}");
     }
 
 

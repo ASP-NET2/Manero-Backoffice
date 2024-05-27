@@ -7,7 +7,11 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-<h3>Add new product</h3>
+    <h3>Add new product</h3>
+    @if (successMessageVisible)
+    {
+        <p class="success-message">Product has been added successfully!</p>
+    }
             <div class="inputs-container">
                 <div class="form-div-column">
                     <div class="input-group">
@@ -100,9 +104,9 @@
                             <label for="format">Format</label>
                             @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                         </div>
-                        @* <Dropdown Title="Kategori" Options="@categoryNames" />
-                        <Dropdown Title="Underkategori" Options="@subCategoryNames" />
-                        <Dropdown Title="Format" Options="@formatNames" /> *@
+                        <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
+                        <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
+                        <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" />
                     <div class="input-group">
                         <InputFile class="file-input" OnChange="HandleFileUpload" />
                     </div>
@@ -173,6 +177,7 @@
     List<FormatModel> formats = new();
     List<string> formatNames = new();
     private IBrowserFile uploadedFile;
+    private bool successMessageVisible = false;
 
 
     protected override async Task OnInitializedAsync()
@@ -211,6 +216,34 @@
             Input.ImageUrl = imageUrl;
         }
 
-        var result = await productService.CreateProduct(Input);
+        var result = await productService.CreateProductAsync(Input);
+        if (result)
+        {
+            successMessageVisible = true;
+            Input = new ProductRegistrationForm(); 
+            StateHasChanged();
+            await Task.Delay(3000);
+            successMessageVisible = false;
+            StateHasChanged();
+        }
+        else
+        {
+            // Hantera misslyckande om nödvändigt
+        }
+
     }
+
+    private void HandleSelectedCategory(string selectedCategory)
+    {
+        Input.CategoryName = selectedCategory;
+    }
+    private void HandleSelectedSubCategory(string selectedSubCategory)
+    {
+        Input.SubCategoryName = selectedSubCategory;
+    }
+    private void HandleSelectedFormat(string selectedFormat)
+    {
+        Input.FormatName = selectedFormat;
+    }
+
 }

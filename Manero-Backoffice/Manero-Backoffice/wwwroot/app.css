@@ -93,7 +93,7 @@ form .input-group label {
   border-bottom: 0;
 }
 .dropdown div i {
-  margin-left: 10px;
+  padding-left: 10px;
 }
 .dropdown ul {
   display: none;
@@ -343,7 +343,7 @@ h1:focus {
   justify-content: space-between;
   align-items: center;
   background-color: var(--color-white);
-  padding: 2rem;
+  padding: 1rem 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 15px -5px var(--color-text);
 }
@@ -356,6 +356,16 @@ h1:focus {
   border-radius: 0.5rem;
   border: 2px solid var(--color-theme-muted);
   font-size: medium;
+  color: var(--color-text);
+}
+.filter-container .drop-down-filters .input-group {
+  margin-right: 1rem;
+}
+.filter-container .drop-down-filters .input-group .input-checkbox-group {
+  display: flex;
+}
+.filter-container .drop-down-filters .input-group .input-checkbox-group label {
+  margin-left: 0.75rem;
   color: var(--color-text);
 }
 .filter-container .btn-theme {
@@ -390,7 +400,7 @@ h1:focus {
 }
 .content-container .row {
   display: grid;
-  grid-template-columns: 0.2fr 1fr 0.7fr 0.7fr 0.7fr 0.4fr 0.2fr 0.2fr;
+  grid-template-columns: 0.2fr 1fr 0.6fr 0.6fr 0.6fr 0.4fr 0.2fr 0.2fr;
   padding: 0.5rem 1rem;
   border-bottom: solid 1px var(--color-theme-muted);
   align-items: center;
@@ -514,6 +524,12 @@ h1:focus {
   max-width: 1000px;
   margin: 0 auto;
 }
+.add-product-container .addproduct-form h3 {
+  margin-bottom: 1rem;
+}
+.add-product-container .addproduct-form .success-message {
+  color: var(--color-success);
+}
 .add-product-container .addproduct-form .inputs-container {
   display: flex;
   width: 100%;
@@ -594,6 +610,136 @@ h1:focus {
   background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
   cursor: pointer;
   box-shadow: 0 0 20px -5px var(--color-primary);
+}
+
+.update-product-container {
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 15px -5px var(--color-text);
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+}
+.update-product-container .updateproduct-form {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.update-product-container .updateproduct-form h3 {
+  margin-bottom: 1rem;
+}
+.update-product-container .updateproduct-form .success-message {
+  color: var(--color-success);
+}
+.update-product-container .updateproduct-form .inputs-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-top {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+  gap: 3rem;
+  margin: 2rem;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-top .image-box {
+  width: 100%;
+  margin-top: 1rem;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-top .image-box img {
+  width: 100%;
+  height: auto;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button {
+  display: flex;
+  width: 100%;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column {
+  width: 100%;
+  margin: 1rem;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-select-group {
+  display: flex;
+  width: 100%;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group {
+  padding: 1rem;
+  display: flex;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group .checkbox-div {
+  display: flex;
+  flex-direction: column;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group .checkbox-div .checkbox-group {
+  margin-bottom: 0.25rem;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group .checkbox-div .checkbox-group:hover {
+  cursor: pointer;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group .checkbox-div .checkbox-group .checkbox-input:hover {
+  cursor: pointer;
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group .checkbox-div .checkbox-group label {
+  margin-left: 0.5rem;
+  color: var(--color-text);
+}
+.update-product-container .updateproduct-form .inputs-container .container-div-button .form-div-column .input-checkbox-group .checkbox-div .checkbox-group label:hover {
+  cursor: pointer;
+}
+.update-product-container .updateproduct-form .inputs-container .long-description {
+  resize: none;
+  width: 100%;
+}
+.update-product-container .updateproduct-form .add-product-btn {
+  background-color: var(--color-theme);
+  border: none;
+  padding: 1rem 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  font-size: medium;
+}
+.update-product-container .updateproduct-form .add-product-btn i {
+  margin-right: 0.25rem;
+}
+.update-product-container .updateproduct-form .add-product-btn:hover {
+  background-color: var(--color-theme-secondary);
+  background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
+  cursor: pointer;
+  box-shadow: 0 0 20px -5px var(--color-primary);
+}
+.update-product-container .input-group {
+  margin-top: 1rem;
+  width: 100%;
+}
+.update-product-container .input-group .form-input,
+.update-product-container .input-group .file-input {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-theme-muted);
+  padding: 10px 21px;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: medium;
+  border-radius: 20px;
+  font-size: 1rem;
+  min-height: 50px;
+}
+.update-product-container .input-group .select-input {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border-radius: 20px;
+  border: 2px solid var(--color-theme-muted);
+  font-size: medium;
+  color: var(--color-text);
+  width: 100%;
+}
+.update-product-container .input-group label {
+  background-color: var(--color-white);
 }
 
 .register {
