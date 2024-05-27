@@ -9,7 +9,7 @@
 <PageTitle>Register</PageTitle>
 
 <section class="register">
-    <div class="container">
+    <div class="container card">
 
         <div class="title-section">
             <h1>Register Account</h1>
@@ -49,10 +49,10 @@
                     <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
                 </div>
                 
-                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" Color="#F1F3F4" />
+                <Dropdown Title="Select a role" Options="roles" OnValueChanged="HandleSelectedRole" />
                 <ValidationMessage For="() => Input.UserRole" class="text-danger" />
 
-                <Dropdown Title="Select Job title" Options="@(employeeTypes?.Select(x => x.Type).ToList())" Color="#F1F3F4" OnValueChanged="HandleSelectedEmployeeType" />
+                <Dropdown Title="Select Job title" Options="@(employeeTypes?.Select(x => x.Type).ToList())"  OnValueChanged="HandleSelectedEmployeeType" />
 
                 <div class="btn-submit">
                     <button type="submit" class="btn-theme">Register</button>

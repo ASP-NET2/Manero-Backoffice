@@ -9,9 +9,12 @@
             padding: 15px 21px;
             border-radius: 25px;
             border: 2px solid lightgray;
+            border-radius: 20px;
+            border: 2px solid var(--color-theme-muted);
             margin-bottom: 1rem;
             color: var(--color-text);
             background: transparent;
+            font-size: 1rem;
 
             &:-webkit-autofill,
             &:-webkit-autofill:hover,

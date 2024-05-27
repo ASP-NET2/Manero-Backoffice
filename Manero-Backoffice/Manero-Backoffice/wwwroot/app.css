@@ -35,9 +35,12 @@ form .input-group input {
   padding: 15px 21px;
   border-radius: 25px;
   border: 2px solid lightgray;
+  border-radius: 20px;
+  border: 2px solid var(--color-theme-muted);
   margin-bottom: 1rem;
   color: var(--color-text);
   background: transparent;
+  font-size: 1rem;
 }
 form .input-group input:-webkit-autofill, form .input-group input:-webkit-autofill:hover, form .input-group input:-webkit-autofill:focus, form .input-group input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #F1F3F4 inset !important;
@@ -189,7 +192,7 @@ form .input-group label {
   overflow: hidden;
 }
 .table .table-head {
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--color-theme-muted);
 }
 .table .table-head tr th {
   padding: 11px 25px;
@@ -206,30 +209,41 @@ form .input-group label {
 .table .table-body .table-row .row-col {
   padding: 11px 25px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-theme-muted);
 }
 .table .table-body .table-row .btn-container {
   padding: 10px;
   text-align: right;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-theme-muted);
 }
 .table .table-body .table-row .btn-container button {
-  padding: 10px;
-  margin-left: 8px;
-  background-color: gray;
-  border: none;
-  color: white;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
   transition-duration: 0.4s;
   cursor: pointer;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  font-size: large;
+  padding: 0.75rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 0.5rem;
+  border: none;
+  margin: auto 0.5rem;
 }
-.table .table-body .table-row .btn-container button:hover {
-  background-color: #bbb;
+.table .table-body .table-row .btn-container button.info:hover {
+  background-color: var(--color-theme-muted);
+  background-color: rgb(238, 242, 165);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--color-secondary-text);
+}
+.table .table-body .table-row .btn-container button.danger:hover {
+  background-color: var(--color-danger-bg);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--color-secondary-text);
 }
 .table .no-items {
   text-align: center;
@@ -239,10 +253,11 @@ form .input-group label {
 }
 
 .card {
-  border: 15px solid white; /* Adjust color as needed */
+  padding: 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 0 15px -5px var(--color-text);
   background-clip: padding-box; /* This clips the background to the border */
+  background-color: white;
 }
 
 .confirm-dialog {
@@ -530,6 +545,9 @@ h1:focus {
   white-space: nowrap;
   margin-left: 0.75rem;
   color: var(--color-text);
+}
+.filter-container .drop-down-filters .input-group .input-checkbox-group label:hover {
+  cursor: pointer;
 }
 .filter-container .btn-theme {
   background-color: var(--color-theme);
