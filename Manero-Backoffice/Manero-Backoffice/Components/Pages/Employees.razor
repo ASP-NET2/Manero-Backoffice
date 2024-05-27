@@ -1,0 +1,72 @@
+﻿@page "/employees"
+@using Manero_Backoffice.Components.Components
+@using Manero_Backoffice.Generics
+
+@attribute [Authorize(Roles = "Admin, Super Admin")]
+
+@rendermode InteractiveServer
+<div class="employees">
+    <div class="container">
+        @if (isLoading)
+        {
+            <div class="spinner spinner-m"></div>
+        }
+        else
+        {
+            <div class="filter-section card">
+                <Dropdown Title="Titles" Options="tableModel.Items!.Select(emp => emp.EmployeeType)" OnValueChanged="HandleFilterByTitle" />
+            </div>
+
+
+            <div class="table-section card">
+                <Table Model="tableModel" DeleteAction="DeleteEmployee" EditAction="EditEmployee" />
+            </div>
+    
+            
+        }
+    </div>
+</div>
+
+
+@code {
+    private TableModel<EmployeeModel> tableModel = new();
+    private bool isLoading = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var employees = await EmployeeService.GetEmployeesAsync();
+
+        
+            tableModel.Columns = new Dictionary<string, string>
+            {
+                { "FirstName", "Firstname" },
+                { "LastName", "Lastname" },
+                { "EmployeeType", "Title" },
+                { "PhoneNumber", "Phone Number" }
+            }; 
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleFilterByTitle(string employeeTypeName)
+    {
+        Console.WriteLine(employeeTypeName);
+    }
+
+    private async Task EditEmployee(EmployeeModel employee)
+    {
+        // Implement your edit logic here
+        // For now, we'll just print the employee to the console
+        Console.WriteLine($"Editing employee: {employee.FirstName} {employee.LastName}");
+    }
+
+    private async Task DeleteEmployee(EmployeeModel employee)
+    {
+        // Implement your delete logic here
+        // For now, we'll just print the employee to the console
+        Console.WriteLine($"Deleting employee: {employee.FirstName} {employee.LastName}");
+    }
+}

@@ -12,7 +12,7 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
     private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly ILogger<UserService> _logger = logger;
 
-    public async Task<UserResult> LoginAsync(LoginForm form)
+    public async Task<RequestResult> LoginAsync(LoginForm form)
     {
         try
         {
@@ -21,37 +21,37 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in.");
-                return new UserResult { Succeeded = true };
+                return new RequestResult { Succeeded = true };
             }
             else if (result.IsLockedOut)
             {
                 _logger.LogWarning("User account is locked out.");
-                return new UserResult { Succeeded = false, ErrorMessage = "User account is locked out." };
+                return new RequestResult { Succeeded = false, ErrorMessage = "User account is locked out." };
             }
             else if (result.IsNotAllowed)
             {
                 _logger.LogWarning("User is not allowed to sign in.");
-                return new UserResult { Succeeded = false, ErrorMessage = "User is not allowed to sign in." };
+                return new RequestResult { Succeeded = false, ErrorMessage = "User is not allowed to sign in." };
             }
             else if (result.RequiresTwoFactor)
             {
                 _logger.LogWarning("User requires two-factor authentication.");
-                return new UserResult { Succeeded = false, ErrorMessage = "User requires two-factor authentication." };
+                return new RequestResult { Succeeded = false, ErrorMessage = "User requires two-factor authentication." };
             }
             else
             {
                 _logger.LogWarning("Incorrect Email or Password.");
-                return new UserResult { Succeeded = false, ErrorMessage = "Incorrect Email or Password." };
+                return new RequestResult { Succeeded = false, ErrorMessage = "Incorrect Email or Password." };
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"ERROR : UserService.LoginAsync() :: {ex.Message}");
-            return new UserResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later." };
+            return new RequestResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later." };
         }
     }
 
-    public async Task<UserResult> CreateAsync(RegistrationForm form)
+    public async Task<RequestResult> CreateAsync(RegistrationForm form)
     {
         try
         {
@@ -60,19 +60,19 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created");
-                return new UserResult { Succeeded = true };
+                return new RequestResult { Succeeded = true };
             }
-            else if(await _userManager.Users.AnyAsync(x => x.Email == form.Email))
+            else if (await _userManager.Users.AnyAsync(x => x.Email == form.Email))
             {
                 _logger.LogWarning("User already exists");
-                return new UserResult { Succeeded = false, ErrorMessage = "User already exists." };
+                return new RequestResult { Succeeded = false, ErrorMessage = "User already exists." };
             }
             else
             {
                 _logger.LogWarning("User creation failed");
-                return new UserResult { Succeeded = false, ErrorMessage = result.Errors.ToList().FirstOrDefault()!.Description };
+                return new RequestResult { Succeeded = false, ErrorMessage = result.Errors.ToList().FirstOrDefault()!.Description };
             }
-                
+
         }
 
         catch (Exception ex)
@@ -83,19 +83,19 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
         return null!;
     }
 
-    public async Task<UserResult> LoginAsync(ApplicationUser user, bool isPersistent)
+    public async Task<RequestResult> LoginAsync(ApplicationUser user, bool isPersistent)
     {
         try
         {
             await _signInManager.SignInAsync(user, isPersistent);
             _logger.LogInformation("User logged in.");
-            return new UserResult { Succeeded = true };
+            return new RequestResult { Succeeded = true };
         }
 
         catch (Exception ex)
         {
             _logger.LogError($"ERROR : UserService.LoginAsync() :: {ex.Message}");
-            return new UserResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later." };
+            return new RequestResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later." };
         }
         
 
@@ -118,7 +118,7 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
         }
     }
 
-    public async Task<UserResult> AddToRoleAsync(ApplicationUser user, string role)
+    public async Task<RequestResult> AddToRoleAsync(ApplicationUser user, string role)
     {
         try
         {
@@ -126,19 +126,19 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User added to role {role}.");
-                return new UserResult { Succeeded = true };
+                return new RequestResult { Succeeded = true };
             }
             else
             {
                 _logger.LogWarning($"Failed to add user to role {role}.");
-                return new UserResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
+                return new RequestResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
             }
             
         }
         catch (Exception ex)
         {
             _logger.LogError($"ERROR : UserService.AddToRoleAsync() :: {ex.Message}");
-            return new UserResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
+            return new RequestResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
         }
     }
 }

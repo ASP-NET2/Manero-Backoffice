@@ -33,4 +33,6 @@ public class RegistrationForm
 
     [Required(ErrorMessage = "You must select a role")]
     public string UserRole { get; set; } = null!;
+
+    public string? EmployeeTypeId { get; set; }
 }

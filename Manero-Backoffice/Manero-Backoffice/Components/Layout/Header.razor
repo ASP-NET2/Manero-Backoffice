@@ -36,7 +36,11 @@
                     var applicationUser = await UserManager.GetUserAsync(user);
                     if (applicationUser != null)
                     {
-                        Name = $"{applicationUser.FirstName} {applicationUser.LastName}";
+                        var employeeModel = await EmployeeService.GetEmployeeAsync(applicationUser.Id); 
+
+                        if (employeeModel != null)
+                            Name = $"{employeeModel.FirstName} {employeeModel.LastName}";
+                        
                         Email = applicationUser.Email!;
 
                         await JSRuntime.InvokeVoidAsync("localStorageFunctions.setItem", "Name", Name);

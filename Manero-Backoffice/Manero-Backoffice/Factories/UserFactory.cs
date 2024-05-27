@@ -10,10 +10,8 @@ public class UserFactory
         return new ApplicationUser
         {
             Email = form.Email,
-            UserName = form.Email,
-            FirstName = form.FirstName,
-            LastName = form.LastName
+            UserName = form.Email
         };
     }
-    
+
 }
