@@ -53,6 +53,7 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<EmployeeTypeService>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<CustomerService>();
 
 var app = builder.Build();
 

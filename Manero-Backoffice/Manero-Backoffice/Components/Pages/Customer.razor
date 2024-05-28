@@ -1,10 +1,94 @@
 ﻿@page "/customer"
 
-<PageTitle>Customers</PageTitle>
+@using Manero_Backoffice.Components.Components
+@using Manero_Backoffice.Generics
+@using Manero_Backoffice.Services
+@using Manero_Backoffice.Business.Models
+@inject CustomerService CustomerService
 
+@attribute [Authorize(Roles = "Admin, Super Admin")]
 
-<h3>Customer</h3>
+@rendermode InteractiveServer
+<div class="customers">
+    <div class="container">
+
+        @if (isLoadingFilterSection && isLoadingTable)
+        {
+            <div class="page-spinner spinner-xl"></div>
+        }
+        else
+        {
+            <div class="filter-section card">
+                @if (isLoadingFilterSection)
+                {
+                    <div class="section-spinner spinner-m"></div>
+                }
+                else
+                {
+                    <Dropdown Title="Order by" Options="orderByOptions" OnValueChanged="HandleOrderBySelection" />
+                }
+            </div>
+
+            <div class="table-section card">
+                @if (isLoadingTable)
+                {
+                    <div class="section-spinner spinner-m"></div>
+                }
+                else
+                {
+                    <Table Model="tableModel" ColumnWidths='new List<string> { "10%", "25%", "25%", "40%"}' />
+                }
+            </div>
+        }
+
+    </div>
+</div>
 
 @code {
+    private TableModel<CustomerModel> tableModel = new();
+    private bool isLoadingTable = true;
+    private bool isLoadingFilterSection = true;
+    private List<string>? orderByOptions;
+    private List<CustomerModel>? customers;
 
+    protected override async Task OnInitializedAsync()
+    {
+       
+            isLoadingFilterSection = false;
+            //var customers = await CustomerService.GetCustomersAsync();
+            if (true)
+            {
+                tableModel.Items = new List<CustomerModel>
+                {
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ai-for-nyborjare-allt-du-behover-for-att-komma-i-gang-med-artificiell-intelligens.jpg", FirstName = "John", LastName = "Doe", Email = "john.doe@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ai-pa-1-minut-de-120-viktigaste-koncepten.jpg", FirstName = "Jane", LastName = "Doe", Email = "jane.doe@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/python-fran-borjan.jpg", FirstName = "Alice", LastName = "Johnson", Email = "alice.johnson@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ingenjorens-guide-till-python.jpg", FirstName = "Bob", LastName = "Smith", Email = "bob.smith@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ingenjorens-guide-till-python.jpg", FirstName = "Charlie", LastName = "Brown", Email = "charlie.brown@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ingenjorens-guide-till-python.jpg", FirstName = "David", LastName = "Williams", Email = "david.williams@example.com" }
+        
+                };
+
+                tableModel.Columns = new Dictionary<string, string>
+                {
+                    { "IdentityUserId", "" },
+                    { "FirstName", "Firstname" },
+                    { "LastName", "Lastname" },
+                    { "Email", "Email" }
+                };
+
+                orderByOptions = tableModel.Columns.Values.ToList();
+                isLoadingFilterSection = false;
+            }
+
+        isLoadingTable = false;
+        StateHasChanged();
+    }
+
+
+    private async Task HandleOrderBySelection(string orderBy)
+    {
+         if(tableModel.Items != null && tableModel.Items.Any())
+            tableModel.Items.OrderBy(x => x.GetType().GetProperty(orderBy)!.GetValue(x));
+    }
 }
