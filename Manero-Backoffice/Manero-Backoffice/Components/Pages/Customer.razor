@@ -1,10 +1,78 @@
 ﻿@page "/customer"
 
-<PageTitle>Customers</PageTitle>
+@using Manero_Backoffice.Components.Components
+@using Manero_Backoffice.Generics
+@using Manero_Backoffice.Services
+@using Manero_Backoffice.Business.Models
+@inject CustomerService CustomerService
 
+@attribute [Authorize(Roles = "Admin, Super Admin")]
 
-<h3>Customer</h3>
+@rendermode InteractiveServer
+<div class="customers">
+    <div class="container">
+
+        @if (isLoadingFilterSection && isLoadingTable)
+        {
+            <div class="page-spinner spinner-xl"></div>
+        }
+        else
+        {
+            <div class="filter-section card">
+                @if (isLoadingFilterSection)
+                {
+                    <div class="section-spinner spinner-m"></div>
+                }
+                else
+                {
+                    <Dropdown Title="Order by" Options="orderByOptions" OnValueChanged="HandleOrderBySelection" />
+                }
+            </div>
+
+            <div class="table-section card">
+                @if (isLoadingTable)
+                {
+                    <div class="section-spinner spinner-m"></div>
+                }
+                else
+                {
+                    <Table Model="tableModel" />
+                }
+            </div>
+        }
+
+    </div>
+</div>
 
 @code {
+    private TableModel<CustomerModel> tableModel = new();
+    private bool isLoadingTable = true;
+    private bool isLoadingFilterSection = true;
+    private List<string>? orderByOptions = new List<string> {"Firstname", "Lastname", "Email"};
+    private List<CustomerModel>? customers;
 
+    protected async Task OnRenderedAsync()
+    {
+        isLoadingFilterSection = false;
+        var customers = await CustomerService.GetCustomersAsync();
+        if (customers != null)
+        {
+            tableModel.Items = customers;
+            tableModel.Columns = new Dictionary<string, string>
+            {
+                { "FirstName", "Firstname" },
+                { "LastName", "Lastname" },
+                { "Email", "Email" }
+            };
+        }
+
+        isLoadingTable = false;
+        StateHasChanged();
+    }
+
+    private async Task HandleOrderBySelection(string orderBy)
+    {
+    if(tableModel.Items != null && tableModel.Items.Any())
+        tableModel.Items.OrderBy(x => x.GetType().GetProperty(orderBy)!.GetValue(x));
+    }
 }
