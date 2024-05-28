@@ -1,14 +1,11 @@
-﻿.employees {
+﻿.customers {
     .container {
         position: relative;
-        height: 100vh; // Make sure the container takes up the full height of the viewport
-
-        position: relative;
-        height: 100vh; // Make sure the container takes up the full height of the viewport
-
+        height: 100vh;
         margin-left: auto;
         margin-right: auto;
-        max-width: 1200px;// or max-width: 80%;
+        max-width: 1200px;
+
 
         .page-spinner {
             position: absolute;
@@ -17,23 +14,13 @@
             transform: translate(-50%, -50%);
         }
 
-        .filter-section,
-        .table-section {
-            .section-spinner {
-                background-color: white;
-                margin: 20px 0;
-            }
-        }
-
         .filter-section {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Optional: Align items vertically */
+            align-items: center;
             background-color: var(--color-white);
             padding: 14px;
             margin-bottom: 12px;
-
-
 
             .dropdown {
                 width: 30%;
@@ -57,7 +44,6 @@
                     margin-right: 10px;
                 }
 
-
                 &:hover {
                     background-color: #bbb;
                 }
@@ -65,10 +51,18 @@
         }
 
         .table-section {
+            width: 100%;
+            overflow: hidden;
 
-
+            .section-spinner {
+                background-color: white;
+                margin: 20px 0;
+            }
 
             .table {
+                width: 100%;
+                table-layout: fixed;
+                
             }
         }
     }
