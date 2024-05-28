@@ -18,4 +18,20 @@ public class SubCategoryService(HttpClient http, IConfiguration configuration)
         catch (System.Exception) { }
         return [];
     }
+
+    public async Task<bool> DeleteSubCategory(string Id)
+    {
+        try
+        {
+            var baseUrl = _configuration.GetValue<string>("ApiStrings:DeleteSubCategoryBase");
+            var code = _configuration.GetValue<string>("ApiStrings:DeleteSubCateogryCode");
+            var apiUrl = $"{baseUrl}/{Id}?code={code}";
+            
+            var respons = await Http.DeleteAsync(apiUrl);
+            if (respons.IsSuccessStatusCode)
+                return true;
+        }
+        catch (System.Exception) { }
+        return false;
+    }
 }

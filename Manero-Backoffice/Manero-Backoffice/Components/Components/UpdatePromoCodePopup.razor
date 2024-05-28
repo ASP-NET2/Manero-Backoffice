@@ -1,0 +1,118 @@
+﻿@rendermode InteractiveServer
+
+@if (IsVisible)
+{
+    <div class="add-update-popup">
+        <div class="add-update-card card">
+            <div class="add-update-header">
+                <button class="go-back" @onclick="ClosePopup"><i class="fa-solid fa-x"></i></button>
+            </div>
+            <EditForm Model="Input" method="post" OnValidSubmit="UpdatePromoCode" FormName="addpromocode" class="addpromocode-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+    @if (successMessageVisible)
+    {
+        <p class="success-message message">Promo code has successfully been updated!</p>
+    }
+    @if (errorMessageVisible)
+    {
+        <p class="error-message message">Something went wrong, please try again.</p>
+    }
+            <div class="inputs-container">
+                <div class="form-div-column">
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.CodeName"/>
+                        <label for="author">Code Name</label>
+                    </div>
+                    <div class="input-group">
+                        <InputNumber class="form-input" @bind-Value="Input.Discount"/>
+                        <label for="title">Discount</label>
+                    </div>
+                    <div class="input-group">
+                        <InputDate class="form-input" @bind-Value="Input.ExpiresDate"  />
+                        <label for="publishDate">Expires At</label>
+                    </div>
+                    <div class="checkbox-div">
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.IsActive" name="isfavorite" id="isfavorite">
+                                    <option value="">Active</option>
+                                </InputCheckbox>
+                                <label for="isfavorite">Active</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.IsPrivate" name="featuredproduct" id="featuredproduct">
+                                    <option value="">Private</option>
+                                </InputCheckbox>
+                                <label for="featuredproduct">Private</label>
+                            </div>
+                        </div>
+                    @* <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
+                    <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
+                    <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" /> *@
+                </div>
+            </div>
+            
+            <button class="btn-theme" type="submit">Update Code</button>
+
+        </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public EventCallback<bool> OnPromoCodeUpdated { get; set; }
+    [Parameter, EditorRequired] public required PromocodeModel InputModel { get; set; }
+    private PromocodeModel Input = new();
+    private bool successMessageVisible = false;
+    private bool errorMessageVisible = false;
+
+    protected override void OnParametersSet()
+    {
+        if (InputModel != null)
+        {
+            Input = InputModel;
+        }
+    }
+
+    public async Task UpdatePromoCode(EditContext editContext)
+    {
+        try
+        {
+            var result = await promocodeService.UpdatePromocodeAsync(Input);
+
+            if (result)
+            {
+                await OnPromoCodeUpdated.InvokeAsync(true);
+                successMessageVisible = true;
+                errorMessageVisible = false;
+                StateHasChanged();
+
+                await Task.Delay(3000);
+                Input = new PromocodeModel();
+                successMessageVisible = false;
+                await ClosePopup();
+                StateHasChanged();
+            }
+            else
+            {
+                successMessageVisible = false;
+                errorMessageVisible = true;
+                StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task ClosePopup()
+    {
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(false);
+    }
+
+}

@@ -1,16 +1,27 @@
 .btn-theme {
+  border-radius: 0.5rem;
+  background-color: var(--color-theme);
   border: none;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 16px 35px;
-  gap: 10px;
+  padding: 0.75rem 1.25rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: small;
+  white-space: nowrap;
   text-decoration: none;
   transition: all 0.12s ease-in-out;
   outline: none;
-  background-color: var(--color-main);
+  background-color: var(--color-theme);
   color: var(--color-white);
-  border: 1px solid var(--color-main);
+}
+.btn-theme i {
+  margin-right: 0.25rem;
+}
+.btn-theme:hover {
+  background-color: var(--color-theme-secondary);
+  background: linear-gradient(90deg, var(--color-theme-secondary) 0%, var(--color-theme) 100%);
+  cursor: pointer;
+  box-shadow: 0 0 20px -5px var(--color-primary);
+  border: none;
 }
 
 .wrapper {
@@ -52,7 +63,7 @@ form .input-group label {
   position: absolute;
   top: -6px;
   left: 16px;
-  background-color: #F1F3F4;
+  background-color: white;
   padding: 0 5px;
   font-size: 0.6rem;
   text-transform: uppercase;
@@ -295,6 +306,52 @@ form .input-group label {
   color: black;
 }
 
+.add-update-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-update-popup .add-update-card {
+  min-width: 450px;
+}
+.add-update-popup .add-update-card .success-message {
+  color: var(--color-success);
+}
+.add-update-popup .add-update-card .error-message {
+  color: var(--color-warning);
+}
+.add-update-popup .add-update-card .add-update-header {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.add-update-popup .add-update-card .add-update-header .go-back {
+  font-size: larger;
+  border: none;
+  background-color: transparent;
+  margin-top: 0.5rem;
+}
+.add-update-popup .add-update-card .inputs-container {
+  margin: 2rem 0;
+}
+.add-update-popup .add-update-card .inputs-container .form-div-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.add-update-popup .add-update-card .inputs-container .form-div-column .checkbox-div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -383,6 +440,18 @@ h1:focus {
   position: absolute;
   right: 0.75rem;
   top: 0.5rem;
+}
+
+.go-back {
+  text-transform: uppercase;
+  color: var(--color-theme);
+}
+.go-back:hover {
+  cursor: pointer;
+  color: var(--color-theme-secondary);
+}
+.go-back i {
+  margin-right: 0.5rem;
 }
 
 :root {
@@ -1111,4 +1180,19 @@ h1:focus {
 }
 .employees .container .filter-section a:hover {
   background-color: #bbb;
+}
+.categories-container {
+  display: flex;
+  justify-content: start;
+  gap: 2rem;
+}
+.categories-container .card {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.promocode {
+  background-color: transparent;
+  padding: 0.25rem;
+  box-shadow: none;
 }/*# sourceMappingURL=app.css.map */

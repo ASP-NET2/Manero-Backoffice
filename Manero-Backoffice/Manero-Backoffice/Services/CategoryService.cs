@@ -19,4 +19,20 @@ public class CategoryService(HttpClient http, IConfiguration configuration)
         return [];
     }
 
+    public async Task<bool> DeleteCategory(string Id)
+    {
+        try
+        {
+            var baseUrl = _configuration.GetValue<string>("ApiStrings:DeleteCategoryBase");
+            var code = _configuration.GetValue<string>("ApiStrings:DeleteCateogryCode");
+            var apiUrl = $"{baseUrl}/{Id}?code={code}";
+            
+            var respons = await Http.DeleteAsync(apiUrl);
+            if (respons.IsSuccessStatusCode)
+                return true;
+        }
+        catch (System.Exception) { }
+        return false;
+    }
+
 }
