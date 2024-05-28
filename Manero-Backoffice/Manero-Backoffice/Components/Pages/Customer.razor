@@ -36,7 +36,7 @@
                 }
                 else
                 {
-                    <Table Model="tableModel" />
+                    <Table Model="tableModel" ColumnWidths='new List<string> { "10%", "25%", "25%", "40%"}' />
                 }
             </div>
         }
@@ -48,31 +48,47 @@
     private TableModel<CustomerModel> tableModel = new();
     private bool isLoadingTable = true;
     private bool isLoadingFilterSection = true;
-    private List<string>? orderByOptions = new List<string> {"Firstname", "Lastname", "Email"};
+    private List<string>? orderByOptions;
     private List<CustomerModel>? customers;
 
-    protected async Task OnRenderedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        isLoadingFilterSection = false;
-        var customers = await CustomerService.GetCustomersAsync();
-        if (customers != null)
-        {
-            tableModel.Items = customers;
-            tableModel.Columns = new Dictionary<string, string>
+       
+            isLoadingFilterSection = false;
+            //var customers = await CustomerService.GetCustomersAsync();
+            if (true)
             {
-                { "FirstName", "Firstname" },
-                { "LastName", "Lastname" },
-                { "Email", "Email" }
-            };
-        }
+                tableModel.Items = new List<CustomerModel>
+                {
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ai-for-nyborjare-allt-du-behover-for-att-komma-i-gang-med-artificiell-intelligens.jpg", FirstName = "John", LastName = "Doe", Email = "john.doe@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ai-pa-1-minut-de-120-viktigaste-koncepten.jpg", FirstName = "Jane", LastName = "Doe", Email = "jane.doe@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/python-fran-borjan.jpg", FirstName = "Alice", LastName = "Johnson", Email = "alice.johnson@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ingenjorens-guide-till-python.jpg", FirstName = "Bob", LastName = "Smith", Email = "bob.smith@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ingenjorens-guide-till-python.jpg", FirstName = "Charlie", LastName = "Brown", Email = "charlie.brown@example.com" },
+                new CustomerModel { IdentityUserId = "https://productsblob.blob.core.windows.net/images/ingenjorens-guide-till-python.jpg", FirstName = "David", LastName = "Williams", Email = "david.williams@example.com" }
+        
+                };
+
+                tableModel.Columns = new Dictionary<string, string>
+                {
+                    { "IdentityUserId", "" },
+                    { "FirstName", "Firstname" },
+                    { "LastName", "Lastname" },
+                    { "Email", "Email" }
+                };
+
+                orderByOptions = tableModel.Columns.Values.ToList();
+                isLoadingFilterSection = false;
+            }
 
         isLoadingTable = false;
         StateHasChanged();
     }
 
+
     private async Task HandleOrderBySelection(string orderBy)
     {
-    if(tableModel.Items != null && tableModel.Items.Any())
-        tableModel.Items.OrderBy(x => x.GetType().GetProperty(orderBy)!.GetValue(x));
+         if(tableModel.Items != null && tableModel.Items.Any())
+            tableModel.Items.OrderBy(x => x.GetType().GetProperty(orderBy)!.GetValue(x));
     }
 }
