@@ -20,15 +20,53 @@ public class EmployeeTypeService
 
     public async Task<List<EmployeeTypeModel>> GetEmployeeTypesAsync()
     {
-        var response = await _httpClient.GetAsync(_baseUrl);
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var content = await response.Content.ReadAsStringAsync();
-            var employeeTypes = JsonConvert.DeserializeObject<List<EmployeeTypeModel>>(content);
-            return employeeTypes!;
+            var response = await _httpClient.GetAsync(_baseUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var employeeTypes = JsonConvert.DeserializeObject<List<EmployeeTypeModel>>(content);
+                return employeeTypes!;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"ERROR : EmployeeTypeService.GetEmployeeTypesAsync() :: {ex.Message}");
         }
 
+        _logger.LogWarning("Failed to get employee types.");
         return null!;
     }
+
+
+    public async Task<string> GetEmployeeTypeIdAsync(string type)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"{_baseUrl}/{type}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var employeeType = JsonConvert.DeserializeObject<EmployeeTypeModel>(content);
+
+                if(employeeType != null)
+                {
+                    _logger.LogInformation("Employee type retrieved.");
+                    return employeeType.Id;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"ERROR : EmployeeTypeService.GetEmployeeTypeAsync() :: {ex.Message}");
+        }
+
+        _logger.LogWarning("Failed to get employee type.");
+        return null!;
+    }
+
+
 }

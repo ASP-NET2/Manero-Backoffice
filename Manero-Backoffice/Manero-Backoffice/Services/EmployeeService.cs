@@ -119,4 +119,29 @@ public class EmployeeService(HttpClient http, ILogger<EmployeeService> logger)
         }
     }
 
+    public async Task<RequestResult> UpdateEmployeeAsync(string id, EmployeeUpdateModel employeeUpdateModel)
+    {
+        try
+        {
+            var response = await _http.PutAsJsonAsync($"{_baseUrl}/{id}", employeeUpdateModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Employee updated.");
+                return new RequestResult { Succeeded = true };
+            }
+            else
+            {
+                _logger.LogWarning("Employee update failed.");
+                return new RequestResult { Succeeded = false, ErrorMessage = "Employee update failed." };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"ERROR : EmployeeService.UpdateEmployeeAsync() :: {ex.Message}");
+            return new RequestResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later" };
+        }
+    }
+
+
 }

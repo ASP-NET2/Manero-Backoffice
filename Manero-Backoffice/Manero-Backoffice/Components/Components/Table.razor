@@ -10,7 +10,15 @@
                 {
                     var column = Model.Columns.ElementAt(i);
                     var width = ColumnWidths != null && ColumnWidths.Count > i ? ColumnWidths[i] : null;
-                    <th style="width: @width">@column.Value</th>
+                    <th style="width: @width" @onclick="() => Sort(column.Key)">
+                        <span class="header-content">
+                            @column.Value
+                            @if (currentSortColumn == column.Key)
+                            {
+                                <i class="fas @(currentSortOrder == SortOrder.Ascending ? "fa-sort-up" : "fa-sort-down")"></i>
+                            }
+                        </span>
+                    </th>
                 }
                 @if (EditAction != null || DeleteAction != null)
                 {
@@ -21,7 +29,7 @@
         <tbody class="table-body">
             @if (Model.Items != null && Model.Items.Any())
             {
-                foreach (var item in Model.Items)
+                foreach (var item in sortedItems)
                 {
                     <tr class="table-row">
                         @for (var i = 0; i < Model.Columns.Count; i++)
@@ -85,4 +93,37 @@
 
     [Parameter]
     public List<string>? ColumnWidths { get; set; }
+
+    private enum SortOrder { Ascending, Descending }
+    private SortOrder currentSortOrder = SortOrder.Ascending;
+    private string currentSortColumn = "";
+    private IEnumerable<TItem> sortedItems => SortItems();
+
+    private void Sort(string columnName)
+    {
+        if (currentSortColumn == columnName)
+        {
+            currentSortOrder = currentSortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+        }
+        else
+        {
+            currentSortColumn = columnName;
+            currentSortOrder = SortOrder.Ascending;
+        }
+    }
+
+    private IEnumerable<TItem> SortItems()
+    {
+        var property = typeof(TItem).GetProperty(currentSortColumn);
+        if (property == null)
+        {
+            return Model.Items;
+        }
+
+        var sorted = currentSortOrder == SortOrder.Ascending
+            ? Model.Items.OrderBy(item => property.GetValue(item))
+            : Model.Items.OrderByDescending(item => property.GetValue(item));
+
+        return sorted;
+    }
 }
