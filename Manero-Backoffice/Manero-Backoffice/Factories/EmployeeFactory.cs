@@ -24,4 +24,15 @@ public class EmployeeFactory
             EmployeeTypeId = employeeTypeId
         };
     }
+
+    public static EmployeeUpdateModel CreateUpdateModel(string firstname, string lastname, string employeeTypeId, string phoneNumber)
+    { 
+        return new EmployeeUpdateModel
+        {
+            FirstName = firstname,
+            LastName = lastname,
+            EmployeeTypeId = employeeTypeId,
+            PhoneNumber = phoneNumber
+        };
+    }
 }

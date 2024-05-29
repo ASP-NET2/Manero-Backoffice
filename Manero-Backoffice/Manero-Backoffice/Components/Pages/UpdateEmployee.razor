@@ -1,0 +1,99 @@
+﻿@* @page "/updateemployee/{Id}"
+@using Manero_Backoffice.Factories
+@using Manero_Backoffice.Services
+@inject NavigationManager NavigationManager
+@inject EmployeeService EmployeeService
+@inject EmployeeTypeService EmployeeTypeService
+@inject RoleService RoleService
+@attribute [Authorize(Roles = "Super Admin")]
+@rendermode InteractiveServer
+
+<PageTitle>Update Employee</PageTitle>
+
+<section class="update-employee">
+    <div class="container card">
+        <div class="title-section">
+            <h1>Update Employee</h1>
+            <p>Update an existing Admin account.</p>
+        </div>
+
+        <div class="form-section">
+            <div>@Message</div>
+            <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="HandleUpdateEmployee" FormName="update">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label for="name">Firstname</label>
+                    <InputText class="form-control" @bind-Value="Input.FirstName" />
+                    <ValidationMessage For="@(() => Input.FirstName)" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Lastname</label>
+                    <InputText class="form-control" @bind-Value="Input.LastName" />
+                    <ValidationMessage For="@(() => Input.LastName)" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Phone number</label>
+                    <InputText class="form-control" @bind-Value="Input.PhoneNumber" />
+                    <ValidationMessage For="@(() => Input.PhoneNumber)" />
+                </div>
+
+                <Dropdown Title="Select a Job Title" CurrentValue="@Input.EmployeeType" Options="employeeTypeOptions" OnValueChanged="HandleTypeSelection" />
+                <Dropdown Title="Select a Role" CurrentValue="@Input.EmployeeType" Options="employeeTypeOptions" OnValueChanged="HandleTypeSelection" />
+
+
+                <!-- Add other form fields as needed -->
+                <button type="submit" class="btn btn-primary">Update</button>
+            </EditForm>
+        </div>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = null!;
+
+    private EmployeeModel Input { get; set; } = new();
+    private string? preSelectedType;
+    private string? selectedTypeId;
+    private List<string>? employeeTypeOptions;
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    private string? Message { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Input = await EmployeeService.GetEmployeeAsync(Id);
+        var employeeTypes = await EmployeeTypeService.GetEmployeeTypesAsync();
+        employeeTypeOptions = employeeTypes.Select(et => et.Type).ToList();
+
+        var role = await RoleService.GetRoleNameByUserId(Id);
+
+        preSelectedType = Input.EmployeeType ?? "";
+    }
+
+    private void HandleTypeSelection(string? selectedType)
+    {
+        Input.EmployeeType = selectedType;
+    }
+
+    public async Task HandleUpdateEmployee()
+    {
+        if(Input.EmployeeType != null)
+        {
+            selectedTypeId = await EmployeeTypeService.GetEmployeeTypeIdAsync(Input.EmployeeType);
+
+        }
+        var updatedEmployeeResult = await EmployeeService.UpdateEmployeeAsync(Input.Id, EmployeeFactory.CreateUpdateModel(Input.FirstName, Input.LastName, selectedTypeId, Input.PhoneNumber));
+        if (!updatedEmployeeResult.Succeeded)
+        {
+            Message = updatedEmployeeResult.ErrorMessage;
+            return;
+        }
+
+        Message = "Employee updated successfully!";
+        NavigationManager.NavigateTo(ReturnUrl ?? "/employees");
+    }
+}
+ *@

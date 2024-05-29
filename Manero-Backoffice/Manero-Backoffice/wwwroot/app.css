@@ -211,7 +211,7 @@ form .input-group label {
 }
 .table-container .table .table-head tr th i {
   position: absolute;
-  bottom: 8px;
+  bottom: 12px;
   margin-left: 5px;
 }
 .table-container .table .table-head, .table-container .table .table-body {
@@ -696,6 +696,7 @@ h1:focus {
 .login .container .form-section .input-group label {
   text-align: left;
   color: var(--color-text);
+  background-color: var(--color-white);
 }
 .login .container .form-section .checkbox-link-section {
   display: flex;

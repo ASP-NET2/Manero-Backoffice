@@ -36,7 +36,7 @@
                 }
                 else
                 {
-                    <Table Model="tableModel" DeleteAction="DeleteEmployee" EditAction="EditEmployee" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"20%", "20%", "20%", "30%", "10%"}' />
+                    <Table Model="tableModel" DeleteAction="DeleteEmployee" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"20%", "20%", "20%", "30%", "10%"}' />
                 }
             </div>
         }
@@ -104,10 +104,6 @@
         Console.WriteLine(employeeTypeName);
     }
 
-    private async Task EditEmployee(EmployeeModel employee)
-    {
-        Console.WriteLine($"Editing employee: {employee.FirstName} {employee.LastName}");
-    }
 
     private async Task HandleChangeVisibility(bool resetMessage)
     {
