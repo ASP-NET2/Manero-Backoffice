@@ -3,8 +3,165 @@
 <PageTitle>Categories</PageTitle>
 
 
-<h3>Category</h3>
+<div class="categories-container">
+    <div class="table-section card">
+        @if (isLoadingTable)
+        {
+            <div class="section-spinner spinner-m"></div>
+        }
+        else
+        {
+            <Table Model="categoryModel" DeleteAction="DeleteCategory" EditAction="EditCategory" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}'/>
+        }
+    </div>
+    <div class="table-section card">
+        @if (isLoadingTable)
+        {
+            <div class="section-spinner spinner-m"></div>
+        }
+        else
+        {
+             <Table Model="subCategoryModel" DeleteAction="DeleteSubCategory" EditAction="EditSubCategory" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}' />
+        }
+    </div>
+    <div class="table-section card">
+        @if (isLoadingTable)
+        {
+            <div class="section-spinner spinner-m"></div>
+        }
+        else
+        {
+            <Table Model="formatModel" DeleteAction="DeleteFormat" EditAction="EditFormat" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}'/>
+        }
+    </div>
+    <ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmSubCategoryDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+</div>
+       
+        
 
 @code {
+    List<CategoryModel> categories = new();
+    List<SubCategoryModel> subCategories = new();
+    List<FormatModel> formats = new();
+    private TableModel<CategoryModel> categoryModel = new();
+    private TableModel<SubCategoryModel> subCategoryModel = new();
+    private TableModel<FormatModel> formatModel = new();
+    private CategoryModel categoryToDelete = null!;
+    private SubCategoryModel subCategoryToDelete = null!;
+    private FormatModel formatToDelete = null!;
+    List<string> categoryNames = new();
+    List<string> subCategoryNames = new();
+    List<string> formatNames = new();
+    private bool isLoadingTable = true;
+    private string confirmMessage = null!;
+    private string? errorMessage;
+    private bool showConfirmDialog = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var categories = await categoryService.GetCategories();
+            if (categories != null)
+            {
+                categoryModel.Items = categories;
+                categoryModel.Columns = new Dictionary<string, string>
+                {
+                    { "CategoryName", "Category Name" },
+                };
+                isLoadingTable = false;
+                StateHasChanged();
+            }
+
+        var subCategories = await subCategoryService.GetSubCategories();
+            if (subCategories != null)
+            {
+                subCategoryModel.Items = subCategories;
+                subCategoryModel.Columns = new Dictionary<string, string>
+                {
+                    { "SubCategoryName", "SubCategory Name" },
+                };
+                isLoadingTable = false;
+                StateHasChanged();
+            }
+
+        var formats = await formatService.GetFormats();
+            if (formats != null)
+            {
+                formatModel.Items = formats;
+                formatModel.Columns = new Dictionary<string, string>
+                {
+                    { "FormatName", "Format Name" },
+                };
+                isLoadingTable = false;
+                StateHasChanged();
+            }
+    }
+
+    private async Task LoadProducts()
+    {
+        await categoryService.GetCategories();
+        await subCategoryService.GetSubCategories();
+        await formatService.GetFormats();
+        StateHasChanged();
+    }
+
+    private async Task EditCategory(CategoryModel category)
+    {
+        Console.WriteLine($"Editing category: {category.CategoryName}");
+    }
+
+    private async Task DeleteCategory(CategoryModel category)
+    {
+        categoryToDelete = category;
+        confirmMessage = $"Are you sure you want to delete {category.CategoryName}?";
+        showConfirmDialog = true;
+        StateHasChanged();
+    }
+    
+    private async Task ConfirmSubCategoryDelete()
+    {
+        var deleteSubCategoryResult = await subCategoryService.DeleteSubCategory(subCategoryToDelete.Id);
+        if (!deleteSubCategoryResult)
+        {
+            errorMessage = "Something went wrong. Try again later";
+            return;
+        }
+
+        await LoadProducts();
+    }
+
+    private async Task EditSubCategory(SubCategoryModel subCategory)
+    {
+        Console.WriteLine($"Editing category: {subCategory.SubCategoryName}");
+    }
+
+    private async Task DeleteSubCategory(SubCategoryModel subCategory)
+    {
+        subCategoryToDelete = subCategory;
+        confirmMessage = $"Are you sure you want to delete {subCategory.SubCategoryName}?";
+        showConfirmDialog = true;
+        StateHasChanged();
+    }
+    private async Task EditFormat(FormatModel format)
+    {
+        Console.WriteLine($"Editing format: {format.FormatName}");
+    }
+
+    private async Task DeleteFormat(FormatModel format)
+    {
+        formatToDelete = format;
+        confirmMessage = $"Are you sure you want to delete {format.FormatName}?";
+        showConfirmDialog = true;
+        StateHasChanged();
+    }
+
+    private void HandleChangeVisibility(bool resetMessage)
+    {
+        if (resetMessage)
+            errorMessage = null!;
+
+        if(errorMessage == null)
+            showConfirmDialog = false;
+    }
 
 }

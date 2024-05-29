@@ -1,0 +1,46 @@
+.add-update-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .add-update-card {
+        min-width: 450px;
+        .success-message {
+            color: var(--color-success);
+        }
+        .error-message {
+            color: var(--color-warning);
+        }
+        .add-update-header {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            .go-back {
+                font-size: larger;
+                border: none;
+                background-color: transparent;
+                margin-top: .5rem;
+            }
+        }
+        .inputs-container {
+            margin: 2rem 0;
+            .form-div-column {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                .checkbox-div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    margin-left: 1rem;
+                }
+            }
+            
+        }
+    }
+}

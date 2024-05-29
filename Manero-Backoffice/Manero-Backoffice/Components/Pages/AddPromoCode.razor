@@ -1,0 +1,62 @@
+﻿@page "/addpromocode"
+
+<div class="add-promocode-container card">
+        <EditForm Model="Input" method="post" OnValidSubmit="RegisterPromoCode" FormName="addpromocode" class="addpromocode-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+    <div class="add-promocode-header">
+        <NavLink href="promocode" class="go-back"><i class="fa-regular fa-arrow-left"></i>Go back</NavLink>
+    </div>
+    @if (successMessageVisible)
+    {
+        <p class="success-message">Product has been added successfully!</p>
+    }
+            <div class="inputs-container">
+                <div class="form-div-column">
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.CodeName"/>
+                        <label for="author">Code Name</label>
+                    </div>
+                    <div class="input-group">
+                        <InputNumber class="form-input" @bind-Value="Input.Discount"/>
+                        <label for="title">Discount</label>
+                    </div>
+                    <div class="input-group">
+                        <InputDate class="form-input" @bind-Value="Input.ExpiresDate"  />
+                        <label for="publishDate">Expires At</label>
+                    </div>
+                    <div class="checkbox-div">
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.IsActive" name="isfavorite" id="isfavorite">
+                                    <option value="">Active</option>
+                                </InputCheckbox>
+                                <label for="isfavorite">Active</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <InputCheckbox class="checkbox-input" @bind-Value="Input.IsPrivate" name="featuredproduct" id="featuredproduct">
+                                    <option value="">Private</option>
+                                </InputCheckbox>
+                                <label for="featuredproduct">Private</label>
+                            </div>
+                        </div>
+                    @* <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
+                    <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
+                    <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" /> *@
+                </div>
+            </div>
+            
+            <button class="add-product-btn btn-theme" type="submit">Add Product</button>
+
+        </EditForm>
+    </div>
+
+@code {
+    private PromoCodeRegistrationForm Input = new();
+    private bool successMessageVisible = false;
+
+    public async Task RegisterPromoCode(EditContext editContext)
+    {
+
+    }
+
+}

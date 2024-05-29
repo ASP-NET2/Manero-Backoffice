@@ -1,9 +1,15 @@
-﻿@page "/coupon"
+﻿@page "/promocode"
 
-<PageTitle>Coupons</PageTitle>
+<PageTitle>PromoCodes</PageTitle>
 
 @rendermode InteractiveServer
+<div class="filter-container promocode">
 
+    @* <NavLink class="btn-theme" href="addpromocode"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</span></NavLink>
+    <button class="btn-theme" onclick=""><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add</span></button> *@
+
+    <button class="btn-theme" @onclick="ShowAddPopup"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add Code</span></button>
+</div>
 
 <div class="table-section card">
         @if (isLoadingTable)
@@ -12,10 +18,15 @@
         }
         else
         {
-            <Table Model="promocodeModel" DeleteAction="DeleteCode" EditAction="EditCode" ModifyPermissionRoles="Admin, Super Admin" />
+            <Table Model="promocodeModel" DeleteAction="DeleteCode" EditAction="EditCode" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"15%", "15%", "25%", "10%", "10%", "15%", "10%"}' />
         }
-    </div>
-    <ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+</div>
+
+<ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+
+<AddPromoCodePopup IsVisible="@showAddPromoCode" IsVisibleChanged="HandleChangeVisibility" OnPromoCodeAdded="OnPromoCodeChange" />
+
+<UpdatePromoCodePopup IsVisible="@showUpdatePromoCode" IsVisibleChanged="HandleChangeVisibility" OnPromoCodeUpdated="OnPromoCodeChange" InputModel="@promoCodeToUpdate"/>
 
 @code {
     List<PromocodeModel> promocodes = new();
@@ -24,15 +35,24 @@
     private bool isLoadingFilterSection = true;
 
     private PromocodeModel promocodeToDelete = null!;
+    private PromocodeModel promoCodeToUpdate = new();
     private string confirmMessage = null!;
     private string? errorMessage;
     private bool showConfirmDialog = false;
+    private bool showAddPromoCode = false;
+    private bool showUpdatePromoCode = false;
 
     private async Task DeleteCode(PromocodeModel promocode)
     {
         promocodeToDelete = promocode;
         confirmMessage = $"Are you sure you want to delete {promocode.CodeName}?";
         showConfirmDialog = true;
+        StateHasChanged();
+    }
+
+    private void ShowAddPopup()
+    {
+        showAddPromoCode = true;
         StateHasChanged();
     }
 
@@ -63,7 +83,9 @@
 
     private async Task EditCode(PromocodeModel promocode)
     {
-        Console.WriteLine($"Editing promocode: {promocode.CodeName} ");
+        promoCodeToUpdate = promocode;
+        showUpdatePromoCode = true;
+        StateHasChanged();
     }
 
     private async Task HandleChangeVisibility(bool resetMessage)
@@ -72,7 +94,11 @@
             errorMessage = null!;
 
         if(errorMessage == null)
+        {
             showConfirmDialog = false;
+            showAddPromoCode = false;
+            showUpdatePromoCode = false;
+        }
     }
 
     private async Task ConfirmDelete()
@@ -93,6 +119,11 @@
             errorMessage = ex.Message;
             StateHasChanged();
         }
+    }
+
+    private async Task OnPromoCodeChange()
+    {
+        await LoadPromoCodes();
     }
 }
 

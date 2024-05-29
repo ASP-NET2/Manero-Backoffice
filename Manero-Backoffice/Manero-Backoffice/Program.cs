@@ -20,6 +20,7 @@ builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<SubCategoryService>();
 builder.Services.AddScoped<FormatService>();
 builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<PromocodeService>();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();

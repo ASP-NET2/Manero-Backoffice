@@ -88,3 +88,15 @@ h1:focus {
         top: 0.5rem;
     }
 }
+
+.go-back {
+    text-transform: uppercase;
+    color: var(--color-theme);
+    &:hover {
+        cursor: pointer;
+        color: var(--color-theme-secondary);
+    }
+    i {
+        margin-right: .5rem;
+    }
+}
