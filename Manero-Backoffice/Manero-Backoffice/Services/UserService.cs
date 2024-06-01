@@ -97,7 +97,7 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
             _logger.LogError($"ERROR : UserService.LoginAsync() :: {ex.Message}");
             return new RequestResult { Succeeded = false, ErrorMessage = "Something went wrong. Try again later." };
         }
-        
+
 
     }
 
@@ -133,7 +133,7 @@ public class UserService(SignInManager<ApplicationUser> signInManager, ILogger<U
                 _logger.LogWarning($"Failed to add user to role {role}.");
                 return new RequestResult { Succeeded = false, ErrorMessage = "Failed to add a role. Try again later." };
             }
-            
+
         }
         catch (Exception ex)
         {

@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Manero_Backoffice.Business.Models;
+﻿using Manero_Backoffice.Business.Models;
 using Newtonsoft.Json;
 
 namespace Manero_Backoffice.Services;
@@ -52,7 +50,7 @@ public class EmployeeTypeService
                 var content = await response.Content.ReadAsStringAsync();
                 var employeeType = JsonConvert.DeserializeObject<EmployeeTypeModel>(content);
 
-                if(employeeType != null)
+                if (employeeType != null)
                 {
                     _logger.LogInformation("Employee type retrieved.");
                     return employeeType.Id;

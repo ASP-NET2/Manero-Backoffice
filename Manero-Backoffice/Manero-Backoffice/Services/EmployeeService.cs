@@ -1,7 +1,5 @@
 ﻿using Manero_Backoffice.Business.Models;
 using Newtonsoft.Json;
-using System.Net;
-using System.Text;
 
 namespace Manero_Backoffice.Services;
 
@@ -12,7 +10,7 @@ public class EmployeeService(HttpClient http, ILogger<EmployeeService> logger)
     private readonly string _baseUrl = "https://employeeprovider.azurewebsites.net/api/Employees";
     //private readonly string _baseUrl = "https://localhost:7299/api/Employees";
 
-    public async Task<RequestResult> CreateEmployeeAsync(EmployeeRegistrationModel employeeModel )
+    public async Task<RequestResult> CreateEmployeeAsync(EmployeeRegistrationModel employeeModel)
     {
 
         try
@@ -29,7 +27,7 @@ public class EmployeeService(HttpClient http, ILogger<EmployeeService> logger)
                 _logger.LogWarning("Employee creation failed.");
                 return new RequestResult { Succeeded = false, ErrorMessage = "Employee creation failed." };
             }
-          
+
         }
 
         catch (Exception ex)
@@ -52,7 +50,7 @@ public class EmployeeService(HttpClient http, ILogger<EmployeeService> logger)
                 var content = await response.Content.ReadAsStringAsync();
                 var employee = JsonConvert.DeserializeObject<EmployeeModel>(content);
 
-                if(employee != null)
+                if (employee != null)
                 {
                     _logger.LogInformation("Employee retrieved.");
                     return employee;
