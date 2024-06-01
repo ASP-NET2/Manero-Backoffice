@@ -2,7 +2,7 @@
 
 <PageTitle>Categories</PageTitle>
 
-@* 
+@rendermode InteractiveServer
 <div class="categories-container">
     <div class="table-section card">
         @if (isLoadingTable)
@@ -21,7 +21,7 @@
         }
         else
         {
-             @* <Table Model="subCategoryModel" DeleteAction="DeleteSubCategory" EditAction="EditSubCategory" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}' /> *@
+             <Table Model="subCategoryModel" DeleteAction="DeleteSubCategory" EditAction="EditSubCategory" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}' />
         }
     </div>
     <div class="table-section card">
@@ -31,10 +31,12 @@
         }
         else
         {
-            @* <Table Model="formatModel" DeleteAction="DeleteFormat" EditAction="EditFormat" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}'/> *@
+            <Table Model="formatModel" DeleteAction="DeleteFormat" EditAction="EditFormat" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}'/>
         }
     </div>
+
     <ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmCategoryDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+    
 </div>
        
         
@@ -106,6 +108,7 @@
     }
 
     private async Task EditCategory(CategoryModel category)
+    using Humanizer;
     {
         Console.WriteLine($"Editing category: {category.CategoryName}");
     }
@@ -176,4 +179,4 @@
             showConfirmDialog = false;
     }
 
-} *@
+}
