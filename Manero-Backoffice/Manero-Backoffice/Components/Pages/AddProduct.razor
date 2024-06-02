@@ -18,90 +18,49 @@
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.Author"/>
                         <label for="author">Author</label>
-                        @* <ValidationMessage For="() => Input.Author" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.Title"/>
                         <label for="title">Title</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.Price"/>
                         <label for="price">Price</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.DiscountPrice" />
                         <label for="discountPrice">Discount Price</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.Language" />
                         <label for="language">Language</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.Pages" />
                         <label for="pages">Pages</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputDate class="form-input" @bind-Value="Input.PublishDate"  />
                         <label for="publishDate">Publish Date</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.Publisher" />
                         <label for="publisher">Publisher</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.ISBN" />
                         <label for="isbn">ISBN Number</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                 </div>
                 <div class="form-div-column">
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="Input.ShortDescription" />
                         <label for="shortDescription">Short Description</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputTextArea class="form-input long-description" @bind-Value="Input.LongDescription" rows="10" cols="30"/>
                         <label for="longDescription">Long Description</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
-                    @* <div class="input-group">
-                        <InputSelect class="select-input" @bind-Value="Input.CategoryName" name="category" id="category-filter">
-                        <option value="">Category</option>
-                        @foreach (var category in categories)
-                        {
-                            <option value="@category.CategoryName">@category.CategoryName</option>
-                        }
-                    </InputSelect>
-                        <label for="category">Category</label>
-                    </div>
-                    <div class="input-group">
-                        <InputSelect class="select-input" @bind-Value="Input.SubCategoryName" name="subcategory" id="subcategory-filter">
-                        <option value="">Subcategory</option>
-                        @foreach (var subCategory in subCategories)
-                        {
-                            <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
-                        }
-                    </InputSelect>
-                        <label for="subCategory">Subcategory</label>
-                    </div>
-                    <div class="input-group">
-                        <InputSelect class="select-input" @bind-Value="Input.FormatName" name="format" id="format-filter">
-                        <option value="">Choose format</option>
-                        @foreach (var format in formats)
-                        {
-                            <option value="@format.FormatName">@format.FormatName</option>
-                        }
-                    </InputSelect>
-                        <label for="format">Format</label>
-                    </div> *@
                     <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
                     <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
                     <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" />
@@ -115,14 +74,12 @@
                                     <option value="">On Sale</option>
                                 </InputCheckbox>
                                 <label for="onsale">On sale</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                             <div class="checkbox-group">
                                 <InputCheckbox class="checkbox-input" @bind-Value="Input.BestSeller" name="bestseller" id="bestseller">
                                     <option value="">Best Seller</option>
                                 </InputCheckbox>
                                 <label for="bestseller">Bestseller</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                         </div>
                         <div class="checkbox-div">
@@ -131,14 +88,12 @@
                                     <option value="">Is Favorite</option>
                                 </InputCheckbox>
                                 <label for="isfavorite">Is Favorite</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                             <div class="checkbox-group">
                                 <InputCheckbox class="checkbox-input" @bind-Value="Input.FeaturedProduct" name="featuredproduct" id="featuredproduct">
                                     <option value="">FeaturedProduct</option>
                                 </InputCheckbox>
                                 <label for="featuredproduct">Featured Product</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                         </div>
                     </div> 
@@ -149,27 +104,9 @@
 
         </EditForm>
     </div>
-    @* <div class="form-results">
-        <p>@Input.Author</p>
-        <p>@Input.Title</p>
-        <p>@Input.Price</p>
-        <p>@Input.ShortDescription</p>
-        <p>@Input.Language</p>
-        <p>@Input.Pages</p>
-        <p>@Input.PublishDate</p>
-        <p>@Input.ISBN</p>
-        <p>@Input.OnSale</p>
-        <p>@Input.BestSeller</p>
-        <p>@Input.IsFavorite</p>
-        <p>@Input.FeaturedProduct</p>
-        <p>@Input.CategoryName</p>
-        <p>@Input.SubCategoryName</p>
-        <p>@Input.FormatName</p>
-    </div> *@
 
 @code {
 
-    @* [SupplyParameterFromForm] *@
     private ProductRegistrationForm Input = new();
 
     List<CategoryModel> categories = new();
@@ -227,10 +164,6 @@
             await Task.Delay(3000);
             successMessageVisible = false;
             StateHasChanged();
-        }
-        else
-        {
-            // Hantera misslyckande om nödvändigt
         }
 
     }
