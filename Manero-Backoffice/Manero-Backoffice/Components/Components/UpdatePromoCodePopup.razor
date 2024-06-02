@@ -46,10 +46,7 @@
                                 <label for="featuredproduct">Private</label>
                             </div>
                         </div>
-                    @* <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
-                    <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
-                    *@
-                    <Dropdown Title="Customer" Options="@customerEmails" CurrentValue="selectedEmail" OnValueChanged="HandleSelectedCustomer" /> 
+                    <Dropdown Title="Customer" Options="@customerEmails" CurrentValue="@selectedEmail" OnValueChanged="HandleSelectedCustomer" /> 
                 </div>
             </div>
             
