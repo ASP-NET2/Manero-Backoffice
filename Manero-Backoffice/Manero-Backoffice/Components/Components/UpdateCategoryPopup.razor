@@ -1,0 +1,114 @@
+﻿@rendermode InteractiveServer
+
+@if (IsVisible)
+{
+    <div class="add-update-popup">
+        <div class="add-update-card card">
+            <div class="add-update-header">
+                <button class="go-back" @onclick="ClosePopup"><i class="fa-solid fa-x"></i></button>
+            </div>
+            <EditForm Model="Input" method="post" OnValidSubmit="UpdateCategory" FormName="updatecategory" class="updatecategory-form form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+    @if (successMessageVisible)
+    {
+        <p class="success-message message">Category has successfully been updated!</p>
+    }
+    @if (errorMessageVisible)
+    {
+        <p class="error-message message">Something went wrong, please try again.</p>
+    }
+            <div class="inputs-container">
+                <div class="form-div-column">
+                    <div class="image-box">
+                        <img src="@Input.ImageLink" alt="category image">
+                    </div>
+                    <div class="input-group">
+                        <InputFile class="file-input" OnChange="HandleFileUpload" />
+                    </div>
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.CategoryName"/>
+                        <label for="author">Code Name</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-theme" type="submit">Update Category</button>
+
+        </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public EventCallback<bool> OnCategoryUpdated { get; set; }
+    [Parameter, EditorRequired] public required CategoryModel InputModel { get; set; }
+    private CategoryModel Input = new();
+    List<CategoryModel> categories = new();
+    private IBrowserFile uploadedFile;
+    private bool successMessageVisible = false;
+    private bool errorMessageVisible = false;
+
+    protected override void OnParametersSet()
+    {
+        if (InputModel != null)
+        {
+            Input = InputModel;
+        }
+    }
+
+
+    public async Task UpdateCategory(EditContext editContext)
+    {
+        try
+        {
+            var result = await categoryService.UpdateCategory(Input);
+
+            if (result)
+            {
+                await OnCategoryUpdated.InvokeAsync(true);
+                successMessageVisible = true;
+                errorMessageVisible = false;
+                StateHasChanged();
+
+                await Task.Delay(3000);
+                Input = new CategoryModel();
+                successMessageVisible = false;
+                await ClosePopup();
+                StateHasChanged();
+            }
+            else
+            {
+                successMessageVisible = false;
+                errorMessageVisible = true;
+                StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task ClosePopup()
+    {
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(false);
+    }
+
+    public async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        uploadedFile = e.File;
+        
+        if (uploadedFile != null)
+        {
+            var imageUrl = await imageService.UploadImageAsync(uploadedFile);
+
+            Input.ImageLink = imageUrl;
+        }
+    }
+
+}

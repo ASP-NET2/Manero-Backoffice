@@ -2,7 +2,131 @@
 
 <PageTitle>Categories</PageTitle>
 
+@rendermode InteractiveServer
+<div class="filter-container promocode">
+    <button class="btn-theme" @onclick="ShowAddPopup"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add Category</span></button>
+</div>
 
+<div class="table-section card">
+        @if (isLoadingTable)
+        {
+            <div class="section-spinner spinner-m"></div>
+        }
+        else
+        {
+            <Table Model="categoryModel" DeleteAction="DeleteCategory" EditAction="EditCategory" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}' />
+        }
+</div>
+
+<ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+
+<AddCategoryPopup IsVisible="@showAddCategory" IsVisibleChanged="HandleChangeVisibility" OnCategoryAdded="OnCategoryChange" />
+
+<UpdateCategoryPopup IsVisible="@showUpdateCategory" IsVisibleChanged="HandleChangeVisibility" OnCategoryUpdated="OnCategoryChange" InputModel="@categoryToUpdate"/> 
+
+@code {
+    List<CategoryModel> categories = new();
+    private TableModel<CategoryModel> categoryModel = new();
+    private bool isLoadingTable = true;
+    private bool isLoadingFilterSection = true;
+
+    private CategoryModel categoryToDelete = null!;
+    private CategoryModel categoryToUpdate = new();
+    private string confirmMessage = null!;
+    private string? errorMessage;
+    private bool showConfirmDialog = false;
+    private bool showAddCategory = false;
+    private bool showUpdateCategory = false;
+
+    private async Task DeleteCategory(CategoryModel category)
+    {
+        categoryToDelete = category;
+        confirmMessage = $"Are you sure you want to delete {category.CategoryName}?";
+        showConfirmDialog = true;
+        StateHasChanged();
+    }
+
+    private void ShowAddPopup()
+    {
+        showAddCategory = true;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+    }
+
+    private async Task LoadCategories()
+    {
+        var categories = await categoryService.GetCategories();
+            if (categories != null)
+            {
+                categoryModel.Items = categories;
+                categoryModel.Columns = new Dictionary<string, string>
+                {
+                    { "CategoryName", "Category Name" }
+                };
+                isLoadingTable = false;
+                StateHasChanged();
+            }
+    }
+
+    private async Task EditCategory(CategoryModel category)
+    {
+        categoryToUpdate = category;
+        showUpdateCategory = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleChangeVisibility(bool resetMessage)
+    {
+        if (resetMessage)
+            errorMessage = null!;
+
+        if(errorMessage == null)
+        {
+            showConfirmDialog = false;
+            showAddCategory = false;
+            showUpdateCategory = false; 
+        }
+    }
+
+    private async Task ConfirmDelete()
+    {
+        try
+        {
+            var result = await categoryService.DeleteCategory(categoryToDelete.Id);
+            if (result)
+                categoryModel.Items.Remove(categoryToDelete);
+            else
+                errorMessage = "An error occurred while deleting the category.";
+
+            showConfirmDialog = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnCategoryChange()
+    {
+        await LoadCategories();
+    }
+}
+
+
+
+
+
+@*@page "/category"
+
+<PageTitle>Categories</PageTitle>
+
+@rendermode InteractiveServer
 <div class="categories-container">
     <div class="table-section card">
         @if (isLoadingTable)
@@ -34,7 +158,9 @@
             <Table Model="formatModel" DeleteAction="DeleteFormat" EditAction="EditFormat" ModifyPermissionRoles="Admin, Super Admin" ColumnWidths='new List<string> {"60%", "40%"}'/>
         }
     </div>
-    <ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmSubCategoryDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+
+    <ConfirmDialog IsVisible="@showConfirmDialog" IsVisibleChanged="HandleChangeVisibility" OnConfirm="ConfirmCategoryDelete" Message="@confirmMessage" ErrorMessage="@errorMessage" />
+    
 </div>
        
         
@@ -106,6 +232,7 @@
     }
 
     private async Task EditCategory(CategoryModel category)
+    using Humanizer;
     {
         Console.WriteLine($"Editing category: {category.CategoryName}");
     }
@@ -122,6 +249,18 @@
     {
         var deleteSubCategoryResult = await subCategoryService.DeleteSubCategory(subCategoryToDelete.Id);
         if (!deleteSubCategoryResult)
+        {
+            errorMessage = "Something went wrong. Try again later";
+            return;
+        }
+
+        await LoadProducts();
+    }
+
+    private async Task ConfirmCategoryDelete()
+    {
+        var deleteCategoryResult = await categoryService.DeleteCategory(categoryToDelete.Id);
+        if (!deleteCategoryResult)
         {
             errorMessage = "Something went wrong. Try again later";
             return;
@@ -164,4 +303,4 @@
             showConfirmDialog = false;
     }
 
-}
+}*@

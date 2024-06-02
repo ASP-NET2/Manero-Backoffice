@@ -24,7 +24,7 @@ public class SubCategoryService(HttpClient http, IConfiguration configuration)
         try
         {
             var baseUrl = _configuration.GetValue<string>("ApiStrings:DeleteSubCategoryBase");
-            var code = _configuration.GetValue<string>("ApiStrings:DeleteSubCateogryCode");
+            var code = _configuration.GetValue<string>("ApiStrings:DeleteSubCategoryCode");
             var apiUrl = $"{baseUrl}/{Id}?code={code}";
             
             var respons = await Http.DeleteAsync(apiUrl);

@@ -1,0 +1,112 @@
+﻿@rendermode InteractiveServer
+
+@if (IsVisible)
+{
+    <div class="add-update-popup">
+        <div class="add-update-card card">
+            <div class="add-update-header">
+                <button class="go-back" @onclick="ClosePopup"><i class="fa-solid fa-x"></i></button>
+            </div>
+            <EditForm Model="Input" method="post" OnValidSubmit="RegisterCategory" FormName="addcategory" class="addcategory-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+    @if (successMessageVisible)
+    {
+        <p class="success-message message">Cateogry has been added successfully!</p>
+    }
+    @if (errorMessageVisible)
+    {
+        <p class="error-message message">Something went wrong, please try again.</p>
+    }
+            <div class="inputs-container">
+                <div class="form-div-column">
+                    <div class="input-group">
+                        <InputText class="form-input" @bind-Value="Input.CategoryName"/>
+                        <label for="author">Code Name</label>
+                    </div>
+                    <div class="input-group">
+                        <InputFile class="file-input" OnChange="HandleFileUpload" />
+                    </div>
+
+                </div>
+            </div>
+            
+            <button class="add-category-btn btn-theme" type="submit">Add Category</button>
+
+        </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public EventCallback<bool> OnCategoryAdded { get; set; }
+    private CategoryRegistrationForm Input = new();
+    List<CustomerModel> customers = new();
+    List<string> customerEmails = new();
+    private IBrowserFile uploadedFile;
+    private bool successMessageVisible = false;
+    private bool errorMessageVisible = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await customerService.GetAllCustomersAsync();
+    
+        foreach (var customer in customers)
+        {
+            customerEmails.Add(customer.Email);
+        }
+    }
+
+
+    public async Task RegisterCategory(EditContext editContext)
+    {
+        try
+        {
+            if (uploadedFile != null)
+            {
+                var imageUrl = await imageService.UploadImageAsync(uploadedFile);
+
+                Input.ImageLink = imageUrl;
+            }
+
+            var result = await categoryService.AddCategory(Input);
+            if (result)
+            {
+                await OnCategoryAdded.InvokeAsync(true);
+                successMessageVisible = true;
+                errorMessageVisible = false;
+                StateHasChanged();
+
+                await Task.Delay(3000);
+                Input = new CategoryRegistrationForm();
+                successMessageVisible = false;
+                StateHasChanged();
+            }
+            else
+            {
+                successMessageVisible = false;
+                errorMessageVisible = true;
+                StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task ClosePopup()
+    {
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(false);
+    }
+
+    public async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        uploadedFile = e.File;
+    }
+
+}

@@ -24,11 +24,37 @@ public class CategoryService(HttpClient http, IConfiguration configuration)
         try
         {
             var baseUrl = _configuration.GetValue<string>("ApiStrings:DeleteCategoryBase");
-            var code = _configuration.GetValue<string>("ApiStrings:DeleteCateogryCode");
+            var code = _configuration.GetValue<string>("ApiStrings:DeleteCategoryCode");
             var apiUrl = $"{baseUrl}/{Id}?code={code}";
             
             var respons = await Http.DeleteAsync(apiUrl);
             if (respons.IsSuccessStatusCode)
+                return true;
+        }
+        catch (System.Exception) { }
+        return false;
+    }
+
+    public async Task<bool> AddCategory(CategoryRegistrationForm category)
+    {
+        try
+        {
+            var url = _configuration.GetValue<string>("ApiStrings:CreateCategory");
+            var response = await Http.PostAsJsonAsync(url, category);
+            if (response.IsSuccessStatusCode)
+                return true;
+        }
+        catch (System.Exception) { }
+        return false;
+    }
+
+    public async Task<bool> UpdateCategory(CategoryModel category)
+    {
+        try
+        {
+            var url = _configuration.GetValue<string>("ApiStrings:UpdateCategory");
+            var response = await Http.PutAsJsonAsync(url, category);
+            if (response.IsSuccessStatusCode)
                 return true;
         }
         catch (System.Exception) { }

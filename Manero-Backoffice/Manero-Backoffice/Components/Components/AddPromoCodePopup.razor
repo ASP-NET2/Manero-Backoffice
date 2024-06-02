@@ -48,7 +48,19 @@
                         </div>
                     @* <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
                     <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
-                    <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" /> *@
+                    *@
+                    @if (customers != null)
+                    {
+                        <Dropdown Title="Customers" Options="@customerEmails" OnValueChanged="HandleSelectedCustomer" />
+                    }
+                    else if (customers.Count == 0)
+                    {
+                        <p>No customers found</p>
+                    }
+                    else if (customers == null)
+                    {
+                        <p>Customers loading...</p>
+                    }
                 </div>
             </div>
             
@@ -57,6 +69,14 @@
         </EditForm>
         </div>
     </div>
+    <div >
+        <p>@Input.CodeName</p>
+        <p>@Input.Discount</p>
+        <p>@Input.ExpiresDate</p>
+        <p>@Input.IsActive</p>
+        <p>@Input.IsPrivate</p>
+        <p>@Input.UserId</p>
+    </div>
 }
 
 @code {
@@ -64,8 +84,34 @@
     [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
     [Parameter] public EventCallback<bool> OnPromoCodeAdded { get; set; }
     private PromoCodeRegistrationForm Input = new();
+    List<CustomerModel> customers = new();
+    List<string> customerEmails = new();
     private bool successMessageVisible = false;
     private bool errorMessageVisible = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await customerService.GetAllCustomersAsync();
+    
+        foreach (var customer in customers)
+        {
+            customerEmails.Add(customer.Email);
+        }
+    }
+
+    private void HandleSelectedCustomer(string CustomerEmail)
+    {
+        var customer = customers.FirstOrDefault(x => x.Email == CustomerEmail);
+    
+        if (customer != null)
+        {
+            Input.UserId = customer.IdentityUserId; 
+        }
+        else
+        {
+            Input.UserId = null;
+        }
+    }
 
     public async Task RegisterPromoCode(EditContext editContext)
     {
