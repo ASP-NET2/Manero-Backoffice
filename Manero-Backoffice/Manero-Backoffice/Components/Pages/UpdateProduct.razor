@@ -30,12 +30,10 @@ else
                         <div class="input-group">
                             <InputText class="form-input" @bind-Value="product.ShortDescription" />
                             <label for="shortDescription">Short Description</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                         </div>
                         <div class="input-group">
                             <InputTextArea class="form-input long-description" @bind-Value="product.LongDescription" rows="10" cols="30"/>
                             <label for="longDescription">Long Description</label>
-                            @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                         </div>
                     </div>
                 </div>
@@ -45,81 +43,41 @@ else
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.Author"/>
                         <label for="author">Author</label>
-                        @* <ValidationMessage For="() => Input.Author" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.Title"/>
                         <label for="title">Title</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.Price"/>
                         <label for="price">Price</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.DiscountPrice" />
                         <label for="discountPrice">Discount Price</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.Language" />
                         <label for="language">Language</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.Pages" />
                         <label for="pages">Pages</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.ISBN" />
                         <label for="isbn">ISBN Number</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                 </div>
                 <div class="form-div-column">
                     <div class="input-group">
                         <InputDate class="form-input" @bind-Value="product.PublishDate"  />
                         <label for="publishDate">Publish Date</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
                     <div class="input-group">
                         <InputText class="form-input" @bind-Value="product.Publisher" />
                         <label for="publisher">Publisher</label>
-                        @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                     </div>
-                    @* <div class="input-group">
-                        <InputSelect class="select-input" @bind-Value="product.CategoryName" name="category" id="category-filter">
-                            <option value="">Category</option>
-                            @foreach (var category in categories)
-                            {
-                                <option value="@category.CategoryName">@category.CategoryName</option>
-                            }
-                        </InputSelect>
-                        <label for="category">Category</label>
-                    </div>
-                    <div class="input-group">
-                        <InputSelect class="select-input" @bind-Value="product.SubCategoryName" name="subcategory" id="subcategory-filter">
-    using Microsoft.Azure.Amqp.Framing;
-                            <option value="">Subcategory</option>
-                            @foreach (var subCategory in subCategories)
-                            {
-                                <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
-                            }
-                        </InputSelect>
-                        <label for="subCategory">Subcategory</label>
-                    </div>
-                    <div class="input-group">
-                        <InputSelect class="select-input" @bind-Value="product.FormatName" name="format" id="format-filter">
-                            <option value="">Choose format</option>
-                            @foreach (var format in formats)
-                            {
-                                <option value="@format.FormatName">@format.FormatName</option>
-                            }
-                        </InputSelect>
-                        <label for="format">Format</label>
-                    </div> *@
                         <Dropdown Title="Kategori" Options="@categoryNames" CurrentValue="@product.CategoryName" OnValueChanged="HandleSelectedCategory"/>
                         <Dropdown Title="Underkategori" Options="@subCategoryNames" CurrentValue="@product.SubCategoryName" OnValueChanged="HandleSelectedSubCategory"/>
                         <Dropdown Title="Format" Options="@formatNames" CurrentValue="@product.FormatName" OnValueChanged="HandleSelectedFormat"/>
@@ -130,14 +88,12 @@ else
                                     <option value="">On Sale</option>
                                 </InputCheckbox>
                                 <label for="onsale">On sale</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                             <div class="checkbox-group">
                                 <InputCheckbox class="checkbox-input" @bind-Value="product.BestSeller" name="bestseller" id="bestseller">
                                     <option value="">Best Seller</option>
                                 </InputCheckbox>
                                 <label for="bestseller">Bestseller</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                         </div>
                         <div class="checkbox-div">
@@ -146,14 +102,12 @@ else
                                     <option value="">Is Favorite</option>
                                 </InputCheckbox>
                                 <label for="isfavorite">Is Favorite</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                             <div class="checkbox-group">
                                 <InputCheckbox class="checkbox-input" @bind-Value="product.FeaturedProduct" name="featuredproduct" id="featuredproduct">
                                     <option value="">FeaturedProduct</option>
                                 </InputCheckbox>
                                 <label for="featuredproduct">Featured Product</label>
-                                @* <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" /> *@
                             </div>
                         </div>
                     </div>
@@ -167,23 +121,6 @@ else
     </EditForm>
 }
 </div>
-    @* <div class="form-results">
-        <p>@product.Author</p>
-        <p>@product.Title</p>
-        <p>@product.Price</p>
-        <p>@product.ShortDescription</p>
-        <p>@product.Language</p>
-        <p>@product.Pages</p>
-        <p>@product.PublishDate</p>
-        <p>@product.ISBN</p>
-        <p>@product.OnSale</p>
-        <p>@product.BestSeller</p>
-        <p>@product.IsFavorite</p>
-        <p>@product.FeaturedProduct</p>
-        <p>@product.CategoryName</p>
-        <p>@product.SubCategoryName</p>
-        <p>@product.FormatName</p>
-    </div> *@
 
 @code {
     [Parameter]

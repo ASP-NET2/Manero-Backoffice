@@ -1,5 +1,4 @@
 ﻿using Manero_Backoffice.Business.Models;
-using Manero_Backoffice.Components.Pages;
 
 namespace Manero_Backoffice.Services;
 
@@ -61,9 +60,6 @@ public class ProductService(HttpClient http, IConfiguration configuration)
             query += $"&id={productId}";
             // https://maneroproductsfunction.azurewebsites.net/api/SortProduct?code=9mfmPoUUxcBnyQ-CyFMAlX3U_ldlg9X-kEBpdyF3fyPLAzFuIV8aww%3D%3D?id=3d89ec1f-fd51-4279-88e8-9a425f3edc5b
 
-            // var result = await Http.GetFromJsonAsync<ProductModel>(query);
-            // if (result != null)
-            //     return result;
             var result = await Http.GetFromJsonAsync<List<UpdateProductModel>>(query);
             if (result != null && result.Count > 0)
                 return result[0];

@@ -13,7 +13,7 @@ public class ImageService(HttpClient http, IConfiguration configuration)
         try
         {
             // var url = _configuration.GetValue<string>("ApiStrings:BlobApi");
-            // ApiStrings:BlobApi does not work for some reason, so we will hardcode the URL
+            // ApiStrings:BlobApi does not work for some reason, so we will hardcode the URL --Markus
             var url = "https://blobmanero.azurewebsites.net/api/Upload";
 
             using var content = new MultipartFormDataContent();

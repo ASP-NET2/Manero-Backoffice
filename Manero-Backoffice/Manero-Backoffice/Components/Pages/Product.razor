@@ -6,29 +6,6 @@
 
 <div class="filter-container">
     <div class="drop-down-filters">
-        @* <select name="categories" id="category-filter" @onchange="OnCategoryChanged">
-                <option value="">Category</option>
-            @foreach (var category in categories)
-            {
-                <option value="@category.CategoryName">@category.CategoryName</option>
-            }
-        </select>
-        
-        <select name="subcategories" id="subcategory-filter" @onchange="OnSubCategoryChanged">
-                <option value="">Subcategory</option>
-            @foreach (var subCategory in subCategories)
-            {
-                <option value="@subCategory.SubCategoryName">@subCategory.SubCategoryName</option>
-            }
-        </select>
-
-        <select name="formats" id="format-filter" @onchange="OnFormatChanged">
-                <option value="">Format</option>
-            @foreach (var format in formats)
-            {
-                <option value="@format.FormatName">@format.FormatName</option>
-            }
-        </select> *@
         <Dropdown Title="Kategori" Options="@categoryNames" OnValueChanged="HandleSelectedCategory" />
         <Dropdown Title="Underkategori" Options="@subCategoryNames" OnValueChanged="HandleSelectedSubCategory" />
         <Dropdown Title="Format" Options="@formatNames" OnValueChanged="HandleSelectedFormat" />
@@ -52,7 +29,6 @@
                 <label for="featuredproduct">Featured Product</label>
             </div>
         </div>
-        @* <Dropdown Title="Kategori" Options="@categoryNames" /> *@
     </div>
     <NavLink class="btn-theme" href="addproduct"><span><i class="fa-sharp fa-regular fa-circle-plus"></i> Add New</span></NavLink>
 </div>
@@ -155,7 +131,6 @@
 
     private async Task LoadProducts()
     {
-        @* products = await productService.GetProducts(); *@
         products = await productService.GetProductsByFilter(selectedCategory, selectedSubCategory, selectedFormat, onSale, isFavorite, isBestseller, featuredProduct);
         StateHasChanged();
     }
@@ -200,12 +175,6 @@
         featuredProduct = (bool)e.Value;
         await OnFilterChanged();
     }
-
-    @* private async Task DeleteProduct(string id)
-    {
-        await productService.DeleteProduct(id);
-        await LoadProducts();
-    } *@
 
     private async Task ConfirmDelete()
     {
